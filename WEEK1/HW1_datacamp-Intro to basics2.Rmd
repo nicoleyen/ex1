@@ -1,0 +1,167 @@
+---
+title: "HW1_DataCamp_Intro to basics2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Markdown
+## Vector向量
+ Vectors are one-dimension arrays that can hold numeric data, character data, or logical data. In other words, a vector is a simple tool to store data. 
+
+<font color="green">步驟一<font>
+```
+# Define the variable vegas
+ vegas <- "Go!"
+```
+步驟二: 輸入c()以建立vector
+```
+練習輸入
+numeric_vector <- c(1, 10, 49)
+character_vector <- c("a", "b", "c")
+
+# Complete the code for boolean_vector
+  boolean_vector <- c(TRUE, FALSE,TRUE)
+得到
+# Complete the code for boolean_vector
+  boolean_vector <- c(TRUE, FALSE,TRUE)
+  numeric_vector <- c(1, 10, 49)
+  character_vector <- c("a", "b", "c")
+ 
+# Complete the code for boolean_vector
+  boolean_vector <- c(TRUE, FALSE,TRUE)
+```
+###<font color="blue">練習<font>
+在賭場玩兩種遊戲poker和roulette的輸贏錢狀況
+```
+poker:
+Monday won $140
+Tuesday lost $50
+Wednesday  won $20
+Thursday  lost $120
+Friday  won $240
+
+roulette:
+Monday  lost $24
+Tuesday  lost $50
+Wednesday won $100
+Thursday lost $350
+Friday won $10
+```
+```
+# Poker winnings from Monday to Friday
+poker_vector <- c(140, -50, 20, -120, 240)
+# Roulette winnings from Monday to Friday
+roulette_vector <- c(-24, -50, 100, -350, 10)
+```
+#####Naming a vector!!!
+As a data analyst, it is important to have a clear view on the data that you are using.為上述例子的數字命名，使金額可以對應到日期
+```
+# Assign days as names of poker_vector
+names(poker_vector) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+
+# Assign days as names of roulette_vectors
+names(roulette_vector) <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+```
+```
+# Assign the names of the day to roulette_vector and poker_vector
+names(poker_vector) <- days_vector  
+names(roulette_vector) <- days_vector
+```
+#####計算總合
+```
+1.
+ A_vector <- c(1, 2, 3)
+ B_vector <- c(4, 5, 6)
+ 
+ # Take the sum of A_vector and B_vector
+ total_vector <- c(1, 2, 3) + c(4, 5, 6)
+
+ # Print out total_vector
+ total_vector
+[1] 5 7 9
+2.
+ # Assign to total_daily how much you won/lost on each day
+   total_daily <- c(poker_vector)+c(roulette_vector)
+3.
+ # Total winnings with roulette
+ total_roulette <- sum(roulette_vector)
+ 
+ # Total winnings overall
+ total_week <- sum(poker_vector)+sum(roulette_vector)
+ 
+ # Print out total_week
+   total_week
+[1] -84
+4. 比較兩種賭法輸贏錢之總合
+ # Calculate total gains for poker and roulette
+ total_poker <- sum(poker_vector)
+ total_roulette <- sum(roulette_vector)
+ 
+ # Check if you realized higher total gains in poker than in roulette
+ total_roulette < total_poker
+[1] TRUE
+```
+#####select specific elements of the vector
+```
+(1) 指定單一
+# Define a new variable based on a selection
+poker_wednesday <- 20
+(2) 指定多個
+# Define a new variable based on a selection
+poker_midweek <- poker_vector[c(2,3,4)]
+---
+簡化
+c(2, 3, 4)可以被簡化寫成2:4,產生a vector with all natural numbers from 2 up to 4
+# Define a new variable based on a selection
+roulette_selection_vector <- roulette_vector [2:5]
+或是從哪一星期來計算
+# Select poker results for Monday, Tuesday and Wednesday
+poker_start <- poker_vector[c("Monday", "Tuesday", "Wednesday")]
+# Calculate the average of the elements in poker_start
+mean(poker_start)
+```
+#####Selection by comparison
+```
+    < for less than
+    > for greater than
+    <= for less than or equal to
+    >= for greater than or equal to
+    == for equal to each other
+    != not equal to each other
+```
+```
+# Which days did you make money on poker?
+  selection_vector <- poker_vector > 0
+ 
+# Print out selection_vector
+  selection_vector
+結果 Monday   Tuesday Wednesday  Thursday    Friday 
+     TRUE     FALSE      TRUE     FALSE      TRUE
+```
+```
+# Which days did you make money on poker?
+  selection_vector <- poker_vector > 0
+ 
+# Select from poker_vector these days
+ poker_winning_days <- poker_vector[selection_vector]
+```
+```
+進階練習:瞭解另一種方法roulette賺多少
+# Poker and roulette winnings from Monday to Friday:
+poker_vector <- c(140, -50, 20, -120, 240)
+roulette_vector <- c(-24, -50, 100, -350, 10)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(poker_vector) <- days_vector
+names(roulette_vector) <- days_vector
+
+# Which days did you make money on roulette?
+selection_vector <- roulette_vector > 0
+
+# Select from roulette_vector these days
+roulette_winning_days <- roulette_vector[selection_vector]
+```
+
+
