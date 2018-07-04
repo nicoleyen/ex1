@@ -1,0 +1,83 @@
+---
+title: "HW1_data camp- Intro to basics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Markdown
+## How it works 
+###運算
+- 計算
+```
+# Calculate 3 + 4
+```
+  - 加法
+```
+# An addition
+5 + 5 
+```
+  - 減法
+```
+# A subtraction
+5 - 5 
+```
+  - 乘法
+```
+# A multiplication
+3 * 5
+```
+  - 除法
+```
+ # A division
+(5 + 5) / 2 
+```
+  - 次方
+```
+# Exponentiation
+ 2^5
+```
+  - 取餘數
+```
+# Modulo
+ 28 %% 6
+```
+
+### 指定變異數
+```
+# Assign the value 42 to x
+  x <- 42
+# Print out the value of the variable x
+  x
+```
+### 指定變異數練習
+```
+# Assign the value 5 to the variable my_apples
+  my_apples <- 5
+# Print out the value of the variable my_apples
+ my_apples
+ 結果[1] 5
+# Assign a value to the variables my_apples and my_oranges
+ my_apples <- 5
+ my_oranges <- 6
+# Add these two variables together
+ my_fruit <- my_apples + my_oranges
+# Create the variable my_fruit
+ my_fruit
+ 結果 [1] 11
+```
+### R基本資料輸入
+```
+1. Decimals values like 4.5 are called numerics.
+2. Natural numbers like 4 are called integers. Integers are also numerics.
+3. Boolean values (TRUE or FALSE) are called logical.
+5. Text (or string) values are called characters.
+6. 注意:不同類型的變數型態，彼此之間的操作是無法執行的
+``` 
+### 資料檢查
+```
+# Check class of my_numeric
+class(my_numeric)
+```
