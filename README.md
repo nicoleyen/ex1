@@ -1,9 +1,9 @@
-# 106�Ǧ~�� �L�u�ǰ|��ƾǵ{���]�p�ҵ{
+# 106學年度 夏季學院資料學程式設計課程
 ## HELLO
-### �ڬO�Y��
-#### �x�_��Ǥj��
+### 我是嚴婗 
+#### I study in TMU台北醫學大學, major in Nutrition and Health Science 
 
-# WEEK1�C�P�i��
-# �Ұ�i��
-�Ĥ@����@
-# �^�a�i��
+# WEEK1每周進度
+# 課堂上
+第一次實作
+# 回家
