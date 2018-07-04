@@ -7,5 +7,5 @@
 ## In Class
 * 第一次實作
 * sign up Github
-* 
+* R R studio
 ## At Home
