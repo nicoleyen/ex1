@@ -13,5 +13,8 @@
 * [HW1_R markdown](https://nicoleyen.github.io/ex1/WEEK1/HW1.html)
 
 ## At Home
-* [HW1_data camp_intro to basic](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
+* take courses on DataCamp and note it through R markdown 
+* [HW1_DataCamp_intro to basic 1](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
+* [HW1_DataCamp_intro to basic 2](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics2.html)
+
 
