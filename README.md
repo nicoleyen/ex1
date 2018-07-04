@@ -7,7 +7,11 @@
 ## In Class
 * 第一次實作
 * sign up Github
+<<<<<<< HEAD
 * download and use R & R studio
+=======
+* download and use R&R studio
+>>>>>>> b05f5d9751c933081f120a6b6dbfa98543731672
 * [HW1](https://nicoleyen.github.io/ex1/WEEK1/HW1.html)
 
 ## At Home
