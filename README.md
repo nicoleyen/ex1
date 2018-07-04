@@ -7,8 +7,10 @@
 ## In Class
 * 第一次實作
 * sign up Github
+* to know what is Github
+* create my own Github
 * download and use R&R studio
-* [HW1](https://nicoleyen.github.io/ex1/WEEK1/HW1.html)
+* [HW1_R markdown](https://nicoleyen.github.io/ex1/WEEK1/HW1.html)
 
 ## At Home
 
