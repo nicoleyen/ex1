@@ -11,7 +11,7 @@
 * create my own Github
 * download and use R&R studio
 * [HW1_R markdown](https://nicoleyen.github.io/ex1/WEEK1/HW1.html)
-* [HW1_data camp_intro to basic](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
-## At Home
 
+## At Home
+* [HW1_data camp_intro to basic](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
 
