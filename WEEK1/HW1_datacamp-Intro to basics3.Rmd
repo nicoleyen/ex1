@@ -1,0 +1,203 @@
+---
+title: "HW1_datacamo-Intro to basic 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Markdown
+##Matrix 矩陣  ![](https://cdn2.iconfinder.com/data/icons/star-wars-12/512/movie_film_star_wars_cinema_-22-512.png){width=5%}
+matrix 是二維的，在R中輸入matrix()以建立出來
+```
+ (1) 1:9表示數字從1到9
+ (2) byrow = TRUE 表示由列開始，byrow = FALSE則改從行column開始
+ (3) nrow 表示有幾列 nrow = 3 即有3列
+  # Construct a matrix with 3 rows that contain the numbers 1 up to 9
+  輸入 matrix(1:9, byrow = TRUE, nrow = 3)
+  得到
+         [,1] [,2] [,3]
+    [1,]    1    2    3
+    [2,]    4    5    6
+    [3,]    7    8    9
+
+```
+### <font color="PURPLE">練習 星際大戰的票房<font>
+```markdown
+# Box office Star Wars (in millions!)
+new_hope <- c(460.998, 314.4)
+empire_strikes <- c(290.475, 247.900)
+return_jedi <- c(309.306, 165.8)
+
+# Create box_office
+box_office <- c(new_hope, empire_strikes, return_jedi)
+
+# Construct star_wars_matrix
+star_wars_matrix <- matrix(box_office,byrow = TRUE,nrow = 3)
+```
+```
+1. # Construct matrix 設立矩陣
+star_wars_matrix <- matrix(c(new_hope, empire_strikes, return_jedi), nrow = 3, byrow = TRUE)
+
+2. # Vectors region and titles, used for naming
+region <- c("US", "non-US")
+titles <- c("A New Hope", "The Empire Strikes Back", "Return of the Jedi")
+ 
+3.  # Name the columns with region 行名
+colnames(star_wars_matrix) <- region
+    # Name the rows with titles 列名
+rownames(star_wars_matrix) <- titles
+
+4. # Print out star_wars_matrix 結果輸出
+star_wars_matrix
+                               US    non-US
+    A New Hope              460.998  314.4
+    The Empire Strikes Back 290.475  247.9
+    Return of the Jedi      309.306  165.8
+```
+```
+計算列的總合# Calculate worldwide box office figures
+worldwide_vector <- rowSums(star_wars_matrix)
+```
+```
+在矩陣中增加一行
+# The worldwide box office figures
+worldwide_vector <- rowSums(star_wars_matrix)
+# Bind the new variable worldwide_vector as a column to star_wars_matrix
+all_wars_matrix <- cbind(star_wars_matrix, worldwide_vector)
+```
+```markdown
+合併兩個matrix
+
+  # star_wars_matrix and star_wars_matrix2 are available in your workspace
+   - star_wars_matrix
+                             US non-US
+  A New Hope              461.0  314.4
+  The Empire Strikes Back 290.5  247.9
+  Return of the Jedi      309.3  165.8
+   - star_wars_matrix2
+                          US non-US
+  The Phantom Menace   474.5  552.5
+  Attack of the Clones 310.7  338.7
+  Revenge of the Sith  380.3  468.5
+
+# Combine both Star Wars trilogies in one matrix
+  all_wars_matrix <- rbind( star_wars_matrix, star_wars_matrix2)
+```
+```
+所以合併產生出新表 其為全部電影票房在US及非US地區之狀況
+all_wars_matrix
+                           US non-US
+A New Hope              461.0  314.4
+The Empire Strikes Back 290.5  247.9
+Return of the Jedi      309.3  165.8
+The Phantom Menace      474.5  552.5
+Attack of the Clones    310.7  338.7
+Revenge of the Sith     380.3  468.5
+
+計算總收益# Total revenue for US and non-US
+  total_revenue_vector <-  colSums(all_wars_matrix)
+
+呈現結果# Print out total_revenue_vector
+  total_revenue_vector
+最終得到下表
+    US non-US 
+2226.3 2087.8
+```
+```
+指定數據及平均值之計算
+# all_wars_matrix is available in your workspace
+> all_wars_matrix
+                           US non-US
+A New Hope              461.0  314.4
+The Empire Strikes Back 290.5  247.9
+Return of the Jedi      309.3  165.8
+The Phantom Menace      474.5  552.5
+Attack of the Clones    310.7  338.7
+Revenge of the Sith     380.3  468.5
+ 
+# Select the non-US revenue for all movies
+> non_us_all <- all_wars_matrix[,2]
+
+# Average non-US revenue
+> mean(non_us_all)
+[1] 347.9667
+
+# Select the non-US revenue for first two movies
+> non_us_some <- all_wars_matrix[1:2,2]
+ 
+# Average non-US revenue for first two movies
+> mean(non_us_some)
+[1] 281.15
+```
+```markdown
+將matrix中的數值再做運算= - * /
+
+# all_wars_matrix is available in your workspace
+> all_wars_matrix
+                           US non-US
+A New Hope              461.0  314.4
+The Empire Strikes Back 290.5  247.9
+Return of the Jedi      309.3  165.8
+The Phantom Menace      474.5  552.5
+Attack of the Clones    310.7  338.7
+Revenge of the Sith     380.3  468.5
+
+將數值除以5，則須寫出......
+  # Estimate the visitors
+> visitors <- all_wars_matrix/5
+
+要把結果呈現 還需要再輸入一次"visitors"
+  # Print the estimate to the console
+> visitors
+                           US non-US
+A New Hope              92.20  62.88
+The Empire Strikes Back 58.10  49.58
+Return of the Jedi      61.86  33.16
+The Phantom Menace      94.90 110.50
+Attack of the Clones    62.14  67.74
+Revenge of the Sith     76.06  93.70
+```
+```
+進階練習
+# all_wars_matrix and ticket_prices_matrix are available in your workspace
+一樣要先列出所需的表格，所以輸入"all_wars_matrix"
+得到
+                           US non-US
+A New Hope              461.0  314.4
+The Empire Strikes Back 290.5  247.9
+Return of the Jedi      309.3  165.8
+The Phantom Menace      474.5  552.5
+Attack of the Clones    310.7  338.7
+Revenge of the Sith     380.3  468.5
+
+而輸入"ticket_prices_matrix" 則出現
+
+                         US non-US
+A New Hope              5.0    5.0
+The Empire Strikes Back 6.0    6.0
+Return of the Jedi      7.0    7.0
+The Phantom Menace      4.0    4.0
+Attack of the Clones    4.5    4.5
+Revenge of the Sith     4.9    4.9
+
+要預估來看電影的人數，所以我們要定義visitors為電影收益除以票價
+# Estimated number of visitors
+  所以列出
+  visitors <- all_wars_matrix / ticket_prices_matrix
+  
+再來還可以特別指出在US地區的狀況
+# US visitors
+  因此輸入
+  us_visitors <-  visitors[,1]
+  
+指定好後，便可求出指定數據的平均值了，利用mean()
+# Average number of US visitors
+  mean(us_visitors)
+  得到結果
+          [1] 75.01401
+```
+![](https://cdn.dribbble.com/users/156686/screenshots/1993908/starwarsicons_dribbble_1x.jpg){ width=40%}![](https://cdn.freebiesupply.com/logos/large/2x/star-wars-logo-png-transparent.png){ width=15% } ![](https://cdn.dribbble.com/users/156686/screenshots/2029818/starwarsicons2_dribbble_1x.jpg){ width=40%} 
+
+
