@@ -14,10 +14,13 @@
 
 ## At Home
 * take courses on DataCamp and note it through R markdown
-	* Ch1 運算 Ch2 vector Ch3 matrix Ch4 factor 
-	* [HW1_DataCamp_intro to basic 1](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
-	* [HW1_DataCamp_intro to basic 2](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics2.html)
-	* [HW1_DataCamp_intro to basic 3](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics3.html)
-	* [HW1_DataCamp_intro to basic 4](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basic4.html)
+	* Ch1 運算  
+		* [HW1_DataCamp_intro to basic 1](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
+	* Ch2 vector
+		* [HW1_DataCamp_intro to basic 2](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics2.html)
+	* Ch3 matrix 
+		* [HW1_DataCamp_intro to basic 3](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics3.html)
+	* Ch4 factor
+		* [HW1_DataCamp_intro to basic 4](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basic4.html)
 
 
