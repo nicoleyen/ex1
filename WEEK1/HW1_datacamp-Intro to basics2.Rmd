@@ -163,5 +163,4 @@ selection_vector <- roulette_vector > 0
 # Select from roulette_vector these days
 roulette_winning_days <- roulette_vector[selection_vector]
 ```
-
-
+![](https://static.vecteezy.com/system/resources/previews/000/156/147/non_2x/vector-casino-icon-set.jpg){ width=50% }
