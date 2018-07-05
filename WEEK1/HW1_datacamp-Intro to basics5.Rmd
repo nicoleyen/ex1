@@ -1,0 +1,105 @@
+---
+title: "HW1_datacamp-Intro to basics 5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Markdown
+## Data Frame 資料的類型
+> data的類型有很多種，舉例來說
+
+>  1. 是或否的logical型: 'Are your married?' or 'yes/no' questions 
+>  2. 數字的numeric型: 'How old are you?'
+>  3. 開放式回答結果的character型
+
+```
+- head()
+- tail()
+- str()
+  to get a rapid overview of your data is the function str()
+  str() shows you the structure of your data set
+```
+#####<font color="brown">練習 建立data.frame<font>
+```markdown
+先定義 Definition of vectors
+name <- c("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune")
+type <- c("Terrestrial planet", "Terrestrial planet", "Terrestrial planet", "Terrestrial planet", "Gas giant", "Gas giant", "Gas giant", "Gas giant")
+diameter <- c(0.382, 0.949, 1, 0.532, 11.209, 9.449, 4.007, 3.883)
+rotation <- c(58.64, -243.02, 1, 1.03, 0.41, 0.43, -0.72, 0.67)
+rings <- c(FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE)
+再創造出data frame Create a data frame from the vectors
+planets_df <- data.frame(name, type, diameter, rotation, rings)
+
+之後，可利用先前學的str()來檢視資料結構
+所以輸入str(planets_df)
+可獲得
+'data.frame':	8 obs. of  5 variables:
+ $ name    : Factor w/ 8 levels "Earth","Jupiter",..: 4 8 1 3 2 6 7 5
+ $ type    : Factor w/ 2 levels "Gas giant","Terrestrial planet": 2 2 2 2 1 1 1 1
+ $ diameter: num  0.382 0.949 1 0.532 11.209 ...
+ $ rotation: num  58.64 -243.02 1 1.03 0.41 ...
+ $ rings   : logi  FALSE FALSE FALSE FALSE TRUE TRUE ...
+```
+
+#####<font color="brown">練習 選出data.frame中特定資料<font>
+```markdown
+利用先前章節學到之技巧
+第一步
+輸入 planets_df 以獲得全部資料之呈現
+     name               type diameter rotation rings
+1 Mercury Terrestrial planet    0.382    58.64 FALSE
+2   Venus Terrestrial planet    0.949  -243.02 FALSE
+3   Earth Terrestrial planet    1.000     1.00 FALSE
+4    Mars Terrestrial planet    0.532     1.03 FALSE
+5 Jupiter          Gas giant   11.209     0.41  TRUE
+6  Saturn          Gas giant    9.449     0.43  TRUE
+7  Uranus          Gas giant    4.007    -0.72  TRUE
+8 Neptune          Gas giant    3.883     0.67  TRUE
+
+第二步
+若要獲得diameter of Mercury (row 1, column 3，第一列第三行)
+就輸入 planets_df[1,3]
+即可得到 [1] 0.382 之結果
+
+若是要data for Mars (entire fourth row，全部第四列之數據)
+則輸入 planets_df[4,]
+即可得到下表
+  name               type diameter rotation rings
+4 Mars Terrestrial planet    0.532     1.03 FALSE
+
+又或者是要第三行前五個數據 first 5 values of diameter column
+便輸入 planets_df[1:5,3]
+即呈現出 [1]  0.382  0.949  1.000  0.532 11.209
+
+如果是要看某一行全部數據時，假設要看第五行rings
+則有三種輸入方式，注意"$"是表示"行"用的
+rings_vector <- planets_df[,5]
+rings_vector <- planets_df[,"rings"]
+rings_vector <- planets_df$rings
+最後再輸入rings_vector檢查結果
+即得到[1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
+```
+```
+從練習題目中，第五行數據行星是否有環(rings)，若是想要看環中哪些行星是有環的(其結果為True)，我們一樣叫出planets_df後，再輸入
+planets_df[rings_vector, ]
+便會出現下列結果
+ name      type diameter rotation rings
+5 Jupiter Gas giant   11.209     0.41  TRUE
+6  Saturn Gas giant    9.449     0.43  TRUE
+7  Uranus Gas giant    4.007    -0.72  TRUE
+8 Neptune Gas giant    3.883     0.67  TRUE
+
+另外，還有一種方式，用subset()
+假設要選出planets with diameter < 1
+就輸入
+        subset(planets_df, subset = diameter < 1)
+而得到
+     name               type diameter rotation rings
+1 Mercury Terrestrial planet    0.382    58.64 FALSE
+2   Venus Terrestrial planet    0.949  -243.02 FALSE
+4    Mars Terrestrial planet    0.532     1.03 FALSE
+```
+
