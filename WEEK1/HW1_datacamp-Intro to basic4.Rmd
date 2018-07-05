@@ -1,0 +1,134 @@
+---
+title: "HW1_datacamp-Intro to basic4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Markdown ![](https://cdn2.iconfinder.com/data/icons/chinese-new-year-11/32/24-512.png){width=3%}  ![](https://cdn2.iconfinder.com/data/icons/chinese-new-year-11/32/24-512.png){width=3%}  ![](https://cdn2.iconfinder.com/data/icons/chinese-new-year-11/32/24-512.png){width=3%}
+## Factor
+**類別變項和連續變項**
+
+  -類別:有限的類組，如男性和女性
+  
+  -連續:無限的數字，如身高或體重
+
+利用<font color="orange">**factor()**<font>建立
+
+```
+舉例:
+(1) # Animals
+  animals_vector <- c("Elephant", "Giraffe", "Donkey", "Horse")
+  factor_animals_vector <- factor(animals_vector) 
+  factor_animals_vector
+結果 
+      [1] Elephant Giraffe  Donkey   Horse   
+      Levels: Donkey Elephant Giraffe Horse
+
+(2) # Temperature
+  temperature_vector <- c("High", "Low", "High","Low", "Medium")
+  factor_temperature_vector <- factor(temperature_vector, order = TRUE, levels =   c("Low", "Medium", "High"))
+  factor_temperature_vector
+結果
+      [1] High   Low    High   Low    Medium
+      Levels: Low < Medium < High
+```
+
+###<font color="Black">將factor命名<font>
+###### Code to build factor_survey_vector
+> <font color="red">levels(factor_vector) <- c("name1", "name2",...)<font>
+
+```
+調查結果可能得到: survey_vector <- c("M", "F", "F", "M", "M")
+所以先建立: factor_survey_vector <- factor(survey_vector)
+再來指定: levels(factor_survey_vector) <-c("Female","Male")
+(否則系統會以為M是Male，但事實上M是Female)
+因此輸入: factor_survey_vector後便可得
+  [1] Male   Female Female Male   Male  
+  Levels: Female Male
+```
+###<font color="Black">Summary功能<font>
+> <font color="red">summary()<font>
+
+```
+# Build factor_survey_vector with clean levels
+   survey_vector <- c("M", "F", "F", "M", "M")
+   factor_survey_vector <- factor(survey_vector)
+   levels(factor_survey_vector) <- c("Female", "Male")
+   factor_survey_vector
+
+    [1] Male   Female Female Male   Male  
+    Levels: Female Male
+ 
+# Generate summary for survey_vector
+   summary(survey_vector)
+      Length     Class      Mode 
+            5 character character
+
+# Generate summary for factor_survey_vector
+   summary(factor_survey_vector)
+結果
+    Female   Male 
+         2      3
+```
+```markdown
+# Build factor_survey_vector with clean levels
+ survey_vector <- c("M", "F", "F", "M", "M")
+ factor_survey_vector <- factor(survey_vector)
+ levels(factor_survey_vector) <- c("Female", "Male")
+
+設定男生是vector1女生是vector2 
+# Male
+ male <- factor_survey_vector[1]
+ # Female
+ female <- factor_survey_vector[2]
+再來battle比較
+# Battle of the sexes: Male 'larger' than female?
+ male > female
+ 結果會出現
+      Warning message: '>' not meaningful for factors
+      [1] NA
+```
+
+> <font color="red">NA出現表示 when you try to compare values in a factor, since the idea doesn't make sense<font>
+
+> <font color="blue">所以建立ordered factor使比較有效且有意義<font>
+
+```
+練習
+# Create speed_vector
+ speed_vector <- c("medium", "slow", "slow", "medium", "fast")
+ 
+# Add your code below
+ factor_speed_vector <- factor(speed_vector, ordered = TRUE, levels = c("slow", "medium", "fast"))
+ 
+# Print factor_speed_vector
+ factor_speed_vector
+結果
+[1] medium slow   slow   medium fast  
+Levels: slow < medium < fast
+> summary(factor_speed_vector)
+  slow medium   fast 
+     2      2      1
+```
+```
+另外，還可以做ordered factor的比較
+前面的部分一樣，要先創造factor_speed_vector
+所以輸入如下
+
+speed_vector <- c("medium", "slow", "slow", "medium", "fast")
+factor_speed_vector <- factor(speed_vector, ordered = TRUE, levels = c("slow", "medium", "fast"))
+
+再來，便可設定factor中第二個數據為"da2"，而第五個則是"da5"以此類推
+da2 <- factor_speed_vector[2]
+da5 <- factor_speed_vector[5]
+
+完成後即可比較Is data analyst 2 faster than data analyst 5?
+輸入da2 > da5
+得出結果為:
+            [1] FALSE
+```
+
+<img src="https://www.thelawofattraction.com/wp-content/uploads/blog-5-Reasons-to-Keep-Going-When-Life-Gets-Tough.jpg" style="display:block; margin:auto; width:50%;">  
