@@ -28,6 +28,8 @@
 	* Ch6 list
 		* [DataCamp_intro to basic 6](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics6.html)
 * Intermediate R
+	* Ch1 Relational operators, Logical operators, Conditional Statements
+		* [Intermediate R 1](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R.html)
 
 
 
