@@ -7,10 +7,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# R Markdown
+# R Markdown ![](https://d30y9cdsu7xlg0.cloudfront.net/png/102142-200.png){width=5%} 
 ## Data Frame 資料的類型
-> data的類型有很多種，舉例來說
 
+> data的類型有很多種，舉例來說
+>
 >  1. 是或否的logical型: 'Are your married?' or 'yes/no' questions 
 >  2. 數字的numeric型: 'How old are you?'
 >  3. 開放式回答結果的character型
@@ -102,4 +103,36 @@ planets_df[rings_vector, ]
 2   Venus Terrestrial planet    0.949  -243.02 FALSE
 4    Mars Terrestrial planet    0.532     1.03 FALSE
 ```
+> order() 的功能，將()數據按照大小排列
+
+```
+# planets_df is pre-loaded in your workspace
+> planets_df
+     name               type diameter rotation rings
+1 Mercury Terrestrial planet    0.382    58.64 FALSE
+2   Venus Terrestrial planet    0.949  -243.02 FALSE
+3   Earth Terrestrial planet    1.000     1.00 FALSE
+4    Mars Terrestrial planet    0.532     1.03 FALSE
+5 Jupiter          Gas giant   11.209     0.41  TRUE
+6  Saturn          Gas giant    9.449     0.43  TRUE
+7  Uranus          Gas giant    4.007    -0.72  TRUE
+8 Neptune          Gas giant    3.883     0.67  TRUE
+# Use order() to create positions
+> positions <- order(planets_df$diameter)
+ 
+# Use positions to sort planets_df
+> planets_df[positions, ]
+     name               type diameter rotation rings
+1 Mercury Terrestrial planet    0.382    58.64 FALSE
+4    Mars Terrestrial planet    0.532     1.03 FALSE
+2   Venus Terrestrial planet    0.949  -243.02 FALSE
+3   Earth Terrestrial planet    1.000     1.00 FALSE
+8 Neptune          Gas giant    3.883     0.67  TRUE
+7  Uranus          Gas giant    4.007    -0.72  TRUE
+6  Saturn          Gas giant    9.449     0.43  TRUE
+5 Jupiter          Gas giant   11.209     0.41  TRUE
+```
+
+<img src="https://png.pngtree.com/element_origin_min_pic/17/07/19/3ccc47716a3425bc2a54d108cea22b01.jpg" style="display:block; margin:auto; width:55%;">  
+
 
