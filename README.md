@@ -30,6 +30,8 @@
 * Intermediate R
 	* Ch1 Relational operators, Logical operators, Conditional Statements
 		* [Intermediate R 1](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R.html)
+	* Ch2 Loop
+		* [Intermediate R 2](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_2.html)
 
 
 
