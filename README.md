@@ -22,5 +22,7 @@
 		* [HW1_DataCamp_intro to basic 3](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics3.html)
 	* Ch4 factor
 		* [HW1_DataCamp_intro to basic 4](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basic4.html)
+	* Ch5 data frame 
+		* [HW1_DataCamp_intro to basic 4](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics5.html)
 
 
