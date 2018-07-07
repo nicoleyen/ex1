@@ -14,17 +14,20 @@
 
 ## At Home
 * take courses on DataCamp and note it through R markdown
+* Introduction to R
 	* Ch1 運算  
-		* [HW1_DataCamp_intro to basic 1](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
+		* [DataCamp_intro to basic 1](https://nicoleyen.github.io/ex1/WEEK1/HW1_data_camp-Intro_to_basics.html)
 	* Ch2 vector
-		* [HW1_DataCamp_intro to basic 2](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics2.html)
+		* [DataCamp_intro to basic 2](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics2.html)
 	* Ch3 matrix 
-		* [HW1_DataCamp_intro to basic 3](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics3.html)
+		* [DataCamp_intro to basic 3](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics3.html)
 	* Ch4 factor
-		* [HW1_DataCamp_intro to basic 4](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basic4.html)
+		* [DataCamp_intro to basic 4](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basic4.html)
 	* Ch5 data frame 
-		* [HW1_DataCamp_intro to basic 5](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics5.html)
+		* [DataCamp_intro to basic 5](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics5.html)
 	* Ch6 list
-		* [HW1_DataCamp_intro to basic 6](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics6.html)
+		* [DataCamp_intro to basic 6](https://nicoleyen.github.io/ex1/WEEK1/HW1_datacamp-Intro_to_basics6.html)
+* Intermediate R
+
 
 
