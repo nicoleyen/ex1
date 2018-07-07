@@ -1,0 +1,302 @@
+---
+title: "Intermediate R"
+output: html_document
+---
+#Relational Operators
+###<font color="royalblue 2"> 1 Equality == <font>
+### 2 Ineequality !=
+### 3 用< 和 > 及 >= 和 <=
+```
+例如
+> 3 > 2
+得 TRUE
+> 3 > 5
+得 FALSE
+
+若是
+> Hello > Goodbye
+得 TRUE
+因為字母H排序在G前面
+
+而若是比較邏輯性的
+> TRUE < FALSE
+得到 FALSE
+因為TRUE代表1，FALSE代表0
+```
+```markdown
+ # Comparison of logicals
+> TRUE == FALSE
+[1] FALSE
+
+ # Comparison of numerics
+> -6 * 14 != 17 - 101
+[1] FALSE
+```
+####<font color="red"> 注意R和r是不同的<font>
+```markdown
+ # Comparison of character strings 
+> "useR" == "user"
+[1] FALSE
+```
+```markdown
+ # Compare a logical with a numeric
+> TRUE == 1
+[1] TRUE
+```
+####<font color="green"> Compare vectors<font>
+<font color="black">sing relational operators, find a logical answer, i.e. TRUE or FALSE, for the following questions:
+  - On which days did the number of LinkedIn profile views exceed 15?
+  - When was your LinkedIn profile viewed only 5 times or fewer?
+  - When was your LinkedIn profile visited more often than your Facebook profile?<font>
+```
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+> facebook <- c(17, 7, 5, 16, 8, 13, 14)
+
+ # Popular days
+> linkedin > 15
+[1]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE
+ 
+ # Quiet days
+> linkedin <= 5
+[1] FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE
+ 
+ # LinkedIn more popular than Facebook
+> linkedin > facebook
+[1] FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE
+```
+```
+ # The social data has been created for you
+> linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+> facebook <- c(17, 7, 5, 16, 8, 13, 14)
+> views <- matrix(c(linkedin, facebook), nrow = 2, byrow = TRUE)
+ 
+ # When does views equal 13?
+> views == 13
+      [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]
+[1,] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+[2,] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+ 
+ # When is views less than or equal to 14?
+> views <= 14
+      [,1] [,2] [,3]  [,4] [,5]  [,6] [,7]
+[1,] FALSE TRUE TRUE  TRUE TRUE FALSE TRUE
+[2,] FALSE TRUE TRUE FALSE TRUE  TRUE TRUE
+```
+
+
+
+
+
+# Logical operators
+### <font color="royalblue 2"> 1. AND & <font>
+### 2. OR |
+### 3. NOT !
+### 4. && 和 ||
+####練習
+```
+ # The linkedin and last variable are already defined for you
+> linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+> last <- tail(linkedin, 1)
+ 
+ # Is last under 5 or above 10?
+> last < 5 | last > 10
+[1] TRUE
+ 
+ # Is last between 15 (exclusive) and 20 (inclusive)?
+> last > 15 & last <= 20
+[1] FALSE
+```
+```
+ # linkedin exceeds 10 but facebook below 10
+> linkedin > 10 & facebook < 10
+[1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+ 
+ # When were one or both visited at least 12 times?
+> linkedin >= 12 | facebook >= 12
+[1]  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE
+ 
+ # When is views between 11 (exclusive) and 14 (inclusive)?
+> views > 11 & views <= 14
+      [,1]  [,2]  [,3]  [,4]  [,5]  [,6] [,7]
+[1,] FALSE FALSE  TRUE FALSE FALSE FALSE TRUE
+[2,] FALSE FALSE FALSE FALSE FALSE  TRUE TRUE
+```
+```markdown
+ # li_df is pre-loaded in your workspace
+ > li_df
+            day1 day2 day3 day4 day5 day6 day7
+employee_1     2    3    3    6    4    2    0
+employee_2    19   23   18   22   23   29   25
+employee_3    24   18   15   19   18   22   17
+employee_4    22   18   27   26   19   21   25
+employee_5    25   25   26   31   24   36   37
+employee_6    22   20   29   26   23   22   29
+employee_7     0    4    2    2    3    4    2
+employee_8    12    3   15    7    1   15   11
+employee_9    19   22   22   19   25   24   23
+employee_10   23   12   19   25   18   22   22
+employee_11   29   27   23   25   29   30   17
+employee_12   13   13   20   17   12   22   20
+employee_13    7   17    9    5   11    9    9
+employee_14   26   27   28   36   29   31   30
+employee_15    7    6    4   11    5    5   15
+employee_16   32   35   31   35   24   25   36
+employee_17    7   17    9   12   13    6   12
+employee_18    9    6    3   12    3    8    6
+employee_19    0    1   11    6    0    4   11
+employee_20    9   12    6   13   12   13   11
+employee_21    6   15   15   10    9    7   18
+employee_22   17   17   12    4   14   17    7
+employee_23    1   12    8    2    4    4   11
+employee_24    5    8    0    1    6    3    1
+employee_25    2    7    5    3    1    5    5
+employee_26   29   25   32   28   28   27   27
+employee_27   17   15   17   23   23   17   22
+employee_28   26   32   33   30   33   28   26
+employee_29   27   29   24   29   26   31   28
+employee_30    4    1    1    2    1    7    4
+employee_31   22   22   17   20   14   19   13
+employee_32    9   11    7   10    8   15    5
+employee_33    6    5   12    5   17   17    4
+employee_34   18   17   12   22   22   13   12
+employee_35    2   12   13    7   10    6    2
+employee_36   32   26   20   23   24   25   21
+employee_37    5   13   12   11    6    5   10
+employee_38    6   10   11    6    6    2    5
+employee_39   30   37   32   35   37   41   42
+employee_40   34   33   32   35   33   27   35
+employee_41   15   19   21   18   22   26   22
+employee_42   28   29   30   19   21   19   26
+employee_43    6    8    6    7   17   11   14
+employee_44   17   22   27   24   18   28   24
+employee_45    6   10   17   18   13   10    7
+employee_46   18   19   22   17   21   15   23
+employee_47   21   27   28   28   26   17   25
+employee_48   10   18   20   18   12   19   17
+employee_49    6   15   15   15   10   14    2
+employee_50   30   28   29   31   24   20   25
+
+ # Select the second column, named day2, from li_df: second
+> second <- li_df$day2
+ 
+ # Build a logical vector, TRUE if value in second is extreme: extremes
+> extremes <- second > 25 | second < 5
+ 
+ # Count the number of TRUEs in extremes
+> sum(extremes)
+[1] 16
+ 
+ # Solve it with a one-liner
+> sum(li_df$day2 > 25 | li_df$day2 < 5)
+[1] 16
+```
+
+# <font color="black">Conditional Statements<font>
+
+###<font color="royalblue 2"> 1 if 和 else <font>
+### 2 if else
+
+><font color="green">if (condition) {
+  expr1
+} else {
+  expr2
+}<font>
+
+###<font color="royalblue 2"> 3 else if <font>
+><font color="green">if (condition1) {
+  expr1
+} else if (condition2) {
+  expr2
+} else if (condition3) {
+  expr3
+} else {
+  expr4
+}<font>
+
+>if (number < 10) {
+  if (number < 5) {
+    result <- "extra small"
+  } else {
+    result <- "small"
+  }
+} else if (number < 100) {
+  result <- "medium"
+} else {
+  result <- "large"
+}
+print(result)
+
+###<font color="royalblue 2"> 4 if, if else, else<font>
+
+#### <font color="black">練習<font>
+```
+# Variables related to your last day of recordings
+medium <- "LinkedIn"
+num_views <- 14
+
+# Examine the if statement for medium
+if (medium == "LinkedIn") {print("Showing LinkedIn information")}
+
+# Write the if statement for num_views
+if (num_views > 15) {print("You're popular!")}
+```
+```
+# Variables related to your last day of recordings
+> medium <- "LinkedIn"
+> num_views <- 14
+
+ # Control structure for medium
+> if (medium == "LinkedIn") {
+    print("Showing LinkedIn information")
+  } else {
+    print("Unknown medium")
+  }
+[1] "Showing LinkedIn information"
+ 
+ # Control structure for num_views
+> if (num_views > 15) {
+    print("You're popular!")
+  } else {
+    print("Try to be more visible!")
+  }
+[1] "Try to be more visible!"
+ ```
+ ```
+  # Variables related to your last day of recordings
+> medium <- "LinkedIn"
+> num_views <- 14
+ 
+ # Control structure for medium
+> if (medium == "LinkedIn") {
+    print("Showing LinkedIn information")
+  } else if (medium == "Facebook") {
+  print("Showing Facebook information")
+  } else {
+    print("Unknown medium")
+  }
+[1] "Showing LinkedIn information"
+ 
+ # Control structure for num_views
+> if (num_views > 15) {
+    print("You're popular!")
+  } else if (num_views <= 15 & num_views > 10) {print(
+   "Your number of views is average")
+  } else {
+    print("Try to be more visible!")
+  }
+[1] "Your number of views is average"
+```
+```
+> # Code the control-flow construct
+> if (li >= 15 & fb >= 15) {
+    sms <- 2 * (li + fb)
+  } else if (li < 10 & fb < 10) {
+    sms <- 0.5 * (li + fb)
+  } else {
+    sms <- li + fb
+  }
+> 
+> # Print the resulting sms to the console
+> sms
+[1] 24
+```
