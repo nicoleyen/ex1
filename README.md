@@ -33,7 +33,7 @@
 	* Ch2 Loop
 		* [Intermediate R 2](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_2.html)
 	* Ch3 Functions, R packages
-		* [Intermediate R 2](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_3.html)
+		* [Intermediate R 3](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_3.html)
 
 
 
