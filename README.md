@@ -34,6 +34,9 @@
 		* [Intermediate R 2](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_2.html)
 	* Ch3 Functions, R packages
 		* [Intermediate R 3](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_3.html)
+	* Ch4 Lapply, Sapply, Vapply
+		* [Intermediate R 4](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_4.html)
+
 
 
 
