@@ -38,6 +38,9 @@
 		* [Intermediate R 4](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_4.html)
 	* Ch5 Useful Functions(mathematical&data Utilities), Regular Expressions, Times and Dates
 		* [Intermediate R 5](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_5.html)
+* Introduction to the tidyverse
+	* Ch1 Gapminder dataset, filter verb, arrange verb, mutate verb
+		* [Tidyverse 1](https://nicoleyen.github.io/ex1/WEEK1/tidyverse1.html)
 
 
 
