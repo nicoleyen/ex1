@@ -45,6 +45,9 @@
 		* [Tidyverse 2](https://nicoleyen.github.io/ex1/WEEK1/tidyverse2.html)
 	* Ch3 Summarize verb---summarize(), Visualizing summarized data
 		* [Tidyverse 3](https://nicoleyen.github.io/ex1/WEEK1/tidyverse3.html)
+	* Ch4 Line plots, Bar plots, Histograms, Box plots
+		* [Tidyverse 4](https://nicoleyen.github.io/ex1/WEEK1/tidyverse4.html)
+
 
 
 

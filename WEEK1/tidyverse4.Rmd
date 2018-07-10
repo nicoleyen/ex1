@@ -1,0 +1,108 @@
+---
+title: "tidyverse4"
+output: html_document
+---
+# Line plots
+
+### Type of plots
+* Line plots : show change over time
+* Bar plots : compare statistics for each of severl categories
+* Histogram : describle the disturibution of a one-dimensional numeric variable
+* Box plots :　compare the disturibution of a numeric variable among several categories
+
+>製作Line plots
+>
+>只要將scatter編碼中的geom_point() 改為geom_line()即可
+
+```
+練習
+> library(gapminder)
+> library(dplyr)
+> library(ggplot2)
+> 
+ # Summarize the median gdpPercap by year, then save it as by_year
+> by_year <- gapminder %>% group_by(year) %>% summarize(medianGdpPercap = median(gdpPercap))
+ 
+  # Create a line plot showing the change in medianGdpPercap over time
+> ggplot(by_year, aes(x = year, y = medianGdpPercap)) + geom_line() + expand_limits(y = 0)
+
+  # Summarize the median gdpPercap by year & continent, save as by_year_continent
+> by_year_continent <- gapminder %>% group_by(year, continent) %>% summarize(medianGdpPercap = median(gdpPercap))
+ 
+  # Create a line plot showing the change in medianGdpPercap by continent over time
+> ggplot(by_year_continent, aes(x = year, y = medianGdpPercap, color = continent)) + geom_line() + expand_limits(y = 0)
+```
+
+> Bar plots
+>
+> 將的geom_point() 改為geom_col()即可
+>
+> 注意:不像scatter或line plots，bar plots總是從0開始
+
+```
+練習 (1)
+> library(gapminder)
+> library(dplyr)
+> library(ggplot2)
+> 
+ # Summarize the median gdpPercap by year and continent in 1952
+> by_continent <- gapminder %>% filter(year == 1952) %>% group_by(continent) %>% summarize(medianGdpPercap = median(gdpPercap))
+> 
+ # Create a bar plot showing medianGdp by continent
+> ggplot(by_continent, aes(x = continent, y = medianGdpPercap)) + geom_col()
+```
+```
+練習 (2)
+ # Filter for observations in the Oceania continent in 1952
+> oceania_1952 <- gapminder %>% filter(year == 1952, continent == "Oceania")
+> 
+ # Create a bar plot of gdpPercap by country
+> ggplot(oceania_1952, aes(x = country, y = gdpPercap)) + geom_col()
+```
+
+> Histograms
+>
+> 將的geom_point() 改為geom_histogram(binwidth = )即可
+>
+> 注意:histogram的公式中aes()只有x
+>
+> 最後也可加scale_x_log10()
+
+```
+練習
+> gapminder_1952 <- gapminder %>%
+    filter(year == 1952)
+ # Create a histogram of population (pop)
+> ggplot(gapminder_1952, aes(x = pop)) + geom_histogram()
+
+# Create a histogram of population (pop), with x on a log scale
+> ggplot(gapminder_1952, aes(x = pop)) + geom_histogram() + scale_x_log10()
+```
+
+> Box plots
+>
+> 將的geom_point() 改為geom_boxplot()
+
+```
+練習
+> gapminder_1952 <- gapminder %>%
+    filter(year == 1952)
+    
+ # Create a boxplot comparing gdpPercap among continents
+> ggplot(gapminder_1952, aes(x = continent, y = gdpPercap)) + geom_boxplot() + scale_y_log10()
+```
+
+> 為圖表加上標題
+>
+> 最後加上ggtitle("NAME")
+
+```
+# Add a title to this graph: "Comparing GDP per capita across continents"
+> ggplot(gapminder_1952, aes(x = continent, y = gdpPercap)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    ggtitle("Comparing GDP per capita across continents")
+```
+
+
+
