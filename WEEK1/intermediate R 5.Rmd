@@ -1,0 +1,251 @@
+---
+title: "intermediate R 5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Useful Functions
+## mathematical Utilities
+
+>abs(): Calculate the absolute value.
+
+>sum(): Calculate the sum of all the values in a data structure.
+
+>mean(): Calculate the arithmetic mean.
+
+>round(): Round the values to 0 decimal places by default. 
+>
+>?round in the console for variations of round() and ways to change the number of digits to round to.
+
+```
+不能寫mean(c(abs(vec1), abs(vec2)))
+應改為mean(c(abs(vec1), abs(vec2)))
+```
+## Data Utilities
+>seq(): Generate sequences, by specifying the from, to, and by arguments.
+
+>rep(): Replicate elements of vectors and lists.
+
+>sort(): Sort a vector in ascending order. Works on numerics, but also on character strings and logicals.
+
+>rev(): Reverse the elements in a data structures for which reversal is defined.
+
+>str(): Display the structure of any R object.
+
+>append(): Merge vectors or lists.
+
+>is.*(): Check for the class of an R object.
+>
+>as.*(): Convert an R object from one class to another.
+
+>unlist(): Flatten (possibly embedded) lists to produce a vector.
+
+```
+# The linkedin and facebook lists have already been created for you
+> linkedin <- list(16, 9, 13, 5, 2, 17, 14)
+> facebook <- list(17, 7, 5, 16, 8, 13, 14)
+> 
+> # Convert linkedin and facebook to a vector: li_vec and fb_vec
+> li_vec <- unlist(linkedin)
+> fb_vec <- unlist(facebook)
+> 
+> # Append fb_vec to li_vec: social_vec
+> social_vec <- append(li_vec, fb_vec)
+> 
+> # Sort social_vec
+> sort(social_vec, decreasing = TRUE)
+ [1] 17 17 16 16 14 14 13 13  9  8  7  5  5  2
+```
+```
+# Create first sequence: seq1
+> seq1 <- seq(1, 500, by=3)
+> 
+> # Create second sequence: seq2
+>  seq2 <- seq(1200, 900, by=-7)
+> 
+> # Calculate total sum of the sequences
+> sum(seq1 + seq2) 應改為 sum(seq1)+sum(seq2)
+[1] 87029
+```
+# Regular Expressions
+> grepl()
+>
+>grepl(pattern=<regex>, x=<string>)
+
+假設animals <- (cat,mouse,ant)，我們想找出動物名中有"a"者，可利用grepl()
+只要輸入grepl(pattern="a", x=animals)，就會得到"TRUE FALSE TRUE"之結果。
+更進階得還可以找出第一個字母為a者，只要將公式改為grepl(pattern="^a", x=animals)
+便能得到"FALSE FALSE TRUE"之結果!至於若要找出以"a"結尾的，則需改pattern="a$"即可
+
+> grep()
+
+grep()和grepl()是一樣的，只是出來得結果表現方式不同，並不會寫出TRUE和FALSE，會寫出數字，如grep(pattern="a", x=animals)，則得"1,3"，代表資料中第一個和第三個有含a
+
+> sub() 和 gsub()
+>
+>sub(pattern=<regex>, replacement=<str>, x=<str>)
+
+假設animals <- (cat,mouse,impala,ant)，輸入sub(pattern="a", replacement="o", x=animals)，可將資料中的a替換成o，其結果為"cot, mouse, impola, ont"。不過，須注意得是sub()只會把第一個出現得做替換，所以是impola而非impolo。因此若要能全部替換，就要用gsub()。
+
+>grepl(), which returns TRUE when a pattern is found in the corresponding character string.
+>
+>grep(), which returns a vector of indices of the character strings that contains the pattern.
+
+####練習
+```
+"@.*\\.edu$"
+
+.*: A usual suspect! It can be read as "any character that is matched zero or more times".
+
+\\s: Match a space. The "s" is normally a character, escaping it (\\) makes it a metacharacter.
+
+[0-9]+: Match the numbers 0 to 9, at least once (+).
+
+([0-9]+): The parentheses are used to make parts of the matching string available to define the replacement. The \\1 in the replacement argument of sub() gets set to the string that is captured by the regular expression [0-9]+.
+```
+
+# Times and Dates
+> Tody, Right now !
+
+輸入today <- Sys.Date()得2018-07-10
+從class(today)查看結果為"Date"
+輸入now <- Sys.time()得2018-07-10 15:04:30 CEST
+
+```
+In R, dates are represented by Date objects, while times are represented by POSIXct objects. Under the hood, however, these dates and times are simple numerical values. Date objects store the number of days since the 1st of January in 1970. POSIXct objects on the other hand, store the number of seconds since the 1st of January in 1970.
+
+The 1st of January in 1970 is the common origin for representing times and dates in a wide range of programming languages. There is no particular reason for this; it is a simple convention. Of course, it's also possible to create dates and times before 1970; the corresponding numerical values are simply negative in this case.
+```
+```
+# Create and format dates
+To create a Date object from a simple character string in R, you can use the as.Date() function. The character string has to obey a format that can be defined using a set of symbols (the examples correspond to 13 January, 1982):
+
+%Y: 4-digit year (1982)
+%y: 2-digit year (82)
+%m: 2-digit month (01)
+%d: 2-digit day of the month (13)
+%A: weekday (Wednesday)
+%a: abbreviated weekday (Wed)
+%B: month (January)
+%b: abbreviated month (Jan)
+```
+```
+ # Definition of character strings representing dates
+> str1 <- "May 23, '96"
+> str2 <- "2012-03-15"
+> str3 <- "30/January/2006"
+> 
+> # Convert the strings to dates: date1, date2, date3
+> date1 <- as.Date(str1, format = "%b %d, '%y")
+> date2 <- as.Date(str2)
+> date3 <- as.Date(str3, format = "%d/%B/%Y")
+> 
+> # Convert dates to formatted strings
+> format(date1, "%A")
+[1] "Thursday"
+> format(date2, "%d")
+[1] "15"
+> format(date3, "%b %Y")
+[1] "Jan 2006"
+```
+```
+%H: hours as a decimal number (00-23)
+%I: hours as a decimal number (01-12)
+%M: minutes as a decimal number
+%S: seconds as a decimal number
+%T: shorthand notation for the typical format %H:%M:%S
+%p: AM/PM indicator
+For a full list of conversion symbols, consult the strptime documentation in the console:
+?strptime
+```
+```
+# Definition of character strings representing times
+> str1 <- "May 23, '96 hours:23 minutes:01 seconds:45"
+> str2 <- "2012-3-12 14:23:08"
+> 
+> # Convert the strings to POSIXct objects: time1, time2
+> time1 <- as.POSIXct(str1, format = "%B %d, '%y hours:%H minutes:%M seconds:%S")
+> time2 <- as.POSIXct(str2)
+> 
+> # Convert times to formatted strings
+> format(time1, "%M")
+[1] "01"
+> format(time2, "%I:%M %p")
+[1] "02:23 PM"
+```
+```
+# day1, day2, day3, day4 and day5 are already available in the workspace
+> day1
+[1] "2018-06-22"
+> day2
+[1] "2018-06-24"
+> day3
+[1] "2018-06-29"
+> day4
+[1] "2018-07-05"
+> day5
+[1] "2018-07-10"
+> # Difference between last and first pizza day
+> day5 - day1
+Time difference of 18 days
+> 
+> # Create vector pizza
+> pizza <- c(day1, day2, day3, day4, day5)
+> 
+> # Create differences between consecutive pizza days: day_diff
+> day_diff <- diff(pizza)
+> 
+> # Average period between two consecutive pizza days
+> mean(day_diff)
+Time difference of 4.5 days
+```
+```
+# login and logout are already defined in the workspace
+> login
+[1] "2018-06-26 10:18:04 UTC" "2018-07-01 09:14:18 UTC"
+[3] "2018-07-01 12:21:51 UTC" "2018-07-01 12:37:24 UTC"
+[5] "2018-07-03 21:37:55 UTC"
+> logout
+[1] "2018-06-26 10:56:29 UTC" "2018-07-01 09:14:52 UTC"
+[3] "2018-07-01 12:35:48 UTC" "2018-07-01 13:17:22 UTC"
+[5] "2018-07-03 22:08:47 UTC"
+> # Calculate the difference between login and logout: time_online
+> time_online <- logout - login
+> 
+> # Inspect the variable time_online
+> time_online
+Time differences in secs
+[1] 2305.11818   34.18472  837.18182 2397.90153 1851.30411
+> 
+> # Calculate the total time online
+> sum(time_online)
+Time difference of 7425.69 secs
+> 
+> # Calculate the average time online
+> mean(time_online)
+Time difference of 1485.138 secs
+```
+```
+# Convert astro to vector of Date objects: astro_dates
+> astro_dates <- as.Date(astro, format = "%d-%b-%Y")
+> 
+> # Convert meteo to vector of Date objects: meteo_dates
+> meteo_dates <- as.Date(meteo, format = "%B-%d-%y")
+> 
+> # Calculate the maximum absolute difference between astro_dates and meteo_dates
+> abs(max(astro_dates - meteo_dates))
+Time difference of NA days
+> meteo_dates <- as.Date(meteo, format = "%B %d, %y")
+> # Convert astro to vector of Date objects: astro_dates
+> astro_dates <- as.Date(astro, format = "%d-%b-%Y")
+> 
+> # Convert meteo to vector of Date objects: meteo_dates
+> meteo_dates <- as.Date(meteo, format = "%B %d, %y")
+> 
+> # Calculate the maximum absolute difference between astro_dates and meteo_dates
+> abs(max(astro_dates - meteo_dates))
+Time difference of 24 days
+```

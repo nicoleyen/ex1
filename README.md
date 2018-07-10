@@ -36,6 +36,8 @@
 		* [Intermediate R 3](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_3.html)
 	* Ch4 Lapply, Sapply, Vapply
 		* [Intermediate R 4](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_4.html)
+	* Ch5 Useful Functions(mathematical&data Utilities), Regular Expressions, Times and Dates
+		* [Intermediate R 5](https://nicoleyen.github.io/ex1/WEEK1/intermediate_R_5.html)
 
 
 
