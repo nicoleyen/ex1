@@ -1,0 +1,207 @@
+---
+title: "tidyverse3"
+output: html_document
+---
+
+#The summarize verb
+
+> summarize() :　turn many rows into one
+
+```
+gapminder %>%
+
+summarize(meanlifeExp = mean(lifeExp))
+```
+藉此我們可以看到各州各年平均的lifeExp，但此數值較無意義，我們應該要看特定年的平均lifeExp
+故可以透過filter先選定特定年份，再用summarize
+```
+gapminder %>%
+filter(year == 2007) %>%
+summarize(meanlifeExp = mean(lifeExp))
+```
+此外，還可以summarizing into multiple coloumns
+```
+gapminder %>%
+filter(year == 2007) %>%
+summarize(meanlifeExp = mean(lifeExp), totalPop = sum(pop))
+```
+>functions can be used in summarizing :
+>
+>- mean
+>- sum
+>- median
+>- min
+>- max
+
+```
+練習 (1)
+library(gapminder)
+library(dplyr)
+# Filter for 1957 then summarize the median life expectancy
+> gapminder %>%
+  filter(year == 1957) %>%
+  summarize(medianLifeExp = median(lifeExp))
+# A tibble: 1 x 1
+  medianLifeExp
+          <dbl>
+1          48.4
+```
+```
+練習(2)
+gapminder %>%
+    filter(year == 1957) %>%
+    summarize(medianLifeExp = median(lifeExp),  maxGdpPercap = max(gdpPercap))
+# A tibble: 1 x 2
+  medianLifeExp maxGdpPercap
+          <dbl>        <dbl>
+1          48.4      113523.
+```
+
+# The group_by verb
+> group_by() before summarize() turns groups into one row each
+
+```
+舉例
+gapminder %>%
+filter(year == 2007) %>%
+group_by(continent) %>%
+summarize(meanlifeExp = mean(lifeExp), totalPop = sum(pop))
+```
+```
+也可同時用年份和洲分群
+gapminder %>%
+group_by(year, continent) %>%
+summarize(meanlifeExp = mean(lifeExp), totalPop = sum(pop))
+```
+```markdown
+練習 (1)
+> library(gapminder)
+> library(dplyr)
+ # Find median life expectancy and maximum GDP per capita in each year
+> gapminder %>%
+  group_by(year) %>%
+  summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
+ # A tibble: 12 x 3
+    year medianLifeExp maxGdpPercap
+   <int>         <dbl>        <dbl>
+ 1  1952          45.1      108382.
+ 2  1957          48.4      113523.
+ 3  1962          50.9       95458.
+ 4  1967          53.8       80895.
+ 5  1972          56.5      109348.
+ 6  1977          59.7       59265.
+ 7  1982          62.4       33693.
+ 8  1987          65.8       31541.
+ 9  1992          67.7       34933.
+10  1997          69.4       41283.
+11  2002          70.8       44684.
+12  2007          71.9       49357.
+```
+```
+練習 (2)
+# Find median life expectancy and maximum GDP per capita in each continent in 1957
+> gapminder %>%
+    filter(year == 1957) %>%
+    group_by(continent) %>%
+    summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
+# A tibble: 5 x 3
+  continent medianLifeExp maxGdpPercap
+  <fct>             <dbl>        <dbl>
+1 Africa             40.6        5487.
+2 Americas           56.1       14847.
+3 Asia               48.3      113523.
+4 Europe             67.6       17909.
+5 Oceania            70.3       12247.
+```
+```
+練習(3)
+# Find median life expectancy and maximum GDP per capita in each year/continent combination
+> gapminder %>% 
+  group_by(continent, year) %>% 
+  summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
+# A tibble: 60 x 4
+# Groups:   continent [?]
+   continent  year medianLifeExp maxGdpPercap
+   <fct>     <int>         <dbl>        <dbl>
+ 1 Africa     1952          38.8        4725.
+ 2 Africa     1957          40.6        5487.
+ 3 Africa     1962          42.6        6757.
+ 4 Africa     1967          44.7       18773.
+ 5 Africa     1972          47.0       21011.
+ 6 Africa     1977          49.3       21951.
+ 7 Africa     1982          50.8       17364.
+ 8 Africa     1987          51.6       11864.
+ 9 Africa     1992          52.4       13522.
+10 Africa     1997          52.8       14723.
+# ... with 50 more rows
+```
+# Visualizing summarized data
+視覺化資料
+
+利用上述例子，首先要定義我們的資料，所以
+
+by_year <- gapminder %>%
+
+group_by(year) %>%
+
+summarize(meanlifeExp = mean(lifeExp), totalPop = sum(pop))
+
+再來，就是要用ggplot了
+
+輸入
+
+ggplot(by_year, aes(x = year, y = totalPop)) + geom_point()
+
+藉此可visualizing population by year
+
+不過，上面式子出現的圖表，數值並非從0開始，因而無法比較數值原先最開始的狀況
+
+於是我們可以做修正讓y軸從0開始
+
+starting y-axis at zero
+
+ggplot(by_year, aes(x = year, y = totalPop)) + geom_point() + expand_limits(y = 0)
+
+---
+
+在散布圖中，當有多個類別項目要看時(即比較各州狀況)，一樣可以用不同顏色的點去取分不同洲
+用以visualizing population by year and population
+
+ggplot(by_year, aes(x = year, y = totalPop, color =continent)) + geom_point() + expand_limits(y = 0)
+
+```
+練習
+library(gapminder)
+library(dplyr)
+library(ggplot2)
+
+by_year <- gapminder %>%
+  group_by(year) %>%
+  summarize(medianLifeExp = median(lifeExp),
+            maxGdpPercap = max(gdpPercap))
+
+# Create a scatter plot showing the change in medianLifeExp over time
+ggplot(by_year, aes(x = year, y =medianLifeExp)) + geom_point() + expand_limits(y = 0)
+```
+```
+ # Summarize medianGdpPercap within each continent within each year: by_year_continent
+> by_year_continent <- gapminder %>%
+    group_by(year, continent) %>%
+    summarize(medianGdpPercap = median(gdpPercap))
+
+ # Plot the change in medianGdpPercap in each continent over time
+> ggplot(by_year_continent, aes(x = year, y = medianGdpPercap, color = continent)) + geom_point() + expand_limits(y = 0)
+```
+```
+# Summarize the median GDP and median life expectancy per continent in 2007
+> by_continent_2007 <- gapminder %>%
+    filter(year == 2007) %>%
+    group_by(continent) %>%
+    summarize(medianGdpPercap = median(gdpPercap),
+              medianLifeExp = median(lifeExp))
+> 
+> # Use a scatter plot to compare the median GDP and median life expectancy
+> ggplot(by_continent_2007, aes(x = medianGdpPercap, y = medianLifeExp, color = continent)) +
+    geom_point()
+```
+

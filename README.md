@@ -43,6 +43,11 @@
 		* [Tidyverse 1](https://nicoleyen.github.io/ex1/WEEK1/tidyverse1.html)
 	* Ch2 Visualizing with ggplot2, Log scales, Additional aesthetics---color&size, Faceting
 		* [Tidyverse 2](https://nicoleyen.github.io/ex1/WEEK1/tidyverse2.html)
+	* Ch3 Summarize verb---summarize(), Visualizing summarized data
+		* [Tidyverse 3](https://nicoleyen.github.io/ex1/WEEK1/tidyverse3.html)
+
+
+
 
 
 
