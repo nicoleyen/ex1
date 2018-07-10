@@ -41,6 +41,9 @@
 * Introduction to the tidyverse
 	* Ch1 Gapminder dataset, filter verb, arrange verb, mutate verb
 		* [Tidyverse 1](https://nicoleyen.github.io/ex1/WEEK1/tidyverse1.html)
+	* Ch2 Visualizing with ggplot2, Log scales, Additional aesthetics---color&size, Faceting
+		* [Tidyverse 2](https://nicoleyen.github.io/ex1/WEEK1/tidyverse2.html)
+
 
 
 

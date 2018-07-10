@@ -1,0 +1,99 @@
+---
+title: "Introduction to the tidyverse 2"
+output: html_document
+---
+# Visualizing with ggplot2
+### variable assignment
+### visualizing with ggplot2
+可以做出散佈圖
+不過首先仍是要輸入library(ggplot2)
+```
+# Load the ggplot2 package as well
+> library(gapminder)
+> library(dplyr)
+> library(ggplot2)
+> 
+> # Create gapminder_1952
+> gapminder_1952 <- gapminder %>% filter(year == 1952)
+```
+```
+library(gapminder)
+> library(dplyr)
+> library(ggplot2)
+> 
+> gapminder_1952 <- gapminder %>%
+    filter(year == 1952)
+> 
+> # Change to put pop on the x-axis and gdpPercap on the y-axis
+> ggplot(gapminder_1952, aes(x = pop, y = gdpPercap)) +
+    geom_point()
+```
+# Log scales
+為了要呈現較好看易讀的圖表，我們可以將x軸得數值取log
+
+將原先的公式變為
+
+ggplot(gapminder_1952, aes(x = pop, y = gdpPercap)) +
+    
+geom_point() +
+    
+scale_x_log10()
+
+而要改變y軸的話則改為輸入scale_y_log10()
+
+# Additional aesthetics
+在資料中，會有類別變項(像是地區，亞洲和歐洲等等)，我們可以透過在散布圖中點的顏色變化來區別不同的類別(即區分出不同地區)
+
+要在aes()中增加 color = 類別變項名
+
+所以上述例子可改為
+
+ggplot(gapminder_1952, aes(x = pop, y = gdpPercap, color = continent)) +
+    
+geom_point() +
+    
+scale_x_log10()
+
+而還有size aesthetics 即是要呈現numeric variable的數量大小時，可透過改變點之大小!
+
+只要增加size = 連續變項名
+
+ggplot(gapminder_1952, aes(x = pop, y = gdpPercap, color = continent, size = pop )) +
+    
+geom_point() +
+    
+scale_x_log10()
+
+```
+練習
+# Add the size aesthetic to represent a country's gdpPercap
+> ggplot(gapminder_1952, aes(x = pop, y = lifeExp, color = continent, sieze = gdpPercap)) +
+    geom_point() +
+    scale_x_log10()
+> library(gapminder)
+> library(dplyr)
+> library(ggplot2)
+> 
+> gapminder_1952 <- gapminder %>%
+    filter(year == 1952)
+> 
+> # Add the size aesthetic to represent a country's gdpPercap
+> ggplot(gapminder_1952, aes(x = pop, y = lifeExp, color = continent, size = gdpPercap)) +
+    geom_point() +
+    scale_x_log10()
+```
+
+# Faceting
+Faceting可以繪出各項目各自的小圖表
+
+只要再增加facet_wrap(~項目名)，就會依據該項目做出圖表
+
+例如facet_wrap(~continent) 就可按照各州數據形成圖表
+
+```
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp, color = continent, size = gdpPercap)) +
+    geom_point() +
+    scale_x_log10() +
+    facet_wrap(~ continent)
+```
+
