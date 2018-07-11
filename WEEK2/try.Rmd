@@ -1,0 +1,39 @@
+---
+title: "Swiss Map"
+output: html_document
+---
+
+### 瑞士
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = 'Swiss', zoom = 7, language = "zh-TW")
+ggmap(map)
+```
+
+### 瑞士 伯恩位置 經度:7.44744 緯度:46.94809
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 10, language = "zh-TW")
+ggmap(map)
+```
+
+### 瑞士 伯恩 道路地圖 (1)
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 10, language = "zh-TW", maptype = "roadmap")
+ggmap(map)
+```
+
+#### 瑞士 伯恩 道路地圖 (2)
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 15, language = "zh-TW", maptype = "roadmap")
+ggmap(map)
+```

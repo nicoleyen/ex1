@@ -53,7 +53,8 @@
 ## In Class
 * Data_Visualization 
 	* [Data_Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
-
+* ggplot2 + ggmap
+	* [ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
 
 
 
