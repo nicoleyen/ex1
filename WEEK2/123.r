@@ -1,5 +1,5 @@
 source('pttTestFunction.R')
-id = c(1786:1787)
+id = c(1786:1790)
 URL = paste0("https://www.ptt.cc/bbs/EAseries/index", id, ".html")
 filename = paste0(id, ".txt")
 pttTestFunction(URL[1], filename[1])
@@ -81,7 +81,8 @@ freqFrame = freqFrame[order(freqFrame$Freq,decreasing=TRUE), ]
 library(knitr)
 kable(head(freqFrame), format = "markdown")
 
-wordcloud(freqFrame$Var1,freqFrame$Freq,
+wordcloud(
+  $Var1,freqFrame$Freq,
           scale=c(5,0.1),min.freq=50,max.words=150,
           random.order=TRUE, random.color=FALSE, 
           rot.per=.1, colors=brewer.pal(8, "Dark2"),

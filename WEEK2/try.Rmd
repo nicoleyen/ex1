@@ -3,15 +3,15 @@ title: "Swiss Map"
 output: html_document
 ---
 
-### ç‘žå£«
+### ·ç¤h ¦a¹Ï    ![](https://upload.wikimedia.org/wikipedia/commons/f/f2/Civil_Ensign_of_Switzerland.svg){width=10%}
 ```{r}
 library(ggmap)
 library(mapproj)
-map <- get_map(location = 'Swiss', zoom = 7, language = "zh-TW")
-ggmap(map)
+map_1 <- get_map(location = 'Swiss', zoom = 7, language = "zh-TW")
+ggmap(map_1)
 ```
 
-### ç‘žå£« ä¼¯æ©ä½ç½® ç¶“åº¦:7.44744 ç·¯åº¦:46.94809
+### ·ç¤h §B®¦¦ì¸m ¸g«×:7.44744 ½n«×:46.94809
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -20,7 +20,9 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-### ç‘žå£« ä¼¯æ© é“è·¯åœ°åœ– (1)
+> <font color="blue">¥u­n±Nmaptpe§ïÅÜ§Y¥i§Î¦¨¦UºØ¤£¦Pªº¦a¹ÏÃþ«¬<font>
+
+###  <font color="black">·ç¤h §B®¦ ¹D¸ô¦a¹Ï (1)<font>
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -29,7 +31,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### ç‘žå£« ä¼¯æ© é“è·¯åœ°åœ– (2)
+#### ·ç¤h §B®¦ ¹D¸ô¦a¹Ï (2)
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -37,3 +39,48 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
   zoom = 15, language = "zh-TW", maptype = "roadmap")
 ggmap(map)
 ```
+
+#### ·ç¤h §B®¦ ½Ã¬P¦a¹Ï
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 15, language = "zh-TW", maptype = "satellite")
+ggmap(map)
+```
+
+#### ·ç¤h §B®¦ ½Ã¬P+¹D¸ô¦a¹Ï
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 15, language = "zh-TW", maptype = "hybrid")
+ggmap(map)
+```
+
+#### ·ç¤h §B®¦ ¶Â¥Õ¦a¹Ï
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 15, language = "zh-TW", maptype = "toner-lite")
+ggmap(map)
+```
+
+#### ´£«G¦a¹Ï
+```{r}
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 20, language = "zh-TW")
+ggmap(map, darken = c(0.5, "white"))
+```
+
+#### ·t¤Æ¦a¹Ï
+```{r}
+map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
+  zoom = 10, language = "zh-TW")
+ggmap(map, darken = 0.5)
+```
+
+---
+
+<img src="https://cdn.thecrazytourist.com/wp-content/uploads/2017/09/Aare-770x430.jpg" style="display:block; margin:auto; width:55%;">
