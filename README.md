@@ -48,6 +48,12 @@
 	* Ch4 Line plots, Bar plots, Histograms, Box plots
 		* [Tidyverse 4](https://nicoleyen.github.io/ex1/WEEK1/tidyverse4.html)
 
+---
+# WEEK2 progress
+## In Class
+* Data_Visualization 
+	*[Data_Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
+
 
 
 
