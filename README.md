@@ -63,7 +63,7 @@
 * ggplot2 + ggmap
 	* [ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
 * 文字探勘---do text mining through R and make 文字雲
-
+	* [text-mining_ptt歐美版](https://nicoleyen.github.io/ex1/WEEK2/ppt_search.html)
 ## At Home
 
 
