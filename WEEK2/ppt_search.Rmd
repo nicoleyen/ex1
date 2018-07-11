@@ -5,8 +5,15 @@ output: html_document
 #  Text-Mining 文字探勘 :　
 ## <font color="purple"> ptt_歐美版 (第1786至1790頁)<font>
 
+<img src="Rplot05.jpeg" style="display:block; margin:auto; width:40%;">
 
-
+```
+星星文字雲產生，先按照網路爬蟲、詞頻矩陣之步驟建立資料，之後先選取所要的資料後，再用wordcloud2建立文字雲~~~~!
+install.packages(wordcloud2)
+library(wordcloud2)
+data_ff <- freqFrame[1:50, ]
+wordcloud2(data_ff, size = 0.6,shape = 'star', color = ifelse(data_ff[, 2] > 100, 'blue', 'skyblue'))
+```
 
 ## 網路爬蟲
 ```
