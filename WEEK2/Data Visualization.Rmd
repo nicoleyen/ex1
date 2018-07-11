@@ -48,7 +48,7 @@ ggplot(sleep, aes(x = group, y = extra)) + geom_boxplot()
 ```
 
 ### scatter 
-#### 兩種soporific drugs 和睡眠時間增加的觀係
+#### 兩種soporific drugs 和睡眠時間增加的關係
 
 ```{r}
 ggplot(sleep, aes(x = ID , y = extra, color = group)) + geom_point()
