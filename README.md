@@ -52,7 +52,7 @@
 # WEEK2 progress
 ## In Class
 * Data_Visualization 
-	*[Data_Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
+	* [Data_Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
 
 
 
