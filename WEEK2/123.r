@@ -1,5 +1,5 @@
 source('pttTestFunction.R')
-id = c(1)
+id = c(1786:1787)
 URL = paste0("https://www.ptt.cc/bbs/EAseries/index", id, ".html")
 filename = paste0(id, ".txt")
 pttTestFunction(URL[1], filename[1])
@@ -17,7 +17,7 @@ pttTestFunction <- function(URL, filename)
   href  = html_attr(title, "href")
   data = data.frame(title = toUTF8(html_text(title)),
                     href = href)
-  data = data[-c(1:10),]
+  data = data[-c(1:5),]
   getContent <- function(x) {
     url  = paste0("https://www.ptt.cc", x)
     tag  = html_node(read_html(url), 'div#main-content.bbs-screen.bbs-content')
@@ -56,6 +56,14 @@ docs <- tm_map(docs, toSpace, "看板")
 docs <- tm_map(docs, toSpace, "作者")
 docs <- tm_map(docs, toSpace, "發信站")
 docs <- tm_map(docs, toSpace, "批踢踢實業坊")
+docs <- tm_map(docs, toSpace, "有")
+docs <- tm_map(docs, toSpace, "在")
+docs <- tm_map(docs, toSpace, "了")
+docs <- tm_map(docs, toSpace, "都")
+docs <- tm_map(docs, toSpace, "就")
+docs <- tm_map(docs, toSpace, "不")
+docs <- tm_map(docs, toSpace, "也")
+docs <- tm_map(docs, toSpace, "看")
 docs <- tm_map(docs, toSpace, "[a-zA-Z]")
 
 docs <- tm_map(docs, removePunctuation)

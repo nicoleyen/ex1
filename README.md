@@ -51,10 +51,18 @@
 ---
 # WEEK2 progress
 ## In Class
+* 資料視覺化
+* The BEAUTY of DATA VISUALIZATION:(1)to find the information & pattern behind the data (2)data is the new soil
+* 認識資料的型態
+* 觀察資料，學習用ggplot2作圖
+* 學習使用ggmap，ggplot2 + 地圖套件
 * Data_Visualization 
 	* [Data_Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
 * ggplot2 + ggmap
 	* [ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
+* 文字探勘---do text mining through R and make 文字雲
+
+## At Home
 
 
 

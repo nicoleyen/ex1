@@ -40,12 +40,6 @@ A data frame with 20 observations on 3 variables.
 19   4.6     2  9
 20   3.4     2 10
 ```
-```{r}
-extra_sleep_1 <- sleep [1:10 ,1]
-extraMean_1 <- mean(extra_sleep_1)
-```
-
-
 
 ### box plot --- 雙變數：離散 vs 連續
 ```{r}
