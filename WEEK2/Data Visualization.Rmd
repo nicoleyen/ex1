@@ -59,16 +59,20 @@ library(ggplot2)
 ggplot(sleep, aes(x = group , y = extra, color = ID)) + geom_point()
 ```
 
-
-```{R}
-ggplot(sleep, aes(x = group , y = extra)) + geom_col()
-```
-
 ### histograms --- 單變數：連續型
 比較出睡眠時間增加的分佈
+```{r}
+qplot(extra, data = sleep, fill = group)
+```
+
 ```{r}
 ggplot(sleep, aes(x = extra)) + geom_histogram()
 ```
 ```
 stat_bin()` using `bins = 30`. Pick better value with `binwidth`
+```
+### bar plot
+
+```{R}
+ggplot(sleep, aes(x = group , y = extra)) + geom_col()
 ```
