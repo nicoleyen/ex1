@@ -56,7 +56,7 @@
 	- (1) to find the information & pattern behind the data 
 	- (2) data is the new soil
 * practice using the data from R dataset
-* [HW2_Data Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
+* [HW2_Data Visualization](https://nicoleyen.github.io/ex1/WEEK2/hw2.html)
 * [update](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
 * 認識資料的型態，觀察資料，學習用ggplot2作圖
 * 學習使用ggmap，ggplot2 + 地圖套件
