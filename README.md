@@ -62,8 +62,8 @@
 	* [Data_Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
 * ggmap
 	* [ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
-* ggplot2 + ggmap
-	* [gplot2_ggmap_臺灣獨立書店分佈狀況](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html)
+* ggplot2 + ggmap 
+	* [ggplot2_ggmap](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html)
 * 文字探勘---do text mining through R and make 文字雲
 	* [text-mining_ptt歐美版](https://nicoleyen.github.io/ex1/WEEK2/ppt_search.html)
 
