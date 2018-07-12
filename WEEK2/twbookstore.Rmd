@@ -4,7 +4,7 @@ output: html_document
 ---
 # Practice using ggplot and ggmap
 
-# è‡ºç£åœ°åœ–    
+# »OÆW¦a¹Ï    
 ```{R}
 library(ggmap)
 library(mapproj)
@@ -12,30 +12,29 @@ map_1 <- get_map(location = c(lon = 120.233937, lat = 22.993013), zoom = 5)
 ggmap(map_1)
 ```
 
-# è‡ºç£é“è·¯åœ°åœ–_è‡ºåŒ—101
+# »OÆW¹D¸ô¦a¹Ï_»O¥_101
 ```{R}
 map_2 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
   zoom = 18, language = "zh-TW", maptype = "roadmap")
 ggmap(map_2)
 ```
 
-# è‡ºç£è¡›æ˜Ÿåœ°åœ–_è‡ºåŒ—101
-
+# »OÆW½Ã¬P¦a¹Ï_»O¥_101
 ```{R}
 map_3 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
   zoom = 18, language = "zh-TW", maptype = "satellite")
 ggmap(map_3)
 ```
 
-# è‡ºç£ç¨ç«‹æ›¸åº— ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}  ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}
-## ç¨ç«‹æ›¸åº—åˆ†å¸ƒåœ–
+# »OÆW¿W¥ß®Ñ©± ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}
+## ¿W¥ß®Ñ©±¤À¥¬¹Ï
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -45,39 +44,40 @@ ggmap(map_4) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## ç¨ç«‹æ›¸åº—åˆ†å¸ƒåœ–ï¼Œé»å¤§å°å‘ˆç¾é»é–±æ•¸å¤šå¯¡
-#### é»è¶Šå¤§ï¼Œå³é»é–±çš„æ¬¡æ•¸è¶Šå¤š
+## ¿W¥ß®Ñ©±¤À¥¬¹Ï¡AÂI¤j¤p§e²{ÂI¾\¼Æ¦h¹è
+#### ÂI¶V¤j¡A§YÂI¾\ªº¦¸¼Æ¶V¦h
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
 library(ggmap)
 map_4 <- get_map(location = c(lon = 120.5, lat = 23.625), zoom = 8)
-ggmap(map_4) + geom_point(aes(x = lon, y = lat, size = "é»é–±æ•¸"), data = bs)
+ggmap(map_4) + geom_point(aes(x = lon, y = lat, size = "ÂI¾\¼Æ•¸"), data = bs)
 
 ```
 
-## ç¨ç«‹æ›¸åº—åˆ†å¸ƒåœ–èˆ‡é»é–±æ•¸ä¹‹é—œè¯
-#### æ·¡åŒ–åœ°åœ–ï¼Œèƒ½æ›´æ¸…æ¥šå‘ˆç¾è³‡æ–™
+## ¿W¥ß®Ñ©±¤À¥¬¹Ï»PÂI¾\¼Æ¤§ÃöÁp
+#### ²H¤Æ¦a¹Ï¡A¯à§ó²M·¡§e²{¸ê®Æ
 ```{r}
 ggmap(map_4, darken = c(0.5, "white")) +
-  geom_point(aes(x = lon, y = lat, size = "é»é–±æ•¸"), data = bs)
+  geom_point(aes(x = lon, y = lat, size = "ÂI¾\¼Æ•¸"), data = bs)
 ```
-## ä¿¡ç¾©å€(ä½ç½®lon = 121.576957, lat = 25.028702)
-### ç”±ä¸‹åœ–å¯è¦‹ï¼Œä¿¡ç¾©å€é™„è¿‘æ²’æœ‰ç¨ç«‹æ›¸åº—
+
+## «H¸q°Ï(¦ì¸mlon = 121.576957, lat = 25.028702)
+### ¥Ñ¤U¹Ï¥i¨£¡A«H¸q°Ïªşªñ¨S¦³¿W¥ß®Ñ©±
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -87,16 +87,15 @@ ggmap(map_5) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-
-## ä¸­æ­£å€(lon = 121.519872, lat =25.042141)
-### è³‡æ–™é¡¯ç¤ºä¸­æ­£å€æœ‰è¨±å¤šç¨ç«‹æ›¸åº—åˆ†å¸ƒï¼Œä¸”èˆ‡ä¿¡ç¾©å€æ¯”è¼ƒï¼Œä¸­æ­£å€ä¹Ÿæ˜é¡¯é«˜å‡ºå¾ˆå¤š
+## ¤¤¥¿°Ï(lon = 121.519872, lat =25.042141)
+### ¸ê®ÆÅã¥Ü¤¤¥¿°Ï¦³³\¦h¿W¥ß®Ñ©±¤À¥¬¡A¥B»P«H¸q°Ï¤ñ¸û¡A¤¤¥¿°Ï¤]©úÅã°ª¥X«Ü¦h
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -106,15 +105,15 @@ ggmap(map_6) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## å¤§å®‰å€(lon = 121.542709, lat = 25.026158)
-### å¤§å®‰å€èˆ‡ä¸­æ­£å€é„°è¿‘ï¼Œæœ‰ä¸€äº›ç¨ç«‹æ›¸åº—çš„åˆ†ä½ˆ
+## ¤j¦w°Ï(lon = 121.542709, lat = 25.026158)
+### ¤j¦w°Ï»P¤¤¥¿°Ï¾Fªñ¡A¦³¤@¨Ç¿W¥ß®Ñ©±ªº¤À§G
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -124,16 +123,15 @@ ggmap(map_5) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-
-## è‡ºä¸­å¸‚(lon = 120.673648, lat =24.147736)
-### å¾è³‡æ–™ä¸­ï¼Œè‡ºä¸­å¸‚æ˜¯ç¨ç«‹æ›¸åº—æ¬¡å¤šçš„åœ°å€ï¼Œé€éä¸‹åœ–å‘ˆç¾åˆ†ä½ˆ
+## »O¤¤¥«(lon = 120.673648, lat =24.147736)
+### ±q¸ê®Æ¤¤¡A»O¤¤¥«¬O¿W¥ß®Ñ©±¦¸¦hªº¦a°Ï¡A³z¹L¤U¹Ï§e²{¤À§G?
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -143,11 +141,11 @@ ggmap(map_6) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-# çµè«–
-## è‡ºç£ç¨ç«‹æ›¸åº—ä¸»è¦åˆ†ä½ˆåœ¨åŒ—éƒ¨åœ°å€ï¼Œå°¤å…¶ä»¥è‡ºåŒ—å¸‚ä¸­æ­£å€ç‚ºå¤š
+# µ²½×
+## »OÆW¿W¥ß®Ñ©±¥D­n¤À§G¦b¥_³¡¦a°Ï¡A¤×¨ä¥H»O¥_¥«¤¤¥¿°Ï¬°¦h
 
-------
-<img src="http://decomyplace.com/img/blog/170219_book_3.jpg" style="display:block; margin:auto; width:55%;">
+¸ê®Æ¨Ó·½:¬F©²¸ê®Æ¶}©ñ¥­¥xhttps://data.gov.tw/dataset/6224
 
 
-è³‡æ–™ä¾†æº:æ”¿åºœè³‡æ–™é–‹æ”¾å¹³å°https://data.gov.tw/dataset/6224
+
+
