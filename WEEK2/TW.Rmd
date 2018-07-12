@@ -1,0 +1,28 @@
+---
+title: "TW"
+output: html_document
+---
+# Taiwan_map
+# Practice using ggmap
+
+## Taiwan map
+```{R}
+library(ggmap)
+library(mapproj)
+map_1 <- get_map(location = c(lon = 120.233937, lat = 22.993013), zoom = 5)
+ggmap(map_1)
+```
+
+## Taiwan roadmap 1
+```{R}
+map_2 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
+  zoom = 18, language = "zh-TW", maptype = "roadmap")
+ggmap(map_2)
+```
+
+## Taiwan roadmap 2
+```{R}
+map_3 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
+  zoom = 18, language = "zh-TW", maptype = "satellite")
+ggmap(map_3)
+```
