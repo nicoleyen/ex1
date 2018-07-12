@@ -59,8 +59,10 @@
 
 * 認識資料的型態，觀察資料，學習用ggplot2作圖
 * 學習使用ggmap，ggplot2 + 地圖套件
-*[HW2_ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
-*[ggplot2_ggmap](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html)
+
+	*[HW2_ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
+
+	*[ggplot2_ggmap](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html)
 
 * 文字探勘---do text mining through R and make 文字雲
 	* [text-mining_ptt歐美版](https://nicoleyen.github.io/ex1/WEEK2/ppt_search.html)
