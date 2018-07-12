@@ -1,0 +1,95 @@
+---
+title: "data_visualization_park"
+output: html_document
+---
+##臺北房市交易房屋之車位價格與面積 
+#### 資料park
+```{r}
+library(readxl)
+dataset <- read_excel("park.xlsx")
+data.frame("park")
+```
+
+```{}
+# A tibble: 68 x 4
+   number              type       price  area
+   <chr>               <chr>      <dbl> <dbl>
+ 1 RPUNMLPLNHNFFAA18CA 坡道平面       0 NA   
+ 2 RPPOMLNLNHNFFAA57CA 坡道平面       0 36.7 
+ 3 RPUNMLQLNHNFFAA28CA 坡道平面       0 NA   
+ 4 RPTOMLMKOHNFFAA87CA 升降機械       0 19.9 
+ 5 RPQOMLLLNHNFFAA47CA 升降機械 1400000 27.9 
+ 6 RPTNMLLMNHNFFAA77CA 坡道平面       0 38.6 
+ 7 RPUNMLTKOHNFFAA58CA 坡道平面       0 41.6 
+ 8 RPTNMLPLNHNFFBA18CA 塔式車位       0  1.47
+ 9 RPPNMLNKOHNFFBA57CA 坡道平面 4000000 61.0 
+10 RPPNMLNKOHNFFBA57CA 其他     2000000 30.2 
+# ... with 58 more rows
+```
+
+#### str(park)
+```{}
+Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	68 obs. of  4 variables:
+ $ number: chr  "RPUNMLPLNHNFFAA18CA" "RPPOMLNLNHNFFAA57CA" "RPUNMLQLNHNFFAA28CA" "RPTOMLMKOHNFFAA87CA" ...
+ $ type  : chr  "坡道平面" "坡道平面" "坡道平面" "升降機械" ...
+ $ price : num  0 0 0 0 1400000 0 0 0 4000000 2000000 ...
+ $ area  : num  NA 36.7 NA 19.9 27.9 ...
+```
+
+# 單變數：類別型
+## 車位類型屬於類別變項，可由長條圖呈現，坡道平面的車位最多
+```{r}
+library(ggplot2)
+data.frame("park")
+ggplot(data= park, aes(x = type)) +
+  geom_bar(fill = "orange", colour = "black")
+```
+
+# 單變數：連續型
+## 車位的價錢和面積屬於連續變項
+### (1) 車位面積(每平方公尺)，車位面積範圍多落在約15~45平方公尺
+```{}
+library(ggplot2)
+ggplot(data = park, aes(x = area)) + geom_histogram(fill = "skyblue")
+```
+### (2) 車位總價(元)，價格多以0元居多，可能是因保含在房屋總價而未登錄
+```{}
+library(ggplot2)
+ggplot(data = park, aes(x = price)) + geom_histogram(fill = "pink")
+```
+
+# 雙變數：連續 vs 連續
+## 車位面積與價格之關係圖
+```{}
+library(ggplot2)
+ggplot(data = park, aes(x = area, y = price)) + geom_point()
+```
+
+# 雙變數：離散 vs 連續
+## 可以用box plot呈現車位類型和面積之關係
+塔式車位面積最小，升降和坡道機械平均面積約20，坡道平面面積最大，其平均35平方公尺。
+在坡道車位中，僅3筆資料為界外值。
+```{}
+library(ggplot2)
+ggplot(park, aes(x= type, y= area)) + geom_boxplot()
+```
+
+#### 折線圖
+因數據資料的意涵較不適合用此種方式呈現
+```{}
+library(ggplot2)
+ggplot(aes(x = area,y = price),data=park)+
+  geom_line(aes(color=type))
+```
+
+
+
+# Faceting
+依照不同車位編號劃分
+```{}
+library(ggplot2)
+ggplot(park, aes(x = area, y = price, color = type)) + geom_point() + facet_wrap(~ number)
+```
+
+ 
+ 
