@@ -4,28 +4,6 @@ output: html_document
 ---
 # Practice using ggplot and ggmap
 
-# 臺灣地圖    
-```{R}
-library(ggmap)
-library(mapproj)
-map_1 <- get_map(location = c(lon = 120.233937, lat = 22.993013), zoom = 5)
-ggmap(map_1)
-```
-
-# 臺灣道路地圖_臺北101
-```{R}
-map_2 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
-  zoom = 18, language = "zh-TW", maptype = "roadmap")
-ggmap(map_2)
-```
-
-# 臺灣衛星地圖_臺北101
-```{R}
-map_3 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
-  zoom = 18, language = "zh-TW", maptype = "satellite")
-ggmap(map_3)
-```
-
 # 臺灣獨立書店 ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}
 ## 獨立書店分布圖
 ```{r}
