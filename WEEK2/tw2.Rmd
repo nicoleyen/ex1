@@ -1,0 +1,46 @@
+---
+title: "hw2"
+output: html_document
+---
+# 臺灣獨立書店 
+## 獨立書店分布圖
+```{r warning=FALSE}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_4 <- get_map(location = c(lon = 120.5, lat = 23.625), zoom = 8)
+ggmap(map_4) + geom_point(aes(x = lon, y = lat), data = bs)
+
+```
+
+## 獨立書店分布圖，點大小呈現點閱數多寡
+#### 點越大，即點閱的次數越多
+```{r warning=FALSE}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_4 <- get_map(location = c(lon = 120.5, lat = 23.625), zoom = 8)
+ggmap(map_4) + geom_point(aes(x = lon, y = lat, size = "點閱數"), data = bs)
+
+```
+
+## 獨立書店分布圖與點閱數之關聯
+#### 淡化地圖，能更清楚呈現資料
+```{r warning=FALSE}
+ggmap(map_4, darken = c(0.5, "white")) +
+  geom_point(aes(x = lon, y = lat, size = "點閱數"), data = bs)
+```
