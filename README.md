@@ -69,8 +69,7 @@
 * [ggmap](https://nicoleyen.github.io/ex1/WEEK2/TW.html)
 * [HW2_Data Visualization2](https://nicoleyen.github.io/ex1/WEEK2_HOME/Data_Visualization_new.html)
 
-* [1234](https://nicoleyen.github.io/ex1/WEEK2/tw2.html)
-
+* [1234](https://nicoleyen.github.io/ex1/WEEK2_HOME/untitled.html)
 
 
 
