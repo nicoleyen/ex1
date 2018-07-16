@@ -60,16 +60,19 @@
 * 認識資料的型態，觀察資料，學習用ggplot2作圖
 * 學習使用ggmap，ggplot2 + 地圖套件
 * [HW2_ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
-* [plot map](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html)
+
 
 * 文字探勘---do text mining through R and make 文字雲
 * [text-mining_ptt歐美版](https://nicoleyen.github.io/ex1/WEEK2/ppt_search.html)
 
 ## At Home
-* [ggmap](https://nicoleyen.github.io/ex1/WEEK2/TW.html)
-* [Data Visualization2](https://nicoleyen.github.io/ex1/WEEK2_HOME/Data_Visualization_new.html)
+* Exploratory data analysis​
+	- Explore categorical data & numerical data, Numerical summaries, Case Study
 
-* [122](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html)
+---
+# WEEK3 progress
+## In Class
 
+## At Home
 
 
