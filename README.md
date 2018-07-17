@@ -68,7 +68,7 @@
 ## At Home
 * Exploratory data analysis​
 	- Explore categorical data & numerical data, Numerical summaries, Case Study
-
+* [練習1](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html),[練習2](https://nicoleyen.github.io/ex1/WEEK2_HOME/twpark.html),[練習3](https://nicoleyen.github.io/ex1/WEEK2_HOME/Data_Visualization_new.html)
 ---
 # WEEK3 progress
 ## In Class
