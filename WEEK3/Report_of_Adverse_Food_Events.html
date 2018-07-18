@@ -252,6 +252,7 @@ ggplot(aes(x = IndustryName,y = Count)) +
 <h2><font color="blue">* Result: Compare the above two plots, it shows that “Vitamin Supplements” is the most common product cause adverse food events. Besides, other types of supplements and some cosmetics are the reason too.<front></h2>
 <div class="section level3">
 <h3><font color="black">(3) 各年齡層的事件發生率 <front></h3>
+<p>Through the “if,else if” function, we can sort the data . As for “mutate()” function, it can add a new column to replace the ole one (age). Then seperate the age as 10,20,30…..Last, make the plot.</p>
 <pre class="r"><code>TransformIntoYears = function(ds)
 {if(!is.na(ds[&quot;AgeAtAdverseEvent&quot;]))
   { x = as.numeric(ds[&quot;AgeAtAdverseEvent&quot;])
