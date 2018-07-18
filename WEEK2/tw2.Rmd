@@ -44,3 +44,5 @@ ggmap(map_4) + geom_point(aes(x = lon, y = lat, size = "點閱數"), data = b
 ggmap(map_4, darken = c(0.5, "white")) +
   geom_point(aes(x = lon, y = lat, size = "點閱數"), data = bs)
 ```
+
+## 結論:北部有較多的獨立書店分佈

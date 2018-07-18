@@ -69,7 +69,6 @@
 * Exploratory data analysis​
 	- Explore categorical data & numerical data, Numerical summaries, Case Study
 * [HW2_ggplot2 + 地圖套件_臺灣獨立書店分佈](https://nicoleyen.github.io/ex1/WEEK2/tw2.html)
-* [HW2_ggplot2 + 地圖套件_臺灣房市車位資訊](https://nicoleyen.github.io/ex1/WEEK2_HOME/twpark.html)
 ---
 # WEEK3 progress
 ## In Class
