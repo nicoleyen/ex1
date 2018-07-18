@@ -138,6 +138,8 @@ wss <- c()
 for (i in 1:10) { wss[i] <- kmeans(ind.coord2, i)$tot.withinss }
 plot(wss, type = "b")
 ```
+#### 根據凱莎原則，特徵值大於1的主成份就可以選取；且第三個以後的主成份變異趨於平緩，因此選擇前三個主成份是較好的選擇。
+
 
 ##　Clustering
 ```{r}
@@ -145,3 +147,4 @@ km <- kmeans(ind.coord2, 3)
 plot(ind.coord2, col = km$cluster)
 points(km$centers, col = 1:50, pch = 8, cex = 2)
 ```
+
