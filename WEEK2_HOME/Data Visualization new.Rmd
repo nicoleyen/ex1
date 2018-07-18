@@ -51,7 +51,7 @@ s2 <- sleep[11:20, 1:3]
 ggplot(s2, aes(x = ID , y = extra)) + geom_col(fill = "indianred", color = "black")
 ```
 
-## box plot --- ÂùÅÜ¼Æ¡GÂ÷´² vs ³sÄò
+## box plot 
 ### mean of extra sleep time in group1 is around 0.3hr while in group 2 is almost 2 hr
 ```{r}
 library(ggplot2)
@@ -59,8 +59,6 @@ ggplot(sleep, aes(x = group, y = extra)) + geom_boxplot()
 ```
 
 ## scatter 
-### ¨âºØsoporific drugs ©MºÎ¯v®É¶¡¼W¥[ªºÃö«Y
-
 ```{r}
 ggplot(sleep, aes(x = ID , y = extra, color = group)) + geom_point()
 ```
@@ -70,17 +68,13 @@ library(ggplot2)
 ggplot(sleep, aes(x = group , y = extra, color = ID)) + geom_point()
 ```
 
-## histograms --- ³æÅÜ¼Æ¡G³sÄò«¬
-### ¤ñ¸û¥XºÎ¯v®É¶¡¼W¥[ªº¤À§G“å
+## histograms
 ```{r}
 qplot(extra, data = sleep, fill = group)
 ```
 
 ```{r}
 ggplot(sleep, aes(x = extra)) + geom_histogram()
-```
-```
-stat_bin()` using `bins = 30`. Pick better value with `binwidth`
 ```
 
 ```{r}
