@@ -11,7 +11,7 @@ map_1 <- get_map(location = 'Swiss', zoom = 7, language = "zh-TW")
 ggmap(map_1)
 ```
 
-### swiss map
+### Swiss, Bern map (location:lon = 7.44744, lat = 46.94809)
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -21,7 +21,7 @@ ggmap(map)
 ```
 
 
-###  swiss road map
+###  swiss Bern road map (1)
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -30,7 +30,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### swiss road map
+#### swiss,Bern road map (2)
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -39,7 +39,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### swiss satellite
+#### swiss,Bern satellite map
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -48,7 +48,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### swiss hybrid
+#### swiss,Bern hybrid map
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -57,7 +57,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### bern
+#### Bern
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -66,14 +66,14 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### lighten
+#### lighten MAP
 ```{r}
 map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
   zoom = 20, language = "zh-TW")
 ggmap(map, darken = c(0.5, "white"))
 ```
 
-#### darken
+#### darken MAP
 ```{r}
 map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
   zoom = 10, language = "zh-TW")

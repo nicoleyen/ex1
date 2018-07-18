@@ -56,7 +56,7 @@
 	- (1) to find the information & pattern behind the data 
 	- (2) data is the new soil
 * practice using the data from R dataset
-* [HW2_Data Visualization](https://nicoleyen.github.io/ex1/WEEK2/Data_Visualization.html)
+* [HW2_Data Visualization](https://nicoleyen.github.io/ex1/WEEK2_HOME/Data_Visualization_new.html)
 * 認識資料的型態，觀察資料，學習用ggplot2作圖
 * 學習使用ggmap，ggplot2 + 地圖套件
 * [HW2_ggmap_Swiss](https://nicoleyen.github.io/ex1/WEEK2/try.html)
@@ -68,7 +68,8 @@
 ## At Home
 * Exploratory data analysis​
 	- Explore categorical data & numerical data, Numerical summaries, Case Study
-* [練習1](https://nicoleyen.github.io/ex1/WEEK2/twbookstore.html),[練習2](https://nicoleyen.github.io/ex1/WEEK2_HOME/twpark.html),[練習3](https://nicoleyen.github.io/ex1/WEEK2_HOME/Data_Visualization_new.html)
+* [HW2_ggplot2 + 地圖套件_臺灣獨立書店分佈](https://nicoleyen.github.io/ex1/WEEK2/tw2.html)
+* [HW2_ggplot2 + 地圖套件_臺灣房市車位資訊](https://nicoleyen.github.io/ex1/WEEK2_HOME/twpark.html)
 ---
 # WEEK3 progress
 ## In Class
