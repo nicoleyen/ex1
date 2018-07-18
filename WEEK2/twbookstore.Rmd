@@ -4,15 +4,15 @@ output: html_document
 ---
 # Practice using ggplot and ggmap
 
-# »OÆW¿W¥ß®Ñ©± ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}
-## ¿W¥ß®Ñ©±¤À¥¬¹Ï
+# bookstore[](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}
+
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -22,40 +22,37 @@ ggmap(map_4) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## ¿W¥ß®Ñ©±¤À¥¬¹Ï¡AÂI¤j¤p§e²{ÂI¾\¼Æ¦h¹è
-#### ÂI¶V¤j¡A§YÂI¾\ªº¦¸¼Æ¶V¦h
+
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
 library(ggmap)
 map_4 <- get_map(location = c(lon = 120.5, lat = 23.625), zoom = 8)
-ggmap(map_4) + geom_point(aes(x = lon, y = lat, size = "ÂI¾\¼Æ•¸"), data = bs)
+ggmap(map_4) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## ¿W¥ß®Ñ©±¤À¥¬¹Ï»PÂI¾\¼Æ¤§ÃöÁp
-#### ²H¤Æ¦a¹Ï¡A¯à§ó²M·¡§e²{¸ê®Æ
+
 ```{r}
 ggmap(map_4, darken = c(0.5, "white")) +
-  geom_point(aes(x = lon, y = lat, size = "ÂI¾\¼Æ•¸"), data = bs)
+  geom_point(aes(x = lon, y = lat), data = bs)
 ```
 
-## «H¸q°Ï(¦ì¸mlon = 121.576957, lat = 25.028702)
-### ¥Ñ¤U¹Ï¥i¨£¡A«H¸q°Ïªþªñ¨S¦³¿W¥ß®Ñ©±
+
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -65,15 +62,14 @@ ggmap(map_5) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## ¤¤¥¿°Ï(lon = 121.519872, lat =25.042141)
-### ¸ê®ÆÅã¥Ü¤¤¥¿°Ï¦³³\¦h¿W¥ß®Ñ©±¤À¥¬¡A¥B»P«H¸q°Ï¤ñ¸û¡A¤¤¥¿°Ï¤]©úÅã°ª¥X«Ü¦h
+
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -83,15 +79,14 @@ ggmap(map_6) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## ¤j¦w°Ï(lon = 121.542709, lat = 25.026158)
-### ¤j¦w°Ï»P¤¤¥¿°Ï¾Fªñ¡A¦³¤@¨Ç¿W¥ß®Ñ©±ªº¤À§G
+
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -101,15 +96,13 @@ ggmap(map_5) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-## »O¤¤¥«(lon = 120.673648, lat =24.147736)
-### ±q¸ê®Æ¤¤¡A»O¤¤¥«¬O¿W¥ß®Ñ©±¦¸¦hªº¦a°Ï¡A³z¹L¤U¹Ï§e²{¤À§G?
 ```{r}
 library(readr)
 
 bs <- read_csv("book.csv")
 
-lon.deg <- sapply((strsplit(as.character(bs$"¸g«×"), ",")), as.numeric)
-lat.deg <- sapply((strsplit(as.character(bs$"½n«×"), ",")), as.numeric)
+lon.deg <- sapply((strsplit(as.character(bs$"ç¶“åº¦"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"ç·¯åº¦"), ",")), as.numeric)
 bs$lat <- lat.deg
 bs$lon <- lon.deg
 
@@ -119,10 +112,7 @@ ggmap(map_6) + geom_point(aes(x = lon, y = lat), data = bs)
 
 ```
 
-# µ²½×
-## »OÆW¿W¥ß®Ñ©±¥D­n¤À§G¦b¥_³¡¦a°Ï¡A¤×¨ä¥H»O¥_¥«¤¤¥¿°Ï¬°¦h
 
-¸ê®Æ¨Ó·½:¬F©²¸ê®Æ¶}©ñ¥­¥xhttps://data.gov.tw/dataset/6224
 
 
 
