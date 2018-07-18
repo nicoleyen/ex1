@@ -72,6 +72,7 @@
 ---
 # WEEK3 progress
 ## In Class
+* Use "Kaggle" to obtain the dataset, read kaggle script and make the report through R markdown
 * [HW3_EDTA](https://nicoleyen.github.io/ex1/WEEK3/Report_of_Adverse_Food_Events.html)
 ## At Home
 

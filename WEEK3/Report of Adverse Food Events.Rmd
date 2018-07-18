@@ -6,7 +6,7 @@ output: html_document
 source:https://www.kaggle.com/ambarish/detailed-eda-adverse-foodevents-w-advice/data
 
 ## Sort Data 
-(1)To read data
+### (1)To read data
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(stringr)
@@ -21,7 +21,7 @@ fillColor2 = "#F1C40F"
 
 AdverseFoodEvents = read_csv("CAERS_ASCII_2004_2017Q2.csv")
 ```
-(2)rename data
+###　(2)rename data
 ```{r}
 AdverseFoodEvents = AdverseFoodEvents %>%
   rename(ReportNo = `RA_Report #`) %>%
@@ -90,7 +90,7 @@ AdverseFoodEvents %>%
   mutate(ProductName = reorder(ProductName,Count)) %>%
   head(10) %>%
 ggplot(aes(x = ProductName,y = Count)) +
-  geom_bar(stat='identity',colour="white", fill = fillColor2) +
+  geom_bar(stat='identity',colour="white", fill = fillColor) +
   geom_text(aes(x = ProductName, y = 1, label = paste0("(",Count,")",sep="")),
             hjust=0, vjust=.5, size = 4, colour = 'black',
             fontface = 'bold') +
@@ -120,7 +120,7 @@ ggplot(aes(x = IndustryName,y = Count)) +
   theme_bw()
 ```
 
-## <font color="blue">* Result: Compare the above two plots, it shows that "Vitamin Supplements" is the most common product cause adverse food events. Besides, other types of supplements and some cosmetics are the reason too.<front>
+## <font color="blue">* Result: Compare the above two plots, it shows that "Vitamin Supplements" is the most common product causes adverse food events. Besides, other types of supplements and some cosmetics are the reason too.<front>
 
 ### <font color="black">(3) 各年齡層的事件發生率 <front>
 Through the "if,else if" function, we can sort the data . As for "mutate()" function, it can add a new column  to replace the ole one (age). Then seperate the age as 10,20,30.....Last, make the plot.
@@ -169,6 +169,39 @@ AdverseFoodEvents %>%
 
 ## <font color="blue">* Result: It seems that the elderly(around 60 to 85) are more likely to occur adverse food events *.<front>
 
+### <font color="black">(4) 性別間的事件發生率 <front>
+```{r}
+AdverseFoodEvents %>%
+  group_by(Gender) %>%
+  filter(!is.na(Gender)) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  ungroup() %>%
+  mutate(Gender = reorder(Gender,Count)) %>%
+  head(10) %>%
+  
+  ggplot(aes(x = Gender,y = Count)) +
+  geom_bar(stat='identity',colour="white", fill = "plum") +
+  geom_text(aes(x = Gender, y = 1, label = paste0("(",Count,")",sep="")),
+            hjust=0, vjust=.5, size = 4, colour = 'black',
+            fontface = 'bold') +
+  labs(x = 'Gender', 
+       y = 'Count', 
+       title = 'Gender and Count') +
+  coord_flip() + 
+  theme_bw()
+```
+
+## <font color="blue">* Result: Females report Adverse Events more than Males.<front>
 
 
+# <font color="black">Conclusion:<front>
+###<font color="blue">Most Likely to occur adverse food events<front>
+####(1) The elderly 
+####(2) Female
+####(3) Use of vitamin supplement
+###The Common symptoms are:
+####1.Diahorrea
+####2.Vomiting
+####3.Nausea
 
