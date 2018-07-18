@@ -1,0 +1,123 @@
+---
+title: "Report of Adverse Food Events"
+output: html_document
+---
+# Adverse Food Event 食物不良反應事件
+source:https://www.kaggle.com/ambarish/detailed-eda-adverse-foodevents-w-advice/data
+
+## Sort Data 
+(1)To read data
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(DT)
+
+
+rm(list=ls())
+
+fillColor = "#FFA07A"
+fillColor2 = "#F1C40F"
+
+AdverseFoodEvents = read_csv("CAERS_ASCII_2004_2017Q2.csv")
+```
+(2)rename data
+```{r}
+AdverseFoodEvents = AdverseFoodEvents %>%
+  rename(ReportNo = `RA_Report #`) %>%
+  rename(CreatedDate = `RA_CAERS Created Date`) %>%
+  rename(StartDate = `AEC_Event Start Date`) %>%
+  rename(ProductRole = `PRI_Product Role`) %>%
+  rename(ProductName = `PRI_Reported Brand/Product Name`) %>%
+  rename(IndustryName = `PRI_FDA Industry Name`) %>%
+  rename(AgeUnit = `CI_Age Unit`) %>%
+  rename(AgeAtAdverseEvent = `CI_Age at Adverse Event`) %>%
+  rename(Gender = `CI_Gender`) %>%
+  rename(Outcomes = `AEC_One Row Outcomes`) %>%
+  rename(Symptoms = `SYM_One Row Coded Symptoms`)
+
+colnames(AdverseFoodEvents)
+```
+
+## Analyze
+### (1) 10 Most Common Symptoms
+For each report, there might be several symptoms recorded, so we need to use the "split()" function to remove "," . Then, find out the top ten symptoms and make a bar plot.
+```{r}
+BarPlotSymptoms = function(AdverseFoodEvents)
+{
+  Symptoms = str_split(AdverseFoodEvents$Symptoms,',') 
+
+AllSymptoms <- data.frame(matrix(unlist(Symptoms),byrow=T),stringsAsFactors=FALSE)
+
+colnames(AllSymptoms) = c("SymptomName")
+
+#trimws returns a character string with leading and/or trailing whitespaces removed.
+AllSymptoms$SymptomName = trimws(AllSymptoms$SymptomName)
+
+AllSymptoms %>%
+  group_by(SymptomName) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  ungroup() %>%
+  mutate(SymptomName = reorder(SymptomName,Count)) %>%
+  head(10) %>%
+  
+  ggplot(aes(x = SymptomName,y = Count)) +
+  geom_bar(stat='identity',colour="white", fill = "skyblue") +
+  geom_text(aes(x = SymptomName, y = 1, label = paste0("(",Count,")",sep="")),
+            hjust=0, vjust=.5, size = 4, colour = 'black',
+            fontface = 'bold') +
+  labs(x = 'Symptom', 
+       y = 'Count', 
+       title = 'Symptom and Count') +
+  coord_flip() + 
+  theme_bw()
+}
+
+BarPlotSymptoms(AdverseFoodEvents)
+```
+
+## <font color="blue">* Result: Among adverse food events, the most common symptom is "Diarrhoea" <font>
+
+### <font color="black">(2) 10 Most Common Product Name & Industry Name<font>
+```{r}
+par(mfrow = c(2,1)) 
+AdverseFoodEvents %>%
+  group_by(ProductName) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  ungroup() %>%
+  mutate(ProductName = reorder(ProductName,Count)) %>%
+  head(10) %>%
+ggplot(aes(x = ProductName,y = Count)) +
+  geom_bar(stat='identity',colour="white", fill = fillColor2) +
+  geom_text(aes(x = ProductName, y = 1, label = paste0("(",Count,")",sep="")),
+            hjust=0, vjust=.5, size = 4, colour = 'black',
+            fontface = 'bold') +
+  labs(x = 'Product', 
+       y = 'Count', 
+       title = 'Product and Count') +
+  coord_flip() + 
+  theme_bw()
+```
+```{r}
+AdverseFoodEvents %>%
+  group_by(IndustryName) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  ungroup() %>%
+  mutate(IndustryName = reorder(IndustryName,Count)) %>%
+  head(10) %>%
+ggplot(aes(x = IndustryName,y = Count)) +
+  geom_bar(stat='identity',colour="white", fill = "orange") +
+  geom_text(aes(x = IndustryName, y = 1, label = paste0("(",Count,")",sep="")),
+            hjust=0, vjust=.5, size = 4, colour = 'black',
+            fontface = 'bold') +
+  labs(x = 'Industry', 
+       y = 'Count', 
+       title = 'Industry and Count') +
+  coord_flip() + 
+  theme_bw()
+```
+
+## <font color="blue">* Result: Compare the above two plots, it shows that "Vitamin Supplements" is the most common product cause adverse food events. Besides, other types of supplements and some cosmetics are the reason too.<front>
