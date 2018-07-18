@@ -121,3 +121,49 @@ ggplot(aes(x = IndustryName,y = Count)) +
 ```
 
 ## <font color="blue">* Result: Compare the above two plots, it shows that "Vitamin Supplements" is the most common product cause adverse food events. Besides, other types of supplements and some cosmetics are the reason too.<front>
+
+### <font color="black">(3) 各年齡層的事件發生率 <front>
+```{r}
+TransformIntoYears = function(ds)
+{if(!is.na(ds["AgeAtAdverseEvent"]))
+  { x = as.numeric(ds["AgeAtAdverseEvent"])
+    ds["AgeAtAdverseEvent"] = as.numeric(ds["AgeAtAdverseEvent"])
+    if(ds["AgeUnit"] == "Month(s)")
+    {ds["AgeAtAdverseEventInYears"] = x/12}
+    else if (ds["AgeUnit"] == "Weeks(s)")
+    {ds["AgeAtAdverseEventInYears"] = x*7/365}
+    else if (ds["AgeUnit"] == "Day(s)")
+    {ds["AgeAtAdverseEventInYears"] = x*1/365}
+    else if (ds["AgeUnit"] == "Decade(s)")
+    {ds["AgeAtAdverseEventInYears"] = x*10}  }
+    return(ds)}
+
+AdverseFoodEvents = AdverseFoodEvents %>%
+  mutate(AgeAtAdverseEventInYears = AgeAtAdverseEvent) 
+
+AdverseFoodEvents$AgeAtAdverseEventInYears = 
+  as.numeric(AdverseFoodEvents$AgeAtAdverseEventInYears)
+
+AdverseFoodEvents = sapply(AdverseFoodEvents,TransformIntoYears)
+
+AdverseFoodEvents = as.data.frame(AdverseFoodEvents)
+breaks = c(10,20,30,40,50,60,70,80,90,100)
+
+AdverseFoodEvents %>%
+  filter(!is.na(AgeAtAdverseEventInYears)) %>%
+  group_by(AgeAtAdverseEventInYears) %>%
+  summarise(Count = n()) %>%
+  ungroup() %>%
+  mutate(AgeAtAdverseEventInYears = as.numeric(AgeAtAdverseEventInYears)) %>%
+  
+  ggplot(aes(x = AgeAtAdverseEventInYears,y = Count)) +
+  geom_bar(stat='identity',colour="white", fill = "darkgreen") +
+  scale_x_continuous(limits = c(0, 100),breaks=breaks ) +
+  labs(x = 'Age in Years', 
+       y = 'Count', 
+       title = 'Age and Count') +
+  
+  theme_bw()
+```
+
+## <font color="blue">* Result: It seems that the elderly(around 60 to 85) are more likely to occur adverse food events *.<front>
