@@ -3,7 +3,7 @@ title: "Swiss Map"
 output: html_document
 ---
 
-### 瑞士 地圖    ![](https://upload.wikimedia.org/wikipedia/commons/f/f2/Civil_Ensign_of_Switzerland.svg){width=10%}
+### swiss ![](https://upload.wikimedia.org/wikipedia/commons/f/f2/Civil_Ensign_of_Switzerland.svg){width=10%}
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -11,7 +11,7 @@ map_1 <- get_map(location = 'Swiss', zoom = 7, language = "zh-TW")
 ggmap(map_1)
 ```
 
-### 瑞士 伯恩位置 經度:7.44744 緯度:46.94809
+### swiss map
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -20,9 +20,8 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-> <font color="blue">只要將maptpe改變即可形成各種不同的地圖類型<font>
 
-###  <font color="black">瑞士 伯恩 道路地圖 (1)<font>
+###  swiss road map
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -31,7 +30,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### 瑞士 伯恩 道路地圖 (2)
+#### swiss road map
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -40,7 +39,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### 瑞士 伯恩 衛星地圖
+#### swiss satellite
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -49,7 +48,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### 瑞士 伯恩 衛星+道路地圖
+#### swiss hybrid
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -58,7 +57,7 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### 瑞士 伯恩 黑白地圖
+#### bern
 ```{r}
 library(ggmap)
 library(mapproj)
@@ -67,14 +66,14 @@ map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
 ggmap(map)
 ```
 
-#### 提亮地圖
+#### lighten
 ```{r}
 map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
   zoom = 20, language = "zh-TW")
 ggmap(map, darken = c(0.5, "white"))
 ```
 
-#### 暗化地圖
+#### darken
 ```{r}
 map <- get_map(location = c(lon = 7.44744, lat = 46.94809),
   zoom = 10, language = "zh-TW")
