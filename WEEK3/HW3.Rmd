@@ -1,0 +1,147 @@
+---
+title: "HW3_TFIDF"
+output: html_document
+---
+#TFIDF
+##Load package
+```{r}
+library(bitops)
+library(httr)
+library(RCurl)
+library(XML)
+library(tm)
+library(NLP)
+library(tmcn)
+library(jiebaRD)
+library(jiebaR)
+library(factoextra)
+library(Matrix)
+```
+##Term-Document Matrix
+```{r}
+docs.corpus <- Corpus(DirSource("./data"))
+docs.seg <- tm_map(docs.corpus, segmentCN)
+docs.tdm <- TermDocumentMatrix(docs.seg)
+```
+
+
+```{r}
+docs.tf <- apply(as.matrix(docs.tdm), 2, function(word) { word/sum(word) })
+idf <- function(doc) {
+  return ( log2( length(doc)+1 / nnzero(doc)) )
+}
+docs.idf <- apply(as.matrix(docs.tdm), 1, idf)
+docs.tfidf <- docs.tf * docs.idf
+```
+
+## 觀看資料
+```{r}
+inspect(docs.tdm)
+```
+
+##TFIDF Counting
+###每個詞的 term frequency
+```{r}
+docs.tf <- apply(as.matrix(docs.tdm), 2, function(doc) {doc / sum(doc)})
+idf.function <- function(word_doc) { log2( (length(word_doc)+1) / nnzero(word_doc) ) }
+docs.idf <- apply(docs.tdm, 1, idf.function)
+docs.tfidf <- docs.tf * docs.idf
+head(docs.tfidf)
+```
+
+###Query of Words
+定義查詢函數
+查詢 “pig”, “human”, “snowball”, "fight","leader","napoleon六個詞在各篇文章的 tfidf 值
+```{r}
+query.tfidf <- function(q){
+  q.position <- which(rownames(docs.tfidf) %in% q)
+  q.tfidf <- docs.tfidf[q.position, ]
+  return (q.tfidf)
+}
+query.tfidf(c("pig", "human", "snowball","fight", "leader", "napoleon"))
+```
+
+##Cosine Similiarity
+###定義「計算 x, y 兩向量 cosine 值」函數
+```{r}
+cos <- function(x, y){
+  return (x %*% y / sqrt(x %*% x * y %*% y))[1, 1]
+}
+```
+###計算 “各篇文章的 tfidf 向量” 與 “第一篇文章 tfidf 向量” 的 cosine 值
+```{r}
+# compare with first doc
+docs.cos.sim <- apply(docs.tfidf, 2, cos, y = docs.tfidf[, 1])
+docs.cos.sim
+```
+
+###計算 “各篇文章的 tfidf 向量” 與 “第八篇文章 tfidf 向量” 的 cosine 值
+```{r}
+# compare with first doc
+docs.cos.sim <- apply(docs.tfidf, 2, cos, y = docs.tfidf[, 8])
+docs.cos.sim
+```
+
+###計算 “各篇文章的 tfidf 向量” 與 “最後一篇文章 tfidf 向量” 的 cosine 值
+```{r}
+# compare with first doc
+docs.cos.sim <- apply(docs.tfidf, 2, cos, y = docs.tfidf[, 10])
+docs.cos.sim
+```
+
+###Wordcloud
+畫出文字雲
+```{r warning=FALSE}
+library(wordcloud)
+f <- sort(rowSums(docs.tfidf), decreasing = T)
+docs.df <- data.frame(
+  word = names(f),
+  freq = f
+)
+wordcloud(docs.df$word, docs.df$freq, scale=c(20,0.1),min.freq=190,max.words=45, colors=brewer.pal(8, "Dark2"))
+```
+
+##PCA
+```{r}
+docs.pca <- prcomp(docs.tfidf, scale = T)
+```
+
+## PCA 作圖
+```{r}
+fviz_eig(docs.pca)
+```
+
+```{r}
+fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
+```
+
+```{r}
+fviz_pca_var(docs.pca, col.var = "contrib")
+```
+
+```{r}
+fviz_pca_biplot(docs.pca, geom.ind = "point")
+```
+
+## PCA results
+```{r}
+docs.eig <- get_eig(docs.pca)
+docs.var <- get_pca_var(docs.pca)
+docs.ind <- get_pca_ind(docs.pca)
+```
+
+# K-means
+##　Choosing K
+```{r}
+ind.coord2 <- docs.ind$coord[, 1:2]
+wss <- c()
+for (i in 1:10) { wss[i] <- kmeans(ind.coord2, i)$tot.withinss }
+plot(wss, type = "b")
+```
+
+##　Clustering
+```{r}
+km <- kmeans(ind.coord2, 3)
+plot(ind.coord2, col = km$cluster)
+points(km$centers, col = 1:50, pch = 8, cex = 2)
+```
