@@ -132,11 +132,11 @@ $(document).ready(function () {
 <h2>Sort Data</h2>
 <div id="to-read-data" class="section level3">
 <h3>(1)To read data</h3>
+<p>先用library下載所需套件，而資料的讀取可用“read_csv()”之功能</p>
 <pre class="r"><code>library(tidyverse)
 library(stringr)
 library(lubridate)
 library(DT)
-
 
 rm(list=ls())
 
@@ -147,6 +147,7 @@ AdverseFoodEvents = read_csv(&quot;CAERS_ASCII_2004_2017Q2.csv&quot;)</code></pr
 </div>
 <div id="rename-data" class="section level3">
 <h3>　(2)rename data</h3>
+<p>用rename()將原先資料的各行名，簡化重新命名</p>
 <pre class="r"><code>AdverseFoodEvents = AdverseFoodEvents %&gt;%
   rename(ReportNo = `RA_Report #`) %&gt;%
   rename(CreatedDate = `RA_CAERS Created Date`) %&gt;%

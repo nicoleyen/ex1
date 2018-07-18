@@ -7,12 +7,12 @@ source:https://www.kaggle.com/ambarish/detailed-eda-adverse-foodevents-w-advice/
 
 ## Sort Data 
 ### (1)To read data
+先用library下載所需套件，而資料的讀取可用"read_csv()"之功能
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(stringr)
 library(lubridate)
 library(DT)
-
 
 rm(list=ls())
 
@@ -22,6 +22,7 @@ fillColor2 = "#F1C40F"
 AdverseFoodEvents = read_csv("CAERS_ASCII_2004_2017Q2.csv")
 ```
 ###　(2)rename data
+用rename()將原先資料的各行名，簡化重新命名
 ```{r}
 AdverseFoodEvents = AdverseFoodEvents %>%
   rename(ReportNo = `RA_Report #`) %>%
