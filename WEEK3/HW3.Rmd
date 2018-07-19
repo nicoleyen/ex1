@@ -108,7 +108,12 @@ docs.df <- data.frame(
 wordcloud(docs.df$word, docs.df$freq, scale=c(20,0.1),min.freq=190,max.words=45, colors=brewer.pal(8, "Dark2"))
 ```
 
-#PCA (Principal components analysis, 主成份分析)
+><font color="purple">據文字雲的結果:<font>
+>
+>出現頻率高的是windmill,其為故事場所發生的重要地標，而snowball和napoleon為故事的重要主角。
+
+
+#<font color="black">PCA (Principal components analysis, 主成份分析)<font>
 ```{r}
 docs.pca <- prcomp(docs.tfidf, scale = T)
 ```
@@ -117,7 +122,7 @@ docs.pca <- prcomp(docs.tfidf, scale = T)
 ```{r}
 fviz_eig(docs.pca)
 ```
-><font color="purple">看各章節之間的相關性，除了第一章，後面章節內容相關性高。<font>
+
 ```{r}
 fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
 ```
@@ -130,7 +135,7 @@ fviz_pca_var(docs.pca, col.var = "contrib")
 fviz_pca_biplot(docs.pca, geom.ind = "point")
 ```
 
-## ><font color="black">PCA results<font>
+## <font color="black">PCA results<font>
 ```{r}
 docs.eig <- get_eig(docs.pca)
 docs.var <- get_pca_var(docs.pca)
@@ -146,6 +151,7 @@ wss <- c()
 for (i in 1:10) { wss[i] <- kmeans(ind.coord2, i)$tot.withinss }
 plot(wss, type = "b")
 ```
+
 #### 根據凱莎原則，特徵值大於1的主成份就可以選取；且第三個以後的主成份變異趨於平緩，因此選擇前三個主成份是較好的選擇。
 
 
@@ -155,5 +161,7 @@ km <- kmeans(ind.coord2, 3)
 plot(ind.coord2, col = km$cluster)
 points(km$centers, col = 1:50, pch = 8, cex = 2)
 ```
+
+---
 
 <img src="http://activistshub.com/wp-content/uploads/2015/01/George-Orwell-animal-farm.jpg" style="display:block; margin:auto; width:50%;">
