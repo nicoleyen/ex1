@@ -75,7 +75,8 @@
 * Use "Kaggle" to obtain the dataset, read kaggle script and make the report through R markdown
 * Text Mining:  TFIDF -> PCA -> K-means
 * [HW3_EDA: Report of Adverse Food Events](https://nicoleyen.github.io/ex1/WEEK3/Report_of_Adverse_Food_Events.html)
-* [HW3_Text Mining](https://nicoleyen.github.io/ex1/WEEK3/HW3.html)
+* [HW3_Text Mining_"Animal Farm"](https://nicoleyen.github.io/ex1/WEEK3/HW3.html)
 ## At Home
+* [HW3_Text Mining_"PTT歐洲旅遊板"](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining.html)
 
 
