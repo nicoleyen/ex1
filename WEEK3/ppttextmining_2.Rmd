@@ -1,0 +1,193 @@
+---
+title: "ptt_TFIDF_PCA_K-means"
+output: html_document
+---
+# PTT 歐洲旅遊板 ![R Studio](https://www.contiki.com/v-ch16fpggmb9c/-/media/au/students/europedark3x8.png?w=200&hash=9F50E4DCCE0EE5865C27119C3A69B7F95F233890){width=18%}
+##Load package
+```{r}
+library(tm)
+library(tmcn)
+library(factoextra)
+library(Matrix)
+```
+
+# TFIDF
+##Term-Document Matrix
+```{r}
+docs.corpus <- Corpus(DirSource("./ptt"))
+docs.seg <- tm_map(docs.corpus, segmentCN)
+docs.tdm <- TermDocumentMatrix(docs.seg)
+```
+
+##TFIDF
+```{r}
+docs.tf <- apply(as.matrix(docs.tdm), 2, function(word) { word/sum(word) })
+idf <- function(doc) {
+  return ( log2( length(doc)+1 / nnzero(doc)) )
+}
+docs.idf <- apply(as.matrix(docs.tdm), 1, idf)
+docs.tfidf <- docs.tf * docs.idf
+```
+
+```{r}
+#整理文本
+toSpace <- content_transformer(function(x, pattern) {
+  return (gsub(pattern, " ", x))
+}
+)
+d.corpus <- Corpus( DirSource("ptt") )
+d.corpus <- tm_map(d.corpus, function(word) {
+  gsub("[A-Za-z0-9]", "", word)})
+d.corpus <- tm_map(d.corpus, removePunctuation)
+d.corpus <- tm_map(d.corpus, removeNumbers)
+d.corpus <- tm_map(d.corpus, stripWhitespace)
+d.corpus <- tm_map(d.corpus, toSpace, "文章")
+d.corpus <- tm_map(d.corpus, toSpace, "看板")
+d.corpus <- tm_map(d.corpus, toSpace, "標題")
+d.corpus <- tm_map(d.corpus, toSpace, "發信站")
+d.corpus <- tm_map(d.corpus, toSpace, "我們")
+d.corpus <- tm_map(d.corpus, toSpace, "可以")
+d.corpus <- tm_map(d.corpus, toSpace, "尼黑")
+d.corpus <- tm_map(d.corpus, toSpace, "[A-Z]")
+d.corpus <- tm_map(d.corpus, toSpace, "[a-z]")
+d.corpus <- tm_map(d.corpus, toSpace, "非")
+d.corpus <- tm_map(d.corpus, toSpace, "實")
+d.corpus <- tm_map(d.corpus, toSpace, "網")
+d.corpus <- tm_map(d.corpus, toSpace, "來自")
+d.corpus <- tm_map(d.corpus, toSpace, "時間")
+d.corpus <- tm_map(d.corpus, toSpace, "踢踢")
+d.corpus <- tm_map(d.corpus, toSpace, "沒有")
+d.corpus <- tm_map(d.corpus, toSpace, "有")
+d.corpus <- tm_map(d.corpus, toSpace, "這裡")
+d.corpus <- tm_map(d.corpus, toSpace, "就是")
+d.corpus <- tm_map(d.corpus, toSpace, "真的")
+d.corpus <- tm_map(d.corpus, toSpace, "看到")
+d.corpus <- tm_map(d.corpus, toSpace, "行")
+d.corpus <- tm_map(d.corpus, toSpace, "大家")
+d.corpus <- tm_map(d.corpus, toSpace, "如果")
+d.corpus <- tm_map(d.corpus, toSpace, "所以")
+d.corpus <- tm_map(d.corpus, toSpace, "自己")
+
+#建立矩陣
+docs.seg <- tm_map(d.corpus, segmentCN)
+docs.tdm <- TermDocumentMatrix(docs.seg, control = list())
+inspect(docs.tdm)
+```
+
+###TFIDF Counting
+####計算每個詞的 term frequency
+####定義計算 idf 的 function
+####計算 idf ， tfidf = tf * idf
+####查看結果
+```{r}
+docs.tf <- apply(as.matrix(docs.tdm), 2, function(doc) {doc / sum(doc)})
+idf.function <- function(word_doc) { log2( (length(word_doc)+1) / nnzero(word_doc) ) }
+docs.idf <- apply(docs.tdm, 1, idf.function)
+docs.tfidf <- docs.tf * docs.idf
+head(docs.tfidf)
+```
+
+###可以用 findFreqTerms 看看在所有文件裡出現95次以上的關鍵字有哪些。
+```{r}
+findFreqTerms(docs.tdm, 95)
+```
+
+###再來可以用 findAssocs 找出最常與"義大利"相關程度0.6以上的關鍵字。
+```{r}
+findAssocs(docs.tdm, "義大利", 0.6)
+```
+
+> <font color="purple">可見與義大利相關的議題，除了尋求"評價"，也擔憂"扒手"之問題<font>
+
+###<font color="black">用 findAssocs 找出最常與"巴黎"相關程度0.6以上的關鍵字。<font>
+```{r}
+findAssocs(docs.tdm, "巴黎", 0.6)
+```
+
+> <font color="purple">討論和巴黎有關的事情很多，當中最關切的事情和費用有關。<font>
+
+###<font color="black">用 findAssocs 找出最常與"地方"相關程度0.9以上的關鍵字。<font>
+```{r}
+findAssocs(docs.tdm, "地方", 0.9)
+```
+
+```{r}
+findAssocs(docs.tdm, "飯店", 0.8)
+```
+
+> <font color="purple">因想瞭解歐洲旅遊板中，何者事情會和"地方"及"飯店"相關，由上兩表可見，對於旅遊的"地方"，重視"感受"和"建築"；而"飯店"，最關切的是"超市"。<font>
+
+---
+
+# <font color="black">PCA<font>
+###主要目的是縮減資料中使用的變數個數，利用尋找變數間不同的線性組合，萃取出具代表性的主成份，再進一步進行其他統計分析
+##PCA (1)
+```{r}
+docs.pca <- prcomp(docs.tfidf, scale = T)
+```
+```
+summary(docs.pca)
+Importance of components:
+                          PC1     PC2     PC3     PC4     PC5     PC6     PC7     PC8     PC9
+Standard deviation     1.4247 1.36701 1.28574 1.10976 1.07868 1.04486 1.03918 1.02365 0.98797
+Proportion of Variance 0.1068 0.09835 0.08701 0.06482 0.06124 0.05746 0.05684 0.05515 0.05137
+Cumulative Proportion  0.1068 0.20518 0.29218 0.35700 0.41824 0.47570 0.53254 0.58769 0.63906
+                          PC10    PC11    PC12    PC13   PC14   PC15    PC16    PC17    PC18
+Standard deviation     0.98368 0.96511 0.96082 0.93816 0.9257 0.9164 0.90790 0.66907 0.34759
+Proportion of Variance 0.05093 0.04902 0.04859 0.04632 0.0451 0.0442 0.04338 0.02356 0.00636
+Cumulative Proportion  0.68999 0.73901 0.78760 0.83393 0.8790 0.9232 0.96661 0.99017 0.99653
+                          PC19
+Standard deviation     0.25686
+Proportion of Variance 0.00347
+Cumulative Proportion  1.00000
+```
+
+##Drawing
+### 陡坡圖
+```{r}
+fviz_eig(docs.pca)
+```
+
+##PCA (2)
+### 變數及資料與主成份分數散佈圖
+```{r}
+fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
+```
+
+
+##PCA (3)
+```{r}
+fviz_pca_var(docs.pca, col.var = "contrib")
+```
+
+##PCA (4)
+```{r}
+fviz_pca_biplot(docs.pca, geom.ind = "point")
+```
+
+##PCA results
+```{r}
+docs.eig <- get_eig(docs.pca)
+docs.var <- get_pca_var(docs.pca)
+docs.ind <- get_pca_ind(docs.pca)
+```
+
+##K-means
+###Choosing K
+```{r}
+ind.coord2 <- docs.ind$coord[, 1:2]
+wss <- c()
+for (i in 1:10) { wss[i] <- kmeans(ind.coord2, i)$tot.withinss }
+plot(wss, type = "b")
+```
+
+##Clustering
+```{r}
+km <- kmeans(ind.coord2, 3)
+plot(ind.coord2, col = km$cluster)
+points(km$centers, col = 1:3, pch = 8, cex = 2)
+```
+
+---
+
+<img src="https://ak9.picdn.net/shutterstock/videos/18837569/thumb/12.jpg" style="display:block; margin:auto; width:60%;">

@@ -77,6 +77,8 @@
 * [HW3_EDA: Report of Adverse Food Events](https://nicoleyen.github.io/ex1/WEEK3/Report_of_Adverse_Food_Events.html)
 * [HW3_Text Mining_"Animal Farm"](https://nicoleyen.github.io/ex1/WEEK3/HW3.html)
 ## At Home
-* [HW3_Text Mining_"PTT歐洲旅遊板"](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining.html)
+* 練習文字探勘Text Mining，TFIDF -> PCA -> K-means
+* [HW3_PTT歐洲旅遊板分析1"](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining.html)
+* [HW3_PTT歐洲旅遊板分析2"](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining_2.html)
 
 
