@@ -2,6 +2,9 @@
 title: "HW3_TFIDF"
 output: html_document
 ---
+# 小說文本分析
+## <<動物農場Animal Farm>> --- George Orwell
+
 #TFIDF
 ##Load package
 ```{r}
@@ -23,7 +26,6 @@ docs.corpus <- Corpus(DirSource("./data"))
 docs.seg <- tm_map(docs.corpus, segmentCN)
 docs.tdm <- TermDocumentMatrix(docs.seg)
 ```
-
 
 ```{r}
 docs.tf <- apply(as.matrix(docs.tdm), 2, function(word) { word/sum(word) })
@@ -51,38 +53,43 @@ head(docs.tfidf)
 
 ###Query of Words
 定義查詢函數
-查詢 “pig”, “human”, “snowball”, "fight","leader","napoleon六個詞在各篇文章的 tfidf 值
+查詢 “pig”, “human”, “snowball”, "leader","napoleon五個詞在各篇文章的 tfidf 值
 ```{r}
 query.tfidf <- function(q){
   q.position <- which(rownames(docs.tfidf) %in% q)
   q.tfidf <- docs.tfidf[q.position, ]
   return (q.tfidf)
 }
-query.tfidf(c("pig", "human", "snowball","fight", "leader", "napoleon"))
+query.tfidf(c("pig", "human", "snowball", "leader", "napoleon"))
 ```
+><font color="purple">據上圖資料，可以推論出<font>
+>
+>(1) Snowball和napoleon是這本動物農場的主角，前面是由Snowball領導動物們，出現的頻率較napoleon高，但後來napoleon用盡心力趕走snoball，奪下政權，頻率出現在後面的章節較高。
+>(2) "Human"出現的頻率從第五章節開始提高，亦是情節出現轉變的時候，第五章正是動物們擊敗人類的時候，但在第八和九章節頻率又大福增高，或許是因為在故事的最後，動物的領導者Napoleon也往以前農場主人獨裁統治的方式，並再度和人類作勾結。
+>(3) 第五章是動物與人的戰役後，所以第六、七、八、九章節，開始出現對領導者leader的討論，而也選出新的領導者napoleon。
 
-##Cosine Similiarity
+##<font color="black">Cosine Similiarity<font>
 ###定義「計算 x, y 兩向量 cosine 值」函數
 ```{r}
 cos <- function(x, y){
   return (x %*% y / sqrt(x %*% x * y %*% y))[1, 1]
 }
 ```
-###計算 “各篇文章的 tfidf 向量” 與 “第一篇文章 tfidf 向量” 的 cosine 值
+####計算 “各篇文章的 tfidf 向量” 與 “第一篇文章 tfidf 向量” 的 cosine 值
 ```{r}
 # compare with first doc
 docs.cos.sim <- apply(docs.tfidf, 2, cos, y = docs.tfidf[, 1])
 docs.cos.sim
 ```
 
-###計算 “各篇文章的 tfidf 向量” 與 “第八篇文章 tfidf 向量” 的 cosine 值
+####計算 “各篇文章的 tfidf 向量” 與 “第八篇文章 tfidf 向量” 的 cosine 值
 ```{r}
 # compare with first doc
 docs.cos.sim <- apply(docs.tfidf, 2, cos, y = docs.tfidf[, 8])
 docs.cos.sim
 ```
 
-###計算 “各篇文章的 tfidf 向量” 與 “最後一篇文章 tfidf 向量” 的 cosine 值
+####計算 “各篇文章的 tfidf 向量” 與 “最後一篇文章 tfidf 向量” 的 cosine 值
 ```{r}
 # compare with first doc
 docs.cos.sim <- apply(docs.tfidf, 2, cos, y = docs.tfidf[, 10])
@@ -90,7 +97,7 @@ docs.cos.sim
 ```
 
 ###Wordcloud
-畫出文字雲
+####畫出文字雲
 ```{r warning=FALSE}
 library(wordcloud)
 f <- sort(rowSums(docs.tfidf), decreasing = T)
@@ -101,7 +108,7 @@ docs.df <- data.frame(
 wordcloud(docs.df$word, docs.df$freq, scale=c(20,0.1),min.freq=190,max.words=45, colors=brewer.pal(8, "Dark2"))
 ```
 
-##PCA
+#PCA (Principal components analysis, 主成份分析)
 ```{r}
 docs.pca <- prcomp(docs.tfidf, scale = T)
 ```
@@ -110,7 +117,7 @@ docs.pca <- prcomp(docs.tfidf, scale = T)
 ```{r}
 fviz_eig(docs.pca)
 ```
-
+><font color="purple">看各章節之間的相關性，除了第一章，後面章節內容相關性高。<font>
 ```{r}
 fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
 ```
@@ -123,7 +130,7 @@ fviz_pca_var(docs.pca, col.var = "contrib")
 fviz_pca_biplot(docs.pca, geom.ind = "point")
 ```
 
-## PCA results
+## ><font color="black">PCA results<font>
 ```{r}
 docs.eig <- get_eig(docs.pca)
 docs.var <- get_pca_var(docs.pca)
@@ -131,6 +138,7 @@ docs.ind <- get_pca_ind(docs.pca)
 ```
 
 # K-means
+
 ##　Choosing K
 ```{r}
 ind.coord2 <- docs.ind$coord[, 1:2]
@@ -148,3 +156,4 @@ plot(ind.coord2, col = km$cluster)
 points(km$centers, col = 1:50, pch = 8, cex = 2)
 ```
 
+<img src="http://activistshub.com/wp-content/uploads/2015/01/George-Orwell-animal-farm.jpg" style="display:block; margin:auto; width:50%;">
