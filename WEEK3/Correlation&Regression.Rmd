@@ -1,0 +1,247 @@
+---
+title: "regression&correlation"
+output: html_document
+---
+#回歸&相關
+雙變數間的關係Bivariate relationships
+  - Scatterplots are the most common and effective tools for visualizing the relationship between two numeric variables.
+  
+##回歸:
+##相關:Quantifying the strength of bivariate relationships
+  *相關係數介於1 ~ -1之間
+
+###練習
+```
+# Compute correlation
+> ncbirths %>%
+    summarize(N = n(), r = cor(weight, mage))
+
+     N          r
+1 1000 0.05506589
+
+# Compute correlation for all non-missing pairs
+> ncbirths %>%
+    summarize(N = n(), r = cor(weight, weeks, use = "pairwise.complete.obs"))
+
+     N         r
+1 1000 0.6701013
+```
+## The Anscombe dataset
+是四組基本的統計特性一致的數據，但由它們繪製出的圖表則截然不同，目的是用來說明在分析數據前先繪製圖表的重要性，以及離群值對統計的影響之大。
+
+>ggplot(data = Anscombe, aes(x = x, y = y)) +
+  geom_point() +
+  facet_wrap(~ set)
+
+# Compute properties of Anscombe
+```
+> Anscombe %>%
+    group_by(set) %>%
+    summarize(N = n(), mean(x), sd(x), mean(y), sd(y), cor(x,y))
+
+# A tibble: 4 x 7
+  set       N `mean(x)` `sd(x)` `mean(y)` `sd(y)` `cor(x, y)`
+  <chr> <int>     <dbl>   <dbl>     <dbl>   <dbl>       <dbl>
+1 1        11         9    3.32      7.50    2.03       0.816
+2 2        11         9    3.32      7.50    2.03       0.816
+3 3        11         9    3.32      7.5     2.03       0.816
+4 4        11         9    3.32      7.50    2.03       0.817
+```
+# Correlation 
+> 數據data %>%
+    summarize(N = n(), r = cor(x軸數據, y軸數據))
+
+可以加filter()
+```
+ # Correlation for all players with at least 200 ABs
+> mlbBat10 %>%
+    filter(AB >= 200 ) %>%
+    summarize(N = n(), r = cor(OBP,SLG))
+結果
+    N         r
+1 329 0.6855364
+```
+可以用group_by()
+```
+ # Correlation of body dimensions
+> bdims  %>%
+    group_by(sex) %>%
+    summarize(N = n(), r = cor(hgt,wgt))
+結果
+# A tibble: 2 x 3
+    sex     N     r
+  <int> <int> <dbl>
+1     0   260 0.431
+2     1   247 0.535
+```
+使用log
+```
+ # Correlation among mammals, with and without log
+> mammals %>%
+    summarize(N = n(), 
+              r = cor(BodyWt,BrainWt), 
+              r_log = cor(log(BodyWt), log(BrainWt)))
+結果
+   N         r     r_log
+1 62 0.9341638 0.9595748
+``` 
+
+##假性相關（Spurious Correlation
+###兩變項的相關是表面的，不代表其間有因果性，可能是由於第三變項的存在，造成兩變項的假相關
+
+```
+ # Create faceted scatterplot
+> ggplot(data = noise, aes(x = x, y = y)) +
+    geom_point() + 
+    facet_wrap(~ z)
+ 
+ # Compute correlations for each dataset
+> noise_summary <- noise %>%
+    group_by(z) %>%
+    summarize(N = n(), spurious_cor = cor(x, y))
+ 
+ # Isolate sets with correlations above 0.2 in absolute strength
+> noise_summary %>%
+    filter(abs(spurious_cor) > 0.2)
+
+# A tibble: 3 x 3
+      z     N spurious_cor
+  <int> <int>        <dbl>
+1     7    50        0.240
+2    15    50        0.309
+3    16    50        0.218
+```
+
+## 畫出回歸直線 
+#### Scatterplot with regression line
+>ggplot(data = 資料, aes(x = x數據, y = y數據)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+ggplot(data = bdims, aes(x = hgt, y = wgt)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE)
+```
+#### Estimate optimal value of my_slope
+
+> add_line(my_slope = 1)
+
+練習
+Print bdims_summary
+```
+> bdims_summary
+    N         r mean_hgt   sd_hgt mean_wgt   sd_wgt
+1 507 0.7173011 171.1438 9.407205 69.14753 13.34576
+```
+Add slope and intercept
+```
+> bdims_summary %>%
+    mutate(slope = r * sd_wgt / sd_hgt, 
+           intercept = mean_wgt - slope * mean_hgt)
+           
+    N         r mean_hgt   sd_hgt mean_wgt   sd_wgt    slope intercept
+1 507 0.7173011 171.1438 9.407205 69.14753 13.34576 1.017617 -105.0113
+```
+
+##### Fitting simple linear models
+練習 Linear model for weight as a function of height
+```
+> lm(wgt ~ hgt, data = bdims)
+
+Call:
+lm(formula = wgt ~ hgt, data = bdims)
+
+Coefficients:
+(Intercept)          hgt  
+   -105.011        1.018
+```
+### coef() function displays only the values of the coefficients.
+
+### Tidying your linear model
+```
+ # Load broom
+library(broom)
+
+ # Create bdims_tidy
+ bdims_tidy <- augment(mod)
+
+ # Glimpse the resulting data frame
+glimpse(bdims_tidy)
+
+結果
+Observations: 507
+Variables: 9
+$ wgt        <dbl> 65.6, 71.8, 80.7, 72.6, 78.8, 74.8, 86.4, 78.4, 62.0, 81...
+$ hgt        <dbl> 174.0, 175.3, 193.5, 186.5, 187.2, 181.5, 184.0, 184.5, ...
+$ .fitted    <dbl> 72.05406, 73.37697, 91.89759, 84.77427, 85.48661, 79.686...
+$ .se.fit    <dbl> 0.4320546, 0.4520060, 1.0667332, 0.7919264, 0.8183471, 0...
+$ .resid     <dbl> -6.4540648, -1.5769666, -11.1975919, -12.1742745, -6.686...
+$ .hat       <dbl> 0.002154570, 0.002358152, 0.013133942, 0.007238576, 0.00...
+$ .sigma     <dbl> 9.312824, 9.317005, 9.303732, 9.301360, 9.312471, 9.3147...
+$ .cooksd    <dbl> 5.201807e-04, 3.400330e-05, 9.758463e-03, 6.282074e-03, ...
+$ .std.resid <dbl> -0.69413418, -0.16961994, -1.21098084, -1.31269063, -0.7...
+````
+
+### Using your linear model
+
+> 	make predications: 
+>
+>	predict(lm):  fitted values for exisiting data
+>
+>  predict(lm, newdata) : fitted values for any new data
+
+練習
+```
+ # Add the line to the scatterplot
+ggplot(data = bdims, aes(x = hgt, y = wgt)) + 
+  geom_point() + 
+  geom_abline(data = coefs, 
+ aes(intercept = `(Intercept)`, slope = hgt),  
+color = "dodgerblue") 
+```
+
+####　Compute RMSE
+
+> sqrt(sum(residuals(mod)^2) /df.residual(mod))
+
+####　Compute R-squared
+```
+bdims_tidy %>%
+  summarize(var_y = var(wgt), var_e = var(.resid)) %>%
+  mutate(R_squared = 1 - var_e / var_y)
+```
+
+Compute SSE for null model
+```
+> mod_null %>%
+    summarize(SSE = var(.resid))
+       SSE
+1 178.1094
+```
+```
+Compute SSE for regression model
+> mod_hgt %>%
+    summarize(SSE = var(.resid))
+       SSE
+1 86.46839
+```
+
+## Leverage
+The leverage of an observation in a regression model is defined entirely in terms of the distance of that observation from the mean of the explanatory variable.
+###### Rank points of high leverage
+```
+mod %>%
+  augment() %>%
+  arrange(desc(.hat)) %>%
+  head()
+```
+##### Rank influential points
+```
+mod %>%
+  augment() %>%
+  arrange(desc(.cooksd)) %>%
+  head()
+```
+
+

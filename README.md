@@ -78,7 +78,8 @@
 * [HW3_Text Mining_"Animal Farm"](https://nicoleyen.github.io/ex1/WEEK3/HW3.html)
 ## At Home
 * 練習文字探勘Text Mining，TFIDF -> PCA -> K-means
-* [HW3_PTT歐洲旅遊板分析1"](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining.html)
-* [HW3_PTT歐洲旅遊板分析2"](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining_2.html)
+* [HW3_PTT歐洲旅遊板分析1](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining.html)
+* [HW3_PTT歐洲旅遊板分析2](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining_2.html)
+* Datacamp: [Regrssion & Correlation](https://nicoleyen.github.io/ex1/WEEK3/Correlation_Regression.html)
 
 
