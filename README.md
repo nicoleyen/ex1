@@ -84,7 +84,9 @@
 ---
 # WEEK4 progress
 ## In Class
-* 
+* Intoduction of basic statistics: T test & ANOVA
+* Linear regression analysis
+* 用R進行EDA的深度分析分析
 ## At Home
 * [HW4_EDA深入分析](https://nicoleyen.github.io/ex1/WEEK4/hw4.html)
 
