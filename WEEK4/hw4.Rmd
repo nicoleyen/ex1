@@ -1,0 +1,359 @@
+---
+title: "deeper EDA"
+output: html_document
+---
+# Analysis of Adverse Food Event 食物不良反應事件分析
+## 資料來自US Food and Drug Administration(FDA,美國食品藥物管理局)，收集2004年至2017年中所發生的食物不良反應事件。
+### 總共有1408筆資料，內容包含事件發生的時間、個案編號、個案年齡與性別、導致不良反應的食物和產品以及不良反應的症狀和現象。
+
+## 1.整理資料
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(lattice)
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(DT)
+rm(list=ls())
+
+AdverseFoodEvents = read_csv("adversefoodevent_data.csv")
+
+AdverseFoodEvents = AdverseFoodEvents %>%
+  rename(ReportNo = `RA_Report #`) %>%
+  rename(IndustryName = `PRI_FDA Industry Name`) %>%
+  rename(AgeUnit = `CI_Age Unit`) %>%
+  rename(AgeAtAdverseEvent = `CI_Age at Adverse Event`) %>%
+  rename(Gender = `CI_Gender`) %>%
+  rename(Outcomes = `AEC_One Row Outcomes`) %>%
+  rename(Symptoms = `SYM_One Row Coded Symptoms`)
+
+TransformIntoYears = function(ds)
+  {if(!is.na(ds["AgeAtAdverseEvent"]))
+  { x = as.numeric(ds["AgeAtAdverseEvent"])
+  ds["AgeAtAdverseEvent"] = as.numeric(ds["AgeAtAdverseEvent"])
+  if(ds["AgeUnit"] == "Month(s)")
+  {ds["AgeAtAdverseEventInYears"] = x/12}
+  else if (ds["AgeUnit"] == "Weeks(s)")
+  {ds["AgeAtAdverseEventInYears"] = x*7/365}
+  else if (ds["AgeUnit"] == "Day(s)")
+  {ds["AgeAtAdverseEventInYears"] = x*1/365}
+  else if (ds["AgeUnit"] == "Decade(s)")
+  {ds["AgeAtAdverseEventInYears"] = x*10}  }
+    return(ds)}
+  
+  AdverseFoodEvents = AdverseFoodEvents %>%
+    mutate(AgeAtAdverseEventInYears = AgeAtAdverseEvent) 
+  
+  AdverseFoodEvents$AgeAtAdverseEventInYears = 
+    as.numeric(AdverseFoodEvents$AgeAtAdverseEventInYears)
+  
+  AdverseFoodEvents = sapply(AdverseFoodEvents,TransformIntoYears)
+  
+  AdverseFoodEvents = as.data.frame(AdverseFoodEvents)
+
+colnames(AdverseFoodEvents)
+```
+```{R message=FALSE, warning=FALSE, include=FALSE}
+afe <- data.frame(AdverseFoodEvents)
+na.omit(afe)
+afe2 <- na.omit(afe)
+```
+
+## 2.看資料結構和基本統計
+```{r}
+summary(afe2)
+```
+
+```{r}
+head(afe2)
+```
+
+```{r message=FALSE, warning=FALSE}
+str(afe2)
+```
+
+## 3. 查看性別和年齡間的關係
+* 利用filter()篩選出性別和年齡資料，排除未知的資料
+* 透過ggplot2作圖，作箱型圖
+```{r}
+afe <- data.frame(AdverseFoodEvents) 
+ 
+afeg <- filter(afe2, Gender %in% c("Male","Female")) %>%
+  mutate(AgeAtAdverseEventInYears= as.numeric(AgeAtAdverseEventInYears))
+library(ggplot2)
+  ggplot(data = afeg, aes(x = Gender, y = AgeAtAdverseEventInYears)) +
+    geom_boxplot() + coord_flip() +
+    labs( y = 'age', x = 'gender', 
+          title = 'Gender and AgeAtAdverseEvent relationship Box Plot')
+```
+
+> ###<font color="red">從box plot看出，發生不良反應事件中，女性平均年齡高於男性<font>
+
+##<font color="black">　4. 計算95%信賴區間<font>
+```{r warning=FALSE}
+with(afeg, 
+     tapply(AgeAtAdverseEventInYears, Gender,
+     function(x) 
+       c(mean(x) + c(-2, 2) * sd(x)/sqrt(length(x)))))
+```
+
+> ###<font color="red">故在95%信賴區間下，
+>
+> ### 女性年齡範圍落在61.3至61.9歲，男性則落在57.4至58.3歲<font>
+
+##  <font color="black">5. 用 t-test 檢驗在食物不良反應發生的事件中，性別和年齡間是否存在差異<font>
+* H0: 女性所屬母群平均年齡 = 男性所屬母群平均年齡
+* H1: 女性所屬母群平均年齡和男性所屬母群平均年齡不相等
+```{r}
+t.test(AgeAtAdverseEventInYears ~ Gender, data = afeg)
+```
+
+* 加上參數 var.equal=TRUE 來假設變異數相同，不做Welch校正
+```{r}
+t.test(AgeAtAdverseEventInYears ~ Gender, data = afeg, var.equal = TRUE)
+```
+
+> ###<font color="red">(1)在發生食物不良反應的事件中，女性所屬母群平均年齡為61.6歲(約62歲)，男性所屬母群平均年齡57.9歲(約58歲)<font>
+>
+> ###<font color="red">(2)由於alternative hypothesis: true difference in means is not equal to 0，代表男女性別的平均年齡差不等於0，即男性和女性平均發生食物不良反應的年齡有顯著差異。<font>
+
+##  <font color="black"> 6. 查看年齡和所吃的食物產品間是否有關<font>
+<font color="black">* 前5項最多食物不良反應的產品數量圖<font>
+```{r}
+afe2 %>%
+  group_by(IndustryName) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  ungroup() %>%
+  mutate(IndustryName = reorder(IndustryName,Count)) %>%
+  head(5) %>%
+ggplot(aes(x = IndustryName,y = Count)) +
+  geom_bar(stat='identity',colour="white", fill = "orange") +
+  geom_text(aes(x = IndustryName, y = 1, label = paste0("(",Count,")",sep="")),
+            hjust=0, vjust=.5, size = 4, colour = 'black',
+            fontface = 'bold') +
+  labs(x = 'Industry', 
+       y = 'Count', 
+       title = 'Industry and Count') +
+  coord_flip() + 
+  theme_bw()
+```
+
+> ###<font color="red">前五項分別為:(1)營養補充品(2)化妝品(3)魚類/海鮮(4)蔬菜(5)堅果種子<font>
+
+```{r warning=FALSE}
+library(ggplot2)
+ggplot(data = afeg, 
+        aes(x = IndustryName, y = AgeAtAdverseEventInYears)) +
+   stat_summary(fun.data = 'mean_cl_boot', size = 1) +
+   scale_y_continuous(breaks = seq(0, 100, by = 5)) +
+   geom_hline(yintercept = mean(afeg$AgeAtAdverseEventInYears) , 
+              linetype = 'dotted') +
+   labs(x = 'Industry Product Name', y = 'Age At Adverse Event') +
+   coord_flip()
+```
+
+##　<font color="black">ANOVA分析<font>
+* 1. df 自由度 2.sum sq 平方和 3.Mean sq 均方 4.  F value F值
+```{r}
+anova(m1 <- lm(AgeAtAdverseEventInYears ~ IndustryName, data = afeg))
+```
+
+> ###<font color="red">其結果呈現p< 2.2e-16，代表p值遠小於0.05，即在造成食物不良反應的各產品所屬母群平均數有顯著差異。<font>
+
+* <font color="black">推測使用導致食物不良之常見產品可能和性別年齡不同有關，並畫圖觀察<font>
+```{r echo=TRUE, warning=FALSE}
+afei <- filter(afeg, IndustryName %in% c("Vit/Min/Prot/Unconv Diet(Human/Animal)","Fishery/Seafood Prod","Cosmetics","Vegetables/Vegetable Products
+","Nuts/Edible Seed"))
+ggplot(data = afei, 
+       aes(group = IndustryName, 
+          y = AgeAtAdverseEventInYears, x = Gender)) +
+  geom_point() +
+  stat_smooth(method = 'lm', se = F) +
+  stat_smooth(aes(group = IndustryName, 
+          y = AgeAtAdverseEventInYears, x =  Gender), 
+          method = 'lm', se = F) + 
+  facet_grid( . ~  IndustryName) +
+  labs(x = 'IndustryName', y = 'AgeAtAdverseEventInYears')
+```
+
+## <font color="black">7. 利用以下 ANOVA 檢驗假設是否正確<font>
+* 利用以下 ANOVA 檢驗假設是否正確
+把性別加進模型
+```{r echo=TRUE, warning=FALSE}
+anova(m2 <- update(m1, . ~ . + 
+            Gender, data = afeg))
+```
+
+> ###<font color="red">其結果呈現p<2.2e-16，代表p值遠小於0.05，即在造成食物不良反應的各產品所屬母群平均數和性別所屬母群平均數有顯著差異。<font>
+
+<font color="black">或許不是產品種類，而是和性別有關<font>
+```{r}
+anova(m3 <- update(m2, . ~ . - IndustryName,  data = afeg))
+```
+
+> ###<font color="red">其結果呈現p<2.2e-16，代表p值遠小於0.05，即發生食物不良反應性別所屬母群平均數有顯著差異。<font>
+
+## <font color="black">8.將 ANOVA 結果做成圖表輸出，先計算所需要的數據<font>
+* 比較在控制性別下，產品種類的效果
+```{r}
+res_lm <- lapply(list(m1, m2, m3), summary)
+(res_lm[[2]]$r.sq - res_lm[[3]]$r.sq)/res_lm[[2]]$r.sq
+```
+
+```{r}
+anova(m3, m2)
+```
+
+* 比較在控制產品種類下，性別的效果
+```{r}
+(res_lm[[2]]$r.sq - res_lm[[1]]$r.sq)/res_lm[[1]]$r.sq
+```
+
+```{r}
+anova(m1, m2)
+```
+
+## 9. 作圖
+```{r echo=TRUE, warning=FALSE}
+library(coefplot)
+(m1 <- lm(AgeAtAdverseEventInYears ~ IndustryName, data = afe2))
+coefplot(m2, xlab = '估計值', ylab = '迴歸變項', title = '反應變項 = 年齡')
+```
+
+##　10. 把資料與迴歸分析的預測值、殘差與影響度放進資料
+```{r message=FALSE, warning=TRUE}
+fit_m2 <- data.frame(afeg[, c(7, 10, 13)], fitted = fitted(m2), resid = resid(m2),
+                     infl = influence(m2)$hat )
+```
+
+## 11. 依食物產品疊合真實觀測值與預測值
+```{r message=FALSE, warning=FALSE, include=FALSE}
+ggplot(data = fit_m2, aes(x = AgeAtAdverseEventInYears , group = IndustryName)) +
+ stat_density(geom = 'path', position = 'identity') +
+ stat_density(geom = 'path', position = 'identity', aes(x = fitted)) +
+ geom_vline(xintercept = c(with(afeg, tapply(AgeAtAdverseEventInYears,IndustryName, mean))), linetype = 'dotted')+
+ facet_grid(IndustryName ~ .) +
+ scale_x_continuous(breaks = seq(0, 100, by = 10))+
+ labs(x = 'Age', y = '機率密度')
+```
+
+## 12. 看殘差分配，依食物產品，檢視常態與變異數同質假設
+```{r echo=TRUE, warning=FALSE}
+ggplot(data = fit_m2, aes(x = scale(resid)), group = IndustryName ) +
+ stat_density(geom = 'path', position = 'identity', aes(linetype = IndustryName)) +
+ scale_linetype_manual(values = 38:1) +
+ guides(linetype = guide_legend(reverse = TRUE)) +
+ labs(x = '標準化殘差', y = '機率密度') +
+ theme(legend.position = c(.5, 1.1) )
+```
+
+## 13 看看殘差的 Q-Q 圖，依食物產品。檢視常態假設
+```{r echo=TRUE}
+require(lattice)
+qqmath(~ scale(resid) | IndustryName, data = fit_m2, type = c('p', 'g', 'r'),
+       xlab = '常態位數', ylab = '標準化殘差', layout = c(2, 3),
+       pch = '.', cex = 2)
+```
+
+## 14 畫預測值與殘差的散佈圖，檢查線性與等分散假設
+```{R echo=TRUE}
+require(MASS)
+ggplot(data = fit_m2, aes(x = fitted, y = scale(resid), group = IndustryName )) +
+  geom_point(pch = 20, size = 1) +
+  stat_smooth(method = 'rlm', se = F) +
+  facet_grid(IndustryName ~ .) +
+  labs(x = '年齡預測值', y = '標準化殘差')
+```
+
+## 15 呈現影響值（影響估計結果過大的值）與標準化殘差
+```{R echo=TRUE, message=FALSE}
+ggplot(data = fit_m2, aes(x = infl, y = scale(resid), group = IndustryName)) +
+ geom_text(aes(label = rownames(fit_m2)), cex = 2) +
+ geom_hline(yintercept = 0, linetype = 'dotted') +
+ facet_grid(IndustryName ~ .) +
+ labs(x = '影響值', y = '標準化殘差')
+```
+
+## 16 看看影響值
+```{R}
+summary(influence(m2)$hat)
+```
+
+## 17 分析資料集當中的其他變項是否和年齡有關
+* 原先為factor型，要先轉成numeric，而sapply(data,class)可看資料類型
+```{r}
+afeg$ReportNo <- as.numeric(as.character(afeg$ReportNo))
+afeg$PRI_FDA.Industry.Code <- as.numeric(as.character(afeg$PRI_FDA.Industry.Code))
+sapply(afeg, class)
+dta_age <- afeg[, c("AgeAtAdverseEventInYears","PRI_FDA.Industry.Code","ReportNo")]
+```
+
+## 18 觀看基本統計量
+```{r}
+colMeans(dta_age)
+```
+
+## 19 呈現兩兩散佈圖
+* 需用heplots套件
+```{r message=FALSE, warning=FALSE}
+library(heplots)
+```
+
+```{r echo=TRUE, warning=FALSE}
+scatterplotMatrix(~ AgeAtAdverseEventInYears + PRI_FDA.Industry.Code + ReportNo, data= dta_age,
+  pch = '.', cex = 3, smooth = FALSE, reg.line = FALSE, ellipse = TRUE,
+  diagonal = 'none', lower.panel = NULL)
+```
+
+## 20 利用corrplot 套件，以圖形顯示相關性的大小
+```{r echo=TRUE}
+library(corrplot)
+corrplot(cor(dta_age), method = 'ellipse', order = 'hclust', addrect = 4,
+         type = 'upper', tl.pos = 'tp')
+corrplot(cor(dta_age), add = TRUE, type = 'lower', method = 'number',
+         order = 'hclust', col = 'black', diag = FALSE, tl.pos = 'n', cl.pos = 'n')
+```
+
+## 21 加入解釋變項
+```{r}
+summary(m4 <- lm(AgeAtAdverseEventInYears ~ PRI_FDA.Industry.Code + ReportNo, data = dta_age))
+```
+
+> <font color="red">在Pr(>|t|)欄，可以瞭解到回歸係數顯著不為0（p<2e-16），而R平方項為0.02961，表明模型只能解釋應變量2.9%的方差；殘差的標準誤為22.27 ，則可視為回歸模型用來做預測的平均誤差。<font>
+
+## <font color="black">結果呈現<font>
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+coefplot(m4, predictors = c("ReportNo","PRI_FDA.Industry.Code","AgeAtAdverseEventInYears"),
+ xlab = '估計值', ylab = '迴歸變項(去除截距)', title = '反應變項是age')
+```
+ 
+## <font color="black">22 使用effects套件<font>
+```{r message=FALSE, warning=FALSE}
+library(effects)
+```
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+plot(allEffects(m4), main = '', ylim = c(550, 670), grid = T)
+```
+
+## 23 利用 lm.beta 套件，計算標準化迴歸係數
+```{r}
+library(lm.beta)
+summary(lm.beta(m4))
+```
+
+## 24 控制ReportNo，看PRI_FDA.Industry.Code的效果
+```{r}
+summary(m5 <- update(m4, . ~ . - PRI_FDA.Industry.Code , data = dta_age))
+```
+
+> <font color="red">在Pr(>|t|)欄，可以瞭解到回歸係數顯著不為0（p<2e-16），而R平方項為0.006801，表示模型只能解釋應變量0.6%的方差；殘差的標準誤為22.53，則可視為回歸模型用來做預測的平均誤差。<font>
+
+```{r}
+anova(m5, m4)
+```
+
+> <font color="red">結論:年齡和PRI_FDA.Industry.Code或和ReportNo皆有回歸直線，具線性關係，但其和ReportNo的線性關係較好<font>
+
+![](https://getflywheel.com/wp-content/uploads/2015/09/free-food-icons-fruit.png){width=30%}![](https://getflywheel.com/wp-content/uploads/2015/09/free-food-icons-fruit.png){width=30%}![](https://getflywheel.com/wp-content/uploads/2015/09/free-food-icons-fruit.png){width=30%}

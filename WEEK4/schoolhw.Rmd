@@ -1,0 +1,73 @@
+---
+title: "school"
+output: html_document
+---
+
+### 106學年大專校院各校科系別概況 分析
+#### 有9597筆資料，內容包含學校名稱、科系名稱、日間∕進修別、等級別、學生數、教師數、上學年度畢業生數、縣市名稱與體系別。
+
+#### 1. 整理資料
+```{r}
+dta <- read.table(file = "school.xlsx", 
+                  header = TRUE)
+library(readr)
+library(lattice)
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(DT)
+
+rm(list=ls())
+dta <- read_excel("school.xlsx")
+
+dta = dta %>%
+  rename(schoolname = `學校名稱`) %>%
+  rename(subjectname = `科系名稱`) %>%
+  rename(dn = `日間∕進修別`) %>%
+  rename(level = `等級別`) %>%
+  rename(sn = `學生數`) %>%
+  rename(tn = `教師數`) %>%
+  rename(gn = `上學年度畢業生數`) %>%
+  rename(cityname = `縣市名稱`) %>%
+  rename(system = `體系別`)
+```
+
+#####　2.看資料結構和基本統計
+```{r}
+str(dta)
+```
+
+```{r}
+head(dta)
+```
+
+```{r}
+summary(dta)
+```
+
+##### 3. 查看系別和學生數的關係
+* 利用filter()篩選出性別和年齡資料，排除未知的資料
+* 透過ggplot2作圖，作箱型圖
+```{r}
+library(ggplot2)
+ggplot(data = dta, aes(x = dn , y = sn)) + stat_count(mapping = aes(y = sn), data = dta, geom = "bar",na.rm = FALSE)
+ geom_bar()  + coord_flip() + labs( y = 'sn', x = 'dn', 
+       title = 'Mathematical Score Box')
+```
+
+*　計算95%信賴區間
+```{r}
+mean.dta <- dta
+mean.1 <- mean(mean.dta[, 1], na.rm = T)  # 第8欄位的平均數
+na.rows <- is.na(mean.1[, 1])        # 第8欄位中，有遺漏值存在的資料
+
+# 用第8欄位的平均數，填補第8欄位的遺漏值
+mean.1[na.rows, 1] <- mean.1
+with(mean.1, 
+     tapply(level, sn,
+     function(x) 
+       c(mean(x) + c(-2, 2) * sd(x)/sqrt(length(x)))))
+```
+
+
+```

@@ -80,6 +80,13 @@
 * 練習文字探勘Text Mining，TFIDF -> PCA -> K-means
 * [HW3_PTT歐洲旅遊板分析1](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining.html)
 * [HW3_PTT歐洲旅遊板分析2](https://nicoleyen.github.io/ex1/WEEK3/ppttextmining_2.html)
-* Datacamp: [Regrssion & Correlation](https://nicoleyen.github.io/ex1/WEEK3/Correlation_Regression.html)
+* Datacamp: [Regression & Correlation](https://nicoleyen.github.io/ex1/WEEK3/Correlation_Regression.html)
+---
+# WEEK4 progress
+## In Class
+* 
+## At Home
+* [HW4_EDA深入分析](https://nicoleyen.github.io/ex1/WEEK4/hw4.html)
+
 
 
