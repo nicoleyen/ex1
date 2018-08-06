@@ -1,0 +1,153 @@
+---
+title: "Taiwan_map+ggplot"
+output: html_document
+---
+# Practice using ggplot and ggmap
+
+# 臺灣地圖    
+```{R}
+library(ggmap)
+library(mapproj)
+map_1 <- get_map(location = c(lon = 120.233937, lat = 22.993013), zoom = 5)
+ggmap(map_1)
+```
+
+# 臺灣道路地圖_臺北101
+```{R}
+map_2 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
+  zoom = 18, language = "zh-TW", maptype = "roadmap")
+ggmap(map_2)
+```
+
+# 臺灣衛星地圖_臺北101
+
+```{R}
+map_3 <- get_map(location = c(lon = 121.564472, lat = 25.033964),
+  zoom = 18, language = "zh-TW", maptype = "satellite")
+ggmap(map_3)
+```
+
+# 臺灣獨立書店 ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}  ![](http://myinsuranceshark.com/wp-content/uploads/2016/09/books-3.jpg){width=10%}
+## 獨立書店分布圖
+```{r}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_4 <- get_map(location = c(lon = 120.5, lat = 23.625), zoom = 8)
+ggmap(map_4) + geom_point(aes(x = lon, y = lat), data = bs)
+
+```
+
+## 獨立書店分布圖，點大小呈現點閱數多寡
+#### 點越大，即點閱的次數越多
+```{r}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_4 <- get_map(location = c(lon = 120.5, lat = 23.625), zoom = 8)
+ggmap(map_4) + geom_point(aes(x = lon, y = lat, size = "點閱數"), data = bs)
+
+```
+
+## 獨立書店分布圖與點閱數之關聯
+#### 淡化地圖，能更清楚呈現資料
+```{r}
+ggmap(map_4, darken = c(0.5, "white")) +
+  geom_point(aes(x = lon, y = lat, size = "點閱數"), data = bs)
+```
+## 信義區(位置lon = 121.576957, lat = 25.028702)
+### 由下圖可見，信義區附近沒有獨立書店
+```{r}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_5 <- get_map(location = c(lon = 121.576957, lat = 25.028702), zoom = 15)
+ggmap(map_5) + geom_point(aes(x = lon, y = lat), data = bs)
+
+```
+
+
+## 中正區(lon = 121.519872, lat =25.042141)
+### 資料顯示中正區有許多獨立書店分布，且與信義區比較，中正區也明顯高出很多
+```{r}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_6 <- get_map(location = c(lon = 121.519872, lat =25.042141), zoom = 13)
+ggmap(map_6) + geom_point(aes(x = lon, y = lat), data = bs)
+
+```
+
+## 大安區(lon = 121.542709, lat = 25.026158)
+### 大安區與中正區鄰近，有一些獨立書店的分佈
+```{r}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_5 <- get_map(location = c(lon = 121.542709, lat = 25.026158), zoom = 15)
+ggmap(map_5) + geom_point(aes(x = lon, y = lat), data = bs)
+
+```
+
+
+## 臺中市(lon = 120.673648, lat =24.147736)
+### 從資料中，臺中市是獨立書店次多的地區，透過下圖呈現分佈
+```{r}
+library(readr)
+
+bs <- read_csv("book.csv")
+
+lon.deg <- sapply((strsplit(as.character(bs$"經度"), ",")), as.numeric)
+lat.deg <- sapply((strsplit(as.character(bs$"緯度"), ",")), as.numeric)
+bs$lat <- lat.deg
+bs$lon <- lon.deg
+
+library(ggmap)
+map_6 <- get_map(location = c(lon = 120.673648, lat =24.147736), zoom = 14)
+ggmap(map_6) + geom_point(aes(x = lon, y = lat), data = bs)
+
+```
+
+# 結論
+## 臺灣獨立書店主要分佈在北部地區，尤其以臺北市中正區為多
+
+------
+<img src="http://decomyplace.com/img/blog/170219_book_3.jpg" style="display:block; margin:auto; width:55%;">
+
+
+資料來源:政府資料開放平台https://data.gov.tw/dataset/6224
