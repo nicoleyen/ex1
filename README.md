@@ -91,4 +91,4 @@
 * [HW4_EDA深入分析](https://nicoleyen.github.io/ex1/WEEK4/hw4.html)
 
 
-*[final](https://nicoleyen.github.io/ex2/final1.html)
+*[final](https://nicoleyen.github.io/ex1/final/finalpre.html)
