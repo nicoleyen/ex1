@@ -1,6 +1,11 @@
 
 # Define UI for application that draws a histogram
 library(ggplot2)
+library(base)
+library(dplyr)
+library(readr)
+library(shiny)
+library(readxl)
 d2 = read_csv("datappl.csv")
 d2 <- na.omit(d2)
 d2 <- data.frame(d2)
@@ -121,7 +126,11 @@ tabPanel("人數總比較",h1("人數總比較"),plotOutput("plot4"),plotOutput(
 tabPanel("創業貸款金額",h1("創業貸款金額"),plotOutput("plot2"),plotOutput("plot21"))),
 
 navbarMenu("青年勞工調查",
-           tabPanel("轉換工作情形",plotOutput("plot5"),plotOutput("plot51"),plotOutput("plot52")),
+           tabPanel("轉換工作情形",sidebarLayout(
+             sidebarPanel(
+               radioButtons("radio", label = "Choices", choices = list("Choice 1" = 1, "Choice 2" = 2))
+               ,plotOutput("plot51"),plotOutput("plot52")),
+             mainPanel(plotOutput("plot5")))),
            tabPanel("轉換工作與教育程度",plotOutput("plot53"),plotOutput("plot54"),plotOutput("plot55")),
            tabPanel("打算考證照情形",plotOutput("plot6"),plotOutput("plot61"),plotOutput("plot62")),
            tabPanel("打算考證照與教育程度",plotOutput("plot63")),
