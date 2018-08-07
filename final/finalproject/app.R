@@ -6,6 +6,11 @@ library(dplyr)
 library(readr)
 library(shiny)
 library(readxl)
+library(showtext)
+library(tidyr) 
+library(splines)
+showtext_auto(enable = TRUE)
+
 # 就業創業資料--------------
 d2 = read_csv("datappl.csv")
 d2 <- na.omit(d2)
@@ -108,6 +113,13 @@ te2 <- data.frame(te[,-3:-8])
 te2 <- te2 %>% gather("item",value,3) %>% 
   bind_cols(data.frame(item_id=rep(1,each=24)))
 
+
+#showtext功能-----
+PlotThroughShowtext <- function(x)
+{
+  showtext.begin()
+  print(x)
+  showtext.end()}
 #ui------
 
 ui <- shinyUI(navbarPage("台灣青年勞工狀況",
@@ -155,15 +167,19 @@ navbarMenu("青年勞工調查",
 server <- function(input, output) { 
 
 # 創業就業資料----  
-output$N_plot1 <- renderPlot({ggplot(d222, aes(x = 91:106)) + 
+output$N_plot1 <- renderPlot({N1 <- ggplot(d222, aes(x = 91:106)) + 
   geom_point(aes(y = d222[,3])) + 
   geom_line(aes(y = d222[,3],  color="女性獲貸人數")) +
   geom_point(aes(y = d222[,2])) + 
   geom_line(aes(y= d222[,2], color="男性獲貸人數")) +
   geom_point(aes(y = d222[,4])) + 
-  geom_line(aes(y= d222[,4], color="總獲貸人數")) + xlab("年") + ylab("人數") +theme(text=element_text(family="Heiti TC Light"))})
-output$N_plot2 <- renderPlot({barplot(dm[,6],width = 1, space = NULL,beside = TRUE, col = c("#4FB0C6","#4F86C6","#C65146","#EC6A5C","#e97f02","#f8ca00","#8FBC94","#548687","#6E7783","#77AAAD","#99CCCC","#FFCC99","#CC9999","#CCCC99","#0099CC","#FF6666","#996699","#666666","#996697"), xlab = "年度", ylab = "貸款金額(千元)", legend=dm$"年度")+theme(text=element_text(family="Heiti TC Light"))})
-output$N_plot3 <-renderPlot({ggplot(alld2t1, aes(x = 91:106)) + 
+  geom_line(aes(y= d222[,4], color="總獲貸人數")) + xlab("年") + ylab("人數")
+  +theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N1)})
+
+output$N_plot2 <- renderPlot({N2 <- barplot(dm[,6],width = 1, space = NULL,beside = TRUE, col = c("#4FB0C6","#4F86C6","#C65146","#EC6A5C","#e97f02","#f8ca00","#8FBC94","#548687","#6E7783","#77AAAD","#99CCCC","#FFCC99","#CC9999","#CCCC99","#0099CC","#FF6666","#996699","#666666","#996697"), xlab = "年度", ylab = "貸款金額(千元)", legend=dm$"年度")
++theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N2)})
+
+output$N_plot3 <-renderPlot({N3 <-ggplot(alld2t1, aes(x = 91:106)) + 
   geom_point(aes(y = alld2t1[,1])) + 
   geom_line(aes(y = alld2t1[,1],  color="總青年人數")) +
   geom_point(aes(y = alld2t1[,2])) + 
@@ -175,8 +191,10 @@ output$N_plot3 <-renderPlot({ggplot(alld2t1, aes(x = 91:106)) +
   geom_point(aes(y = alld2t1[,6])) + 
   geom_line(aes(y= alld2t1[,6], color="女性青年創業貸款人數"))+
   geom_point(aes(y = alld2t1[,7])) + 
-  geom_line(aes(y= alld2t1[,7], color="總青年創業貸款人數")) + xlab("年") + ylab("人數")+theme(text=element_text(family="Heiti TC Light"))}) 
-output$N_plot4 <-renderPlot({ggplot(t2, aes(x = 91:106)) + 
+  geom_line(aes(y= alld2t1[,7], color="總青年創業貸款人數")) + xlab("年") + ylab("人數")+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N3)}) 
+
+output$N_plot4 <-renderPlot({N4 <-ggplot(t2, aes(x = 91:106)) + 
   geom_point(aes(y =t2[,4])) + 
   geom_line(aes(y = t2[,4],  color="青年創業貸款總人數")) +
   geom_point(aes(y = t2[,2])) + 
@@ -184,47 +202,82 @@ output$N_plot4 <-renderPlot({ggplot(t2, aes(x = 91:106)) +
   geom_point(aes(y = t2[,3])) + 
   geom_line(aes(y= t2[,3], color="青年就業總人數"))+
   geom_point(aes(y = t2[,5])) + 
-  geom_line(aes(y= t2[,5], color="青年總人數")) + xlab("年") + ylab("千人")+theme(text=element_text(family="Heiti TC Light"))})
-output$N_plot41 <-renderPlot({barplot(t22, col = "skyblue",xlab = "91年至106年", ylab = "創業貸款人數占就業人數比例")+theme(text=element_text(family="Heiti TC Light"))})
-output$N_plot21 <-renderPlot({barplot(dm1,width = 3, space = NULL,beside = TRUE, col = c("skyblue", "pink"), xlab = "年度", ylab = "貸款金額(千元)", legend=c("男","女"))+theme(text=element_text(family="Heiti TC Light"))})
-output$N_plotjob <-renderPlot({if (input$N_Choices == "1"){ggplot(j33,aes(x=年,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年有無打算轉換工作意願",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
-else if (input$N_Choices == "2"){ggplot(j3,aes(x=年,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年打算轉換工作原因",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
-else if (input$N_Choices == "3"){ggplot(j222,aes(x=年,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年因創業而打算轉換工作",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
-output$N_plotjobedu <- renderPlot({if (input$N_Choices2 == "4"){ggplot(j101,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="101年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}
-else if (input$N_Choices2 == "5"){ggplot(j103,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="103年青年打算轉換工作情形與教育程度",y = "百分比值", theme(text=element_text(family="Heiti TC Light")))}
-else if(input$N_Choices2 == "6"){ggplot(j105,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="105年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
-output$N_plotlic <- renderPlot({if (input$N_Choices3 == "7"){ggplot(ld2,aes(x = 年,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+labs(title="青年有無打算考證照比例",y = "百分比值") +scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
-else if (input$N_Choices3 == "8"){ggplot(ld1,aes(x = 年,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=1.5)+
-  labs(title="青年打算考證照類別比例",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
-else if (input$N_Choices3 == "9"){ggplot(ldedu1,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="青年有無打算考證照比例",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
-output$N_plot63 <- renderPlot({ggplot(ldedu111,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="教育程度和青年所想考證照類別之關聯",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
-output$N_plot7<- renderPlot({ggplot(p,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title=" 青年勞工初次尋職困難與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
-output$N_plot8<- renderPlot({ggplot(ss,aes(x = 性別,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", theme(text=element_text(family="Heiti TC Light")))})
-output$N_plot81<- renderPlot({ggplot(se,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", theme(text=element_text(family="Heiti TC Light")))})
-output$N_plot9<- renderPlot({ggplot(te1,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", theme(text=element_text(family="Heiti TC Light")))})
-output$N_plot91<- renderPlot({ggplot(te2,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", theme(text=element_text(family="Heiti TC Light")))})
+  geom_line(aes(y= t2[,5], color="青年總人數")) + xlab("年") + ylab("千人")
++theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N4)})
 
+output$N_plot41 <-renderPlot({N41 <-barplot(t22, col = "skyblue",xlab = "91年至106年", ylab = "創業貸款人數占就業人數比例")
++theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N41)})
+
+output$N_plot21 <-renderPlot({N21 <-barplot(dm1,width = 3, space = NULL,beside = TRUE, col = c("skyblue", "pink"), xlab = "年度", ylab = "貸款金額(千元)", legend=c("男","女"))
++theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N21)})
+
+output$N_plotjob <-renderPlot({if (input$N_Choices == "1"){Njob <-ggplot(j33,aes(x=年,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
+  labs(title="青年有無打算轉換工作意願",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Njob)}
+else if (input$N_Choices == "2"){Njob2 <-ggplot(j3,aes(x=年,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
+  labs(title="青年打算轉換工作原因",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Njob2)}
+else if (input$N_Choices == "3"){Njob3 <- ggplot(j222,aes(x=年,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
+  labs(title="青年因創業而打算轉換工作",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Njob3)}})
+
+output$N_plotjobedu <- renderPlot({if (input$N_Choices2 == "4"){Njobedu <- ggplot(j101,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
+  labs(title="101年青年打算轉換工作情形與教育程度",y = "百分比值")+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Njobedu)}
+else if (input$N_Choices2 == "5"){N103 <- ggplot(j103,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
+  labs(title="103年青年打算轉換工作情形與教育程度",y = "百分比值", 
+       theme(text=element_text(family="Heiti TC Light"))) PlotThroughShowtext(N103)}
+else if(input$N_Choices2 == "6"){N105 <-ggplot(j105,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
+  labs(title="105年青年打算轉換工作情形與教育程度",y = "百分比值")+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N105)}})
+
+output$N_plotlic <- renderPlot({if (input$N_Choices3 == "7"){Nlic <-ggplot(ld2,aes(x = 年,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
+    labs(title="青年有無打算考證照比例",y = "百分比值") +
+    scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Nlic)}
+else if (input$N_Choices3 == "8"){Nlic1 <- ggplot(ld1,aes(x = 年,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=1.5)+
+  labs(title="青年打算考證照類別比例",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Nlic1)}
+else if (input$N_Choices3 == "9"){Nlic2 <- ggplot(ldedu1,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +
+  labs(title="青年有無打算考證照比例",y = "百分比值")+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Nlic2)}})
+
+output$N_plot63 <- renderPlot({N_licedu <- ggplot(ldedu111,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +
+  labs(title="教育程度和青年所想考證照類別之關聯",y = "百分比值")+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N_licedu)})
+
+output$N_plot7<- renderPlot({N_diffic <- ggplot(p,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title=" 青年勞工初次尋職困難與教育程度",y = "百分比值")+
+  theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(N_diffic)})
+
+output$N_plot8<- renderPlot({Nsex <- ggplot(ss,aes(x = 性別,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
+  labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", 
+       theme(text=element_text(family="Heiti TC Light")) PlotThroughShowtext(Nsex))})
+
+output$N_plot81<- renderPlot({Nmoney <-ggplot(se,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
+  labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", 
+       theme(text=element_text(family="Heiti TC Light"))) PlotThroughShowtext(Nmoney)})
+
+output$N_plot9<- renderPlot({NN <- ggplot(te1,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
+  labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", 
+       theme(text=element_text(family="Heiti TC Light"))) PlotThroughShowtext(NN)})
+
+output$N_plot91<- renderPlot({NNN <-ggplot(te2,aes(x = 教育程度,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
+  labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", 
+       theme(text=element_text(family="Heiti TC Light"))) PlotThroughShowtext(NNN)})
 
 }
 
