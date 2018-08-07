@@ -1,11 +1,12 @@
 
-# Define UI for application that draws a histogram
+# 套件載入-------
 library(ggplot2)
 library(base)
 library(dplyr)
 library(readr)
 library(shiny)
 library(readxl)
+# 就業創業資料--------------
 d2 = read_csv("datappl.csv")
 d2 <- na.omit(d2)
 d2 <- data.frame(d2)
@@ -13,8 +14,6 @@ d22 <- d2[c(1,2,4)]
 d22$"年度" = as.numeric(d22$"年度")
 d22$"女性獲貸人數.人." = as.numeric(d22$"女性獲貸人數.人.")
 d22 <- na.omit(d22)
-d22 <- data.frame(d22)
-d22 <- data.frame(d22)
 d22 <- data.frame(d22)
 d22 <- na.omit(d22)
 d2 <- na.omit(d2)
@@ -48,7 +47,6 @@ mycols <- runif(5,min=1,max=length(colors()))
 j1 = read_xlsx("jobdata.xlsx")
 j22 <- j1[,-5:-17]
 j22 <- data.frame(j22)
-
 j33 <- j22 %>% gather("item",value,3:4) %>% 
   bind_cols(data.frame(item_id=rep(1:2,each=6)))
 j1 = read_xlsx("jobdata.xlsx")
@@ -110,6 +108,7 @@ te2 <- data.frame(te[,-3:-8])
 te2 <- te2 %>% gather("item",value,3) %>% 
   bind_cols(data.frame(item_id=rep(1,each=24)))
 
+#ui------
 
 ui <- shinyUI(navbarPage("台灣青年勞工狀況",
                          navbarMenu("失業", h1("台灣青年勞工失業資料"),tabPanel("Option2-1"),
@@ -151,12 +150,12 @@ navbarMenu("青年勞工調查",
 ))
 
                     
-#資料
-
-# Define server logic required to draw a histogram
+# server----------------
 
 server <- function(input, output) { 
-  output$plot1 <- renderPlot({ggplot(d222, aes(x = 91:106)) + 
+
+# 創業就業資料----  
+output$plot1 <- renderPlot({ggplot(d222, aes(x = 91:106)) + 
   geom_point(aes(y = d222[,3])) + 
   geom_line(aes(y = d222[,3],  color="女性獲貸人數")) +
   geom_point(aes(y = d222[,2])) + 
@@ -164,7 +163,6 @@ server <- function(input, output) {
   geom_point(aes(y = d222[,4])) + 
   geom_line(aes(y= d222[,4], color="總獲貸人數")) + xlab("年") + ylab("人數") +theme(text=element_text(family="Heiti TC Light"))})
 output$plot2 <- renderPlot({barplot(dm[,6],width = 1, space = NULL,beside = TRUE, col = c("#4FB0C6","#4F86C6","#C65146","#EC6A5C","#e97f02","#f8ca00","#8FBC94","#548687","#6E7783","#77AAAD","#99CCCC","#FFCC99","#CC9999","#CCCC99","#0099CC","#FF6666","#996699","#666666","#996697"), xlab = "年度", ylab = "貸款金額(千元)", legend=dm$"年度")+theme(text=element_text(family="Heiti TC Light"))})
-
 output$plot3 <-renderPlot({ggplot(alld2t1, aes(x = 91:106)) + 
   geom_point(aes(y = alld2t1[,1])) + 
   geom_line(aes(y = alld2t1[,1],  color="總青年人數")) +
@@ -178,7 +176,6 @@ output$plot3 <-renderPlot({ggplot(alld2t1, aes(x = 91:106)) +
   geom_line(aes(y= alld2t1[,6], color="女性青年創業貸款人數"))+
   geom_point(aes(y = alld2t1[,7])) + 
   geom_line(aes(y= alld2t1[,7], color="總青年創業貸款人數")) + xlab("年") + ylab("人數")+theme(text=element_text(family="Heiti TC Light"))}) 
-
 output$plot4 <-renderPlot({ggplot(t2, aes(x = 91:106)) + 
   geom_point(aes(y =t2[,4])) + 
   geom_line(aes(y = t2[,4],  color="青年創業貸款總人數")) +
@@ -188,12 +185,8 @@ output$plot4 <-renderPlot({ggplot(t2, aes(x = 91:106)) +
   geom_line(aes(y= t2[,3], color="青年就業總人數"))+
   geom_point(aes(y = t2[,5])) + 
   geom_line(aes(y= t2[,5], color="青年總人數")) + xlab("年") + ylab("千人")+theme(text=element_text(family="Heiti TC Light"))})
-
 output$plot41 <-renderPlot({barplot(t22, col = "skyblue",xlab = "91年至106年", ylab = "創業貸款人數占就業人數比例")+theme(text=element_text(family="Heiti TC Light"))})
-
 output$plot21 <-renderPlot({barplot(dm1,width = 3, space = NULL,beside = TRUE, col = c("skyblue", "pink"), xlab = "年度", ylab = "貸款金額(千元)", legend=c("男","女"))+theme(text=element_text(family="Heiti TC Light"))})
-
-
 output$plotjob <-renderPlot({if (input$Choices == "1"){ggplot(j33,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
   labs(title="青年有無打算轉換工作意願",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
@@ -203,7 +196,6 @@ else if (input$Choices == "2"){ggplot(j3,aes(x=年,value))+
 else if (input$Choices == "3"){ggplot(j222,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
   labs(title="青年因創業而打算轉換工作",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
-
 output$plotjobedu <- renderPlot({if (input$Choices2 == "4"){ggplot(j101,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
   labs(title="101年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}
@@ -213,7 +205,6 @@ else if (input$Choices2 == "5"){ggplot(j103,aes(x = 教育程度,value))+
 else if(input$Choices2 == "6"){ggplot(j105,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
   labs(title="105年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
-
 output$plotlic <- renderPlot({if (input$Choices3 == "7"){ggplot(ld2,aes(x = 年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+labs(title="青年有無打算考證照比例",y = "百分比值") +scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
 else if (input$Choices3 == "8"){ggplot(ld1,aes(x = 年,value))+
@@ -221,24 +212,22 @@ else if (input$Choices3 == "8"){ggplot(ld1,aes(x = 年,value))+
   labs(title="青年打算考證照類別比例",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
 else if (input$Choices3 == "9"){ggplot(ldedu1,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="青年有無打算考證照比例",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
-
 output$plot63 <- renderPlot({ggplot(ldedu111,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="教育程度和青年所想考證照類別之關聯",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
-
 output$plot7<- renderPlot({ggplot(p,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title=" 青年勞工初次尋職困難與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
-
 output$plot8<- renderPlot({ggplot(ss,aes(x = 性別,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", theme(text=element_text(family="Heiti TC Light")))})
-
 output$plot81<- renderPlot({ggplot(se,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", theme(text=element_text(family="Heiti TC Light")))})
-
 output$plot9<- renderPlot({ggplot(te1,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", theme(text=element_text(family="Heiti TC Light")))})
 output$plot91<- renderPlot({ggplot(te2,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", theme(text=element_text(family="Heiti TC Light")))})
+
+
 }
 
+#執行------
 shinyApp(ui = ui, server = server)
 

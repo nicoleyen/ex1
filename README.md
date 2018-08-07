@@ -89,6 +89,10 @@
 * 用R進行EDA的深度分析分析
 ## At Home
 * [HW4_EDA深入分析](https://nicoleyen.github.io/ex1/WEEK4/hw4.html)
-
-
+---
+# WEEK4 progress
+## In Class
+* 叡揚資訊 Vital CRM 講座
+* Shiny教學:互動式的視覺化資料
+## At Home
 *[final](https://nicoleyen.github.io/ex1/final/finalpre.html)
