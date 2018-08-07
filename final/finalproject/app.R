@@ -120,13 +120,14 @@ navbarMenu("就業",
             tabPanel("Option2-1"),
             tabPanel("Option2-1")),
 navbarMenu("創業",
- tabPanel("創業貸款人數",h1("台灣年青創業貸款人數"),p("收集91~106年的資料，男性的人數皆是比女性多，而整體來看，103年是高峰，有最多創業貸款的人數，但近幾年有下滑的趨勢。"),plotOutput("plot1")),                                           
+ tabPanel("創業貸款人數",h1("台灣青年創業貸款人數"),p("收集91~106年的資料，男性的人數皆是比女性多，而整體來看，103年是高峰，有最多創業貸款的人數，但近幾年有下滑的趨勢。"),plotOutput("plot1")),                                           
  tabPanel("創業貸款人數與青年人數",h1("台灣青創業貸款人數與青年人數"),plotOutput("plot3")),                                           
 tabPanel("人數總比較",h1("人數總比較"),plotOutput("plot4"),h1("創業人數占就業人數比例"),plotOutput("plot41")),
-tabPanel("創業貸款金額",h1("創業貸款金額"),plotOutput("plot2"),h2("性別與貸款金額"),plotOutput("plot21"))),
+tabPanel("創業貸款金額",h1("創業貸款金額"),p("青年創業貸款的總金額也呈現下降的趨勢。"),plotOutput("plot2"),h2("性別與貸款金額"),plotOutput("plot21"))),
 
 navbarMenu("青年勞工調查",
-           tabPanel("轉換工作情形",sidebarLayout(
+           tabPanel("轉換工作情形",h1("青年轉換工作意願"),p("從圖表顯示，歷年來，沒有想換工作的比例居多，而在想換工作的青年當中，原因以待遇差為多，其次為工作發展無前景。
+                                            然而因為想創業而換工作的比例並未最多，但從這三年來看，因創業而想換工作的比例有逐漸增加。不過，創業貸款的人數是呈現下降的，或許能反映出有越來越多青年有想創業的意願，但實際付出行動的卻不多。"),sidebarLayout(
              sidebarPanel(
                radioButtons("Choices", label = "Choices", choices = list("有無打算轉換工作意願" = 1, "打算轉換工作原因" = 2,"因創業而想換工作" = 3))
               ),
@@ -142,7 +143,8 @@ navbarMenu("青年勞工調查",
              ),
              mainPanel(plotOutput("plot6"),plotOutput("plot61"),plotOutput("plot62")))),
            tabPanel("想考證照類別與教育程度",plotOutput("plot63")),
-           tabPanel("初次尋職困難",plotOutput("plot7")),
+           tabPanel("初次尋職困難與教育程度",h1("青年初次尋職所遇到的困難"),p("不論教育程度為何，青年們所遭遇到最大的困難皆是(1)不知道自己適合哪方面的工作、(2)經驗不足。
+                                                       不過，可以發現的是，教育程度為高中(職)或國中的青年，尤其是僅有國中學歷的，他們遇到學歷不足的困難較其他教育程度別的青年多。"),plotOutput("plot7")),
            tabPanel("薪資狀況",plotOutput("plot8")),
            tabPanel("薪資狀況與教育程度",plotOutput("plot81")),
            tabPanel("初次尋職時間與教育程度關係",plotOutput("plot9"),plotOutput("plot91")))
