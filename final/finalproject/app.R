@@ -131,23 +131,23 @@ navbarMenu("青年勞工調查",
              sidebarPanel(
                radioButtons("Choices", label = "Choices", choices = list("有無打算轉換工作意願" = 1, "打算轉換工作原因" = 2,"因創業而想換工作" = 3))
               ),
-             mainPanel(plotOutput("plot5"),plotOutput("plot51"),plotOutput("plot52")))),
-           tabPanel("轉換工作與教育程度",sidebarLayout(
+             mainPanel(plotOutput("plotjob")))),
+           tabPanel("轉換工作與教育程度",h1("101,103,105年度 青年打算轉換工作與教育程度之關聯"),sidebarLayout(
              sidebarPanel(
                radioButtons("Choices2", label = "Choices", choices = list("101年" = 4, "103年" = 5,"105年" = 6))
              ),
-             mainPanel(plotOutput("plot53"),plotOutput("plot54"),plotOutput("plot55")))),
-           tabPanel("打算考證照情形",sidebarLayout(
+             mainPanel(plotOutput("plotjobedu")))),
+           tabPanel("打算考證照情形",h1("青年打算考證照情形"),p("不論是從教育程度或者證照類別來看，青年打算考證照的意願是逐年降低的。"),sidebarLayout(
              sidebarPanel(
                radioButtons("Choices3", label = "Choices", choices = list("有無打算考證照" = 7, "打算考證照類別" = 8,"有無打算考證照和教育程度" = 9))
              ),
-             mainPanel(plotOutput("plot6"),plotOutput("plot61"),plotOutput("plot62")))),
-           tabPanel("想考證照類別與教育程度",plotOutput("plot63")),
+             mainPanel(plotOutput("plotlic")))),
+           tabPanel("想考證照類別與教育程度",h1("青年打算考證照之類別與教育程度"),p("國中(及以下)和高中(職)的青年較多是打算考技術士證照，但隨著教育程度提高，則是想考語文證照的比例增加。"),plotOutput("plot63")),
            tabPanel("初次尋職困難與教育程度",h1("青年初次尋職所遇到的困難"),p("不論教育程度為何，青年們所遭遇到最大的困難皆是(1)不知道自己適合哪方面的工作、(2)經驗不足。
                                                        不過，可以發現的是，教育程度為高中(職)或國中的青年，尤其是僅有國中學歷的，他們遇到學歷不足的困難較其他教育程度別的青年多。"),plotOutput("plot7")),
-           tabPanel("薪資狀況",plotOutput("plot8")),
-           tabPanel("薪資狀況與教育程度",plotOutput("plot81")),
-           tabPanel("初次尋職時間與教育程度關係",plotOutput("plot9"),plotOutput("plot91")))
+           tabPanel("薪資狀況",h1("男性和女性青年之薪資狀況"),p("以這三年的數據來看，男性的初次尋職或現職之工作平均每月薪資皆略高於女性，但整體來看，兩者的薪資都逐漸增加。"),plotOutput("plot8")),
+           tabPanel("薪資狀況與教育程度",h1("青年薪資狀況與教育程度之關係"),p("下表呈現出青年的教育程度越高，其初次尋職之工作或現職之工作的平均每月薪資也較高。"),plotOutput("plot81")),
+           tabPanel("初次尋職時間與教育程度關係",h1("青年初次尋職時間與教育程度關係"),plotOutput("plot9"),plotOutput("plot91")))
 ))
 
                     
@@ -194,42 +194,36 @@ output$plot41 <-renderPlot({barplot(t22, col = "skyblue",xlab = "91年至106年"
 output$plot21 <-renderPlot({barplot(dm1,width = 3, space = NULL,beside = TRUE, col = c("skyblue", "pink"), xlab = "年度", ylab = "貸款金額(千元)", legend=c("男","女"))+theme(text=element_text(family="Heiti TC Light"))})
 
 
-output$plot5 <-renderPlot({if (input$Choices == "1"){ggplot(j33,aes(x=年,value))+
+output$plotjob <-renderPlot({if (input$Choices == "1"){ggplot(j33,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年有無打算轉換工作意願",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
-
-output$plot51 <-renderPlot({if (input$Choices == "2"){ggplot(j3,aes(x=年,value))+
+  labs(title="青年有無打算轉換工作意願",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
+else if (input$Choices == "2"){ggplot(j3,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年打算轉換工作原因",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
-
-output$plot52 <- renderPlot({if (input$Choices == "3"){ggplot(j222,aes(x=年,value))+
+  labs(title="青年打算轉換工作原因",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
+else if (input$Choices == "3"){ggplot(j222,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
   labs(title="青年因創業而打算轉換工作",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
 
-output$plot53 <- renderPlot({if (input$Choices2 == "4"){ggplot(j101,aes(x = 教育程度,value))+
+output$plotjobedu <- renderPlot({if (input$Choices2 == "4"){ggplot(j101,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="101年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
-
-output$plot54 <- renderPlot({if (input$Choices2 == "5"){ggplot(j103,aes(x = 教育程度,value))+
+  labs(title="101年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}
+else if (input$Choices2 == "5"){ggplot(j103,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="103年青年打算轉換工作情形與教育程度",y = "百分比值", theme(text=element_text(family="Heiti TC Light")))}})
-
-output$plot55 <- renderPlot({if (input$Choices2 == "6"){ggplot(j105,aes(x = 教育程度,value))+
+  labs(title="103年青年打算轉換工作情形與教育程度",y = "百分比值", theme(text=element_text(family="Heiti TC Light")))}
+else if(input$Choices2 == "6"){ggplot(j105,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
   labs(title="105年青年打算轉換工作情形與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
 
-output$plot6 <- renderPlot({if (input$Choices3 == "7"){ggplot(ld2,aes(x = 年,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+labs(title="青年有無打算考證照比例",y = "百分比值") +scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
-
-output$plot61 <- renderPlot({if (input$Choices3 == "8"){ggplot(ld1,aes(x = 年,value))+
+output$plotlic <- renderPlot({if (input$Choices3 == "7"){ggplot(ld2,aes(x = 年,value))+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+labs(title="青年有無打算考證照比例",y = "百分比值") +scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
+else if (input$Choices3 == "8"){ggplot(ld1,aes(x = 年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=1.5)+
-  labs(title="青年打算考證照類別比例",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}})
-
-output$plot62 <- renderPlot({if (input$Choices3 == "9"){ggplot(ldedu1,aes(x = 教育程度,value))+
+  labs(title="青年打算考證照類別比例",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="Heiti TC Light"))}
+else if (input$Choices3 == "9"){ggplot(ldedu1,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="青年有無打算考證照比例",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))}})
 
 output$plot63 <- renderPlot({ggplot(ldedu111,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="教育程度和青年有無打算考證照比例之關聯",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title="教育程度和青年所想考證照類別之關聯",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
 
 output$plot7<- renderPlot({ggplot(p,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title=" 青年勞工初次尋職困難與教育程度",y = "百分比值")+theme(text=element_text(family="Heiti TC Light"))})
