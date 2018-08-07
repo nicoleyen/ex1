@@ -1,25 +1,8 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-library(shiny)
-library(ggplot2)
-library(shinydashboard)
-library(datasets)
-library(base)
-library(dplyr)
-library(readr)
-library(readxl)
-library(tidyr) 
-library(splines)
 
 # Define UI for application that draws a histogram
-ui <- shinyUI(navbarPage("台灣青年勞工狀況", navbarMenu("失業", h1("台灣青年勞工失業資料"),tabPanel("Option2-1"),
+library(ggplot2)
+ui <- shinyUI(navbarPage("台灣青年勞工狀況",
+                         navbarMenu("失業", h1("台灣青年勞工失業資料"),tabPanel("Option2-1"),
                                                 tabPanel("Option2-1")),
                           
 navbarMenu("就業",
@@ -45,7 +28,9 @@ navbarMenu("青年勞工調查",
 #資料
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {output$plot1 <- renderPlot({ggplot(d222, aes(x = 91:106)) + 
+
+server <- function(input, output) { 
+  output$plot1 <- renderPlot({ggplot(d222, aes(x = 91:106)) + 
   geom_point(aes(y = d222[,3])) + 
   geom_line(aes(y = d222[,3],  color="女性獲貸人數")) +
   geom_point(aes(y = d222[,2])) + 
@@ -133,5 +118,6 @@ output$plot9<- renderPlot({ggplot(te1,aes(x = 教育程度,value))+
 output$plot91<- renderPlot({ggplot(te2,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item ),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)")})
 }
+
 shinyApp(ui = ui, server = server)
 
