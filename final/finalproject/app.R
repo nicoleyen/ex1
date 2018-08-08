@@ -297,7 +297,7 @@ output$N_plot9<- renderPlot({NN <- ggplot(te1,aes(x = 教育程度,value))+
 
 output$N_plot91<- renderPlot({NNN <-ggplot(te2,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
-  labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", 
+  labs(title=" 青年勞工初次尋職時間與教育關係",y = "月", 
        theme(text=element_text(family=("wqy-microhei"))))
     PlotThroughShowtext(NNN)})
 
