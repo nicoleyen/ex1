@@ -90,9 +90,15 @@
 ## At Home
 * [HW4_EDA深入分析](https://nicoleyen.github.io/ex1/WEEK4/hw4.html)
 ---
-# WEEK4 progress
+# WEEK5 progress
 ## In Class
 * 叡揚資訊 Vital CRM 講座
 * Shiny教學:互動式的視覺化資料
 ## At Home
-*[final](https://nicoleyen.github.io/ex1/final/finalpre.html)
+*[final資料整理](https://nicoleyen.github.io/ex1/final/finalpre.html)
+
+---
+# WEEK6 progress
+* 專題:臺灣青年就業!失業?創業!
+	* [探究臺灣青年就業狀況](https://claire-liu.shinyapps.io/YouthEmployment/)
+* [簡報連結](https://drive.google.com/file/d/1uLfhGrG8WRa_WoCgPyhdwikyaSUL5GVU/view?usp=sharing)
