@@ -133,8 +133,8 @@ navbarMenu("就業",
 navbarMenu("創業",
  tabPanel("創業貸款人數",h1("台灣青年創業貸款人數"),p("收集91~106年的資料，男性的人數皆是比女性多，而整體來看，103年是高峰，有最多創業貸款的人數，但近幾年有下滑的趨勢。"),plotOutput("N_plot1")),                                           
  tabPanel("創業貸款人數與青年人數",h1("台灣青創業貸款人數與青年人數"),plotOutput("N_plot3")),                                           
-tabPanel("人數總比較",h1("人數總比較"),plotOutput("N_plot4"),h1("創業人數占就業人數比例"),plotOutput("N_plot41")),
-tabPanel("創業貸款金額",h1("創業貸款金額"),p("青年創業貸款的總金額也呈現下降的趨勢。"),plotOutput("N_plot2"),h2("性別與貸款金額"),plotOutput("N_plot21"))),
+tabPanel("人數總比較",h1("人數總比較"),h4("根據政府開放資料平台及中華民國統計資料網所收集到的資料做整合分析"),plotOutput("N_plot4"),h1("創業人數占就業人數比例"),plotOutput("N_plot41")),
+tabPanel("創業貸款金額",h1("創業貸款金額"),p("青年創業貸款的總金額也呈現下降的趨勢。"),plotOutput("N_plot2"),h2("性別與貸款金額"),plotOutput("N_plot21"),p("資料來源:政府開放資料平_公股銀行辦理創業貸款餘額-按性別分_https://data.gov.tw/dataset/31191"))),
 
 navbarMenu("青年勞工調查",
            tabPanel("轉換工作情形",h1("青年轉換工作意願"),p("從圖表顯示，歷年來，沒有想換工作的比例居多，而在想換工作的青年當中，原因以待遇差為多，其次為工作發展無前景。
@@ -174,12 +174,13 @@ output$N_plot1 <- renderPlot({N1 <- ggplot(d222, aes(x = 91:106)) +
   geom_line(aes(y= d222[,2], color="男性獲貸人數")) +
   geom_point(aes(y = d222[,4])) + 
   geom_line(aes(y= d222[,4], color="總獲貸人數")) + xlab("年") + ylab("人數")+
+  labs(caption="資料來源:政府開放資料平台_輔導青年創業成果-獲貸人性別_\nhttps://data.gov.tw/dataset/9002")+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(N1)})
 
-output$N_plot2 <- renderPlot({N2 <- barplot(dm[,6],width = 1, space = NULL,beside = TRUE, col = c("#4FB0C6","#4F86C6","#C65146","#EC6A5C","#e97f02","#f8ca00","#8FBC94","#548687","#6E7783","#77AAAD","#99CCCC","#FFCC99","#CC9999","#CCCC99","#0099CC","#FF6666","#996699","#666666","#996697"), xlab = "年度", ylab = "貸款金額(千元)", legend=dm$"年度")+
-  theme(text=element_text(family="wqy-microhei")) 
-PlotThroughShowtext(N2)})
+output$N_plot2 <- renderPlot({N2 <- barplot(dm[,6],width = 1, space = NULL,beside = TRUE, col = c("#4FB0C6","#4F86C6","#C65146","#EC6A5C","#e97f02","#f8ca00","#8FBC94","#548687","#6E7783","#77AAAD","#99CCCC","#FFCC99","#CC9999","#CCCC99","#0099CC","#FF6666","#996699","#666666","#996697"), xlab = "年度", ylab = "貸款金額(千元)",legend=dm$"年度")+
+  theme(text=element_text(family="wqy-microhei"))
+  PlotThroughShowtext(N2)})
 
 output$N_plot3 <-renderPlot({N3 <-ggplot(alld2t1, aes(x = 91:106)) + 
   geom_point(aes(y = alld2t1[,1])) + 
@@ -194,6 +195,7 @@ output$N_plot3 <-renderPlot({N3 <-ggplot(alld2t1, aes(x = 91:106)) +
   geom_line(aes(y= alld2t1[,6], color="女性青年創業貸款人數"))+
   geom_point(aes(y = alld2t1[,7])) + 
   geom_line(aes(y= alld2t1[,7], color="總青年創業貸款人數")) + xlab("年") + ylab("人數")+
+  labs(caption="資料來源:政府開放資料平台_公股銀行辦理創業貸款餘額-按性別分_https://data.gov.tw/dataset/31191")+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(N3)}) 
 
@@ -206,6 +208,7 @@ output$N_plot4 <-renderPlot({N4 <-ggplot(t2, aes(x = 91:106)) +
   geom_line(aes(y= t2[,3], color="青年就業總人數"))+
   geom_point(aes(y = t2[,5])) + 
   geom_line(aes(y= t2[,5], color="青年總人數")) + xlab("年") + ylab("千人")+
+  labs(caption="資料來源:政府開放資料平台_https://data.gov.tw/dataset/9002及中華民國統計資料網")+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(N4)})
 
@@ -213,91 +216,92 @@ output$N_plot41 <-renderPlot({N41 <-barplot(t22, col = "skyblue",xlab = "91年�
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(N41)})
 
-output$N_plot21 <-renderPlot({N21 <-barplot(dm1,width = 3, space = NULL,beside = TRUE, col = c("skyblue", "pink"), xlab = "年度", ylab = "貸款金額(千元)", legend=c("男","女"))+
+output$N_plot21 <-renderPlot({N21 <-barplot(dm1,width = 3, space = NULL,beside = TRUE, col = c("skyblue", "pink"), xlab = "年度",
+                                            ylab = "貸款金額(千元)",legend=c("男","女"))+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(N21)})
 
 output$N_plotjob <-renderPlot({if (input$N_Choices == "1"){Njob <-ggplot(j33,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年有無打算轉換工作意願",y = "百分比值") + 
+  labs(title="青年有無打算轉換工作意願",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值") + 
   scale_x_continuous(breaks=seq(101,105,by=2))+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(Njob)}
 else if (input$N_Choices == "2"){Njob2 <-ggplot(j3,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年打算轉換工作原因",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  labs(title="青年打算轉換工作原因",caption="資料來源:政府開放資料平_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(Njob2)}
 else if (input$N_Choices == "3"){Njob3 <- ggplot(j222,aes(x=年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-  labs(title="青年因創業而打算轉換工作",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  labs(title="青年因創業而打算轉換工作",caption="資料來源:政府開放資料平_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
   theme(text=element_text(family="wqy-microhei")) 
   PlotThroughShowtext(Njob3)}})
 
 output$N_plotjobedu <- renderPlot({if (input$N_Choices2 == "4"){Njobedu <- ggplot(j101,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="101年青年打算轉換工作情形與教育程度",y = "百分比值")+
+  labs(title="101年青年打算轉換工作情形與教育程度",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值")+
   theme(text=element_text(family=("wqy-microhei")))  
   PlotThroughShowtext(Njobedu)}
 else if (input$N_Choices2 == "5"){N103 <- ggplot(j103,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="103年青年打算轉換工作情形與教育程度",y = "百分比值", 
+  labs(title="103年青年打算轉換工作情形與教育程度",caption="資料來源:政府開放資料平_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值", 
        theme(text=element_text(family=("wqy-microhei")))) 
   PlotThroughShowtext(N103)}
 else if(input$N_Choices2 == "6"){N105 <-ggplot(j105,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.5)+
-  labs(title="105年青年打算轉換工作情形與教育程度",y = "百分比值")+
+  labs(title="105年青年打算轉換工作情形與教育程度",caption="資料來源:政府開放資料平_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值")+
   theme(text=element_text(family=("wqy-microhei"))) 
   PlotThroughShowtext(N105)}})
 
 output$N_plotlic <- renderPlot({if (input$N_Choices3 == "7"){Nlic <-ggplot(ld2,aes(x = 年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+
-    labs(title="青年有無打算考證照比例",y = "百分比值") +
+    labs(title="青年有無打算考證照比例",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值") +
     scale_x_continuous(breaks=seq(101,105,by=2))+theme(text=element_text(family="wqy-microhei")) 
     PlotThroughShowtext(Nlic)}
 else if (input$N_Choices3 == "8"){Nlic1 <- ggplot(ld1,aes(x = 年,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=1.5)+
-  labs(title="青年打算考證照類別比例",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
+  labs(title="青年打算考證照類別比例",caption="資料來源:政府開放資料平_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值") + scale_x_continuous(breaks=seq(101,105,by=2))+
   theme(text=element_text(family=("wqy-microhei"))) 
   PlotThroughShowtext(Nlic1)}
 else if (input$N_Choices3 == "9"){Nlic2 <- ggplot(ldedu1,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +
-  labs(title="青年有無打算考證照比例",y = "百分比值")+
+  labs(title="青年有無打算考證照比例",caption="資料來源:政府開放資料平_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值")+
   theme(text=element_text(family=("wqy-microhei"))) 
   PlotThroughShowtext(Nlic2)}})
 
 output$N_plot63 <- renderPlot({N_licedu <- ggplot(ldedu111,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +
-  labs(title="教育程度和青年所想考證照類別之關聯",y = "百分比值")+
+  labs(title="教育程度和青年所想考證照類別之關聯",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值")+
   theme(text=element_text(family=("wqy-microhei"))) 
   PlotThroughShowtext(N_licedu)})
 
 output$N_plot7<- renderPlot({N_diffic <- ggplot(p,aes(x = 教育程度,value))+
-  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title=" 青年勞工初次尋職困難與教育程度",y = "百分比值")+
+  geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8)+ facet_grid(年~.) +labs(title=" 青年勞工初次尋職困難與教育程度",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比值")+
   theme(text=element_text(family=("wqy-microhei"))) 
   PlotThroughShowtext(N_diffic)})
 
 output$N_plot8<- renderPlot({Nsex <- ggplot(ss,aes(x = 性別,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
-  labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)")+
+  labs(title="青年勞工初次尋職與現職工作平均每月薪資比較",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565", y = "平均每月薪資(元)")+
        theme(text=element_text(family=("wqy-microhei"))) 
        PlotThroughShowtext(Nsex)})
 
 output$N_plot81<- renderPlot({Nmoney <-ggplot(se,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
-  labs(title="青年勞工初次尋職與現職工作平均每月薪資比較", y = "平均每月薪資(元)", 
+  labs(title="青年勞工初次尋職與現職工作平均每月薪資比較",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565", y = "平均每月薪資(元)", 
        theme(text=element_text(family=("wqy-microhei")))) 
       PlotThroughShowtext(Nmoney)})
 
 output$N_plot9<- renderPlot({NN <- ggplot(te1,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
-  labs(title=" 青年勞工初次尋職時間與教育關係",y = "百分比(%)", 
+  labs(title=" 青年勞工初次尋職時間與教育關係",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "百分比(%)", 
        theme(text=element_text(family=("wqy-microhei"))))
       PlotThroughShowtext(NN)})
 
 output$N_plot91<- renderPlot({NNN <-ggplot(te2,aes(x = 教育程度,value))+
   geom_bar(aes(fill=item),stat = "identity",position="dodge",width=0.8) + facet_grid(年~.)+
-  labs(title=" 青年勞工初次尋職時間與教育關係",y = "月", 
+  labs(title=" 青年勞工初次尋職時間與教育關係",caption="資料來源:政府開放資料平台_15-29歲青年勞工就業狀況_https://data.gov.tw/dataset/9565",y = "月", 
        theme(text=element_text(family=("wqy-microhei"))))
     PlotThroughShowtext(NNN)})
 
