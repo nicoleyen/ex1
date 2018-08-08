@@ -101,4 +101,4 @@
 # WEEK6 progress
 * 專題:臺灣青年就業!失業?創業!
 	* [探究臺灣青年就業狀況](https://claire-liu.shinyapps.io/YouthEmployment/)
-* [簡報連結](https://drive.google.com/file/d/1uLfhGrG8WRa_WoCgPyhdwikyaSUL5GVU/view?usp=sharing)
+* [簡報連結](https://docs.google.com/presentation/d/1Jp7PeDjWLMxoYbdR-pp-7UQUR-UNukl1DFnpWUTajdU/edit?usp=sharing)
