@@ -95,10 +95,13 @@
 * 叡揚資訊 Vital CRM 講座
 * Shiny教學:互動式的視覺化資料
 ## At Home
+* Prepare for final project
 *[final資料整理](https://nicoleyen.github.io/ex1/final/finalpre.html)
 
 ---
 # WEEK6 progress
-* 專題:臺灣青年就業!失業?創業!
+## In Class
+* oral presentation
+* 專題:臺灣青年_就業!失業?創業!
 	* [探究臺灣青年就業狀況](https://claire-liu.shinyapps.io/YouthEmployment/)
 * [簡報連結](https://docs.google.com/presentation/d/1Jp7PeDjWLMxoYbdR-pp-7UQUR-UNukl1DFnpWUTajdU/edit?usp=sharing)
